@@ -19,12 +19,12 @@ class MyMenu:
                                          title_font_color=(217, 178, 63),
                                          widget_font_color=(217, 178, 63),
                                          title_bar_style=pygame_menu.widgets.MENUBAR_STYLE_UNDERLINE)
-        self.menu = pygame_menu.Menu(_('Добро пожаловать'), width, height,  theme=self.myTheme)
-        self.menu.add.text_input(_('Ваше имя :'))
-        self.menu.add.selector(_('Сложность :'), [(_('Низкая'), 1), (_('Средняя'), 2), (_('Высокая'), 3)], onchange=self.set_difficulty)
-        self.menu.add.button(_('Играть'), self.start_the_game)
-        self.menu.add.button(_('Инструкция'), self.start_the_game)
-        self.menu.add.button(_('Выход'), pygame_menu.events.EXIT)
+        self.menu = pygame_menu.Menu(_('WELCOME!'), width, height,  theme=self.myTheme)
+        self.menu.add.text_input(_('Your name:'))
+        self.menu.add.selector(_('Difficulty:'), [(_('Low'), 1), (_('Medium'), 2), (_('High'), 3)], onchange=self.set_difficulty)
+        self.menu.add.button(_('Play'), self.start_the_game)
+        self.menu.add.button(_('Instruction'), self.start_the_game)
+        self.menu.add.button(_('Exit'), pygame_menu.events.EXIT)
 
 
     def set_difficulty(self, value, difficulty):
