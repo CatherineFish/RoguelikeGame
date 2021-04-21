@@ -617,7 +617,7 @@ class Game:
         """Финальный экран в случае поражения."""
         pass
 
-    def intro_screen(self, screenColor, textFont, headerTextSize,textColor, textSize):
+    def intro_screen(self):
         """Начальный экран с приветсвием, правилами и управлением."""
         pass
 
