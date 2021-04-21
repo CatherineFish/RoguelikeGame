@@ -428,7 +428,7 @@ class Game:
         # self.font = pygame.font.Font('Arial', 32)
         self.running = True
 
-    def new(self, room='K.in'):
+    def new(self, room):
         """Начало новой игры с созданием всех спрайтов."""
         self.playing = True
         """обьявление массивов для запоминания координат каждого из объектов."""

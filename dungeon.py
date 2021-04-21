@@ -30,10 +30,11 @@ with open('map.in', 'r') as f:
 """
     Объявление начальной комнаты
 """
-CURRENT_ROOM = map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
+PATH_TO_ROOMS = "rooms_in_dungeon/"
+CURRENT_ROOM = PATH_TO_ROOMS + map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
 
 
-def main():
+def main(PATH_TO_ROOMS="rooms_in_dungeon/"):
     """Инициализация переменной типа Игра."""
     global CURRENT_ROOM
     g = Game()
@@ -46,28 +47,32 @@ def main():
         if g.player.go_down:
             """Если персонаж вошел в нижнюю дверь, поменяй комнату на нижнюю."""
             CURRENT_MAP_POSITION[1] += 1
-            CURRENT_ROOM = map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
+            CURRENT_ROOM = PATH_TO_ROOMS + \
+                map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
             g = Game()
             g.new(CURRENT_ROOM)
             continue
         elif g.player.go_left:
             """Если персонаж вошел в левую дверь, поменяй комнату на левую."""
             CURRENT_MAP_POSITION[0] -= 1
-            CURRENT_ROOM = map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
+            CURRENT_ROOM = PATH_TO_ROOMS + \
+                map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
             g = Game()
             g.new(CURRENT_ROOM)
             continue
         elif g.player.go_right:
             """Если персонаж вошел в правую дверь, поменяй комнату на правую."""
             CURRENT_MAP_POSITION[0] += 1
-            CURRENT_ROOM = map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
+            CURRENT_ROOM = PATH_TO_ROOMS + \
+                map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
             g = Game()
             g.new(CURRENT_ROOM)
             continue
         elif g.player.go_up:
             """Если персонаж вошел в верхнюю дверь, поменяй комнату на верхнюю."""
             CURRENT_MAP_POSITION[1] -= 1
-            CURRENT_ROOM = map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
+            CURRENT_ROOM = PATH_TO_ROOMS + \
+                map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
             g = Game()
             g.new(CURRENT_ROOM)
             continue
@@ -79,7 +84,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(PATH_TO_ROOMS)
 
 
 """ Выход из программы с очисткой памяти."""
