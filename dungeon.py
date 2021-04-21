@@ -38,7 +38,7 @@ def main(PATH_TO_ROOMS="rooms_in_dungeon/"):
     """Инициализация переменной типа Игра."""
     global CURRENT_ROOM
     g = Game()
-    g.intro_screen()
+    g.menu.menu.mainloop(g.screen)
     g.new(CURRENT_ROOM)
     """Основной цикл игры."""
     while g.running:
