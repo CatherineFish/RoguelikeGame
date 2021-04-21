@@ -428,7 +428,7 @@ class Game:
         # self.font = pygame.font.Font('Arial', 32)
         self.running = True
 
-    def new(self, room):
+    def new(self, room, spawn_door="default"):
         """Начало новой игры с созданием всех спрайтов."""
         self.playing = True
         """обьявление массивов для запоминания координат каждого из объектов."""
@@ -515,7 +515,40 @@ class Game:
         """
             Спрайт класса Персонаж
         """
-        self.player = Player(self, player_coord[0], player_coord[1])
+        if spawn_door == "left_door":
+            left_door_x = doors_coord[0][0]
+            left_door_y = doors_coord[0][1]
+            for door in doors_coord:
+                if door[0] < left_door_x:
+                    left_door_x = door[0]
+                    left_door_y = door[1]
+            self.player = Player(self, left_door_x + 1, left_door_y)
+        elif spawn_door == "up_door":
+            up_door_x = doors_coord[0][0]
+            up_door_y = doors_coord[0][1]
+            for door in doors_coord:
+                if door[1] < up_door_y:
+                    up_door_x = door[0]
+                    up_door_y = door[1]
+            self.player = Player(self, up_door_x, up_door_y + 1)
+        elif spawn_door == "right_door":
+            right_door_x = doors_coord[0][0]
+            right_door_y = doors_coord[0][1]
+            for door in doors_coord:
+                if door[0] > right_door_x:
+                    right_door_x = door[0]
+                    right_door_y = door[1]
+            self.player = Player(self, right_door_x - 1, right_door_y)
+        elif spawn_door == "down_door":
+            down_door_x = doors_coord[0][0]
+            down_door_y = doors_coord[0][1]
+            for door in doors_coord:
+                if door[1] > down_door_y:
+                    down_door_x = door[0]
+                    down_door_y = door[1]
+            self.player = Player(self, down_door_x, down_door_y - 1)
+        elif spawn_door == "default":
+            self.player = Player(self, player_coord[0], player_coord[1])
         floor = Floor(self, player_coord[0], player_coord[1])
         self.all_sprite_list.add(floor)
         self.all_sprite_list.add(self.player)

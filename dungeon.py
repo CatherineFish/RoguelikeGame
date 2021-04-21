@@ -50,7 +50,7 @@ def main(PATH_TO_ROOMS="rooms_in_dungeon/"):
             CURRENT_ROOM = PATH_TO_ROOMS + \
                 map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
             g = Game()
-            g.new(CURRENT_ROOM)
+            g.new(CURRENT_ROOM, "up_door")
             continue
         elif g.player.go_left:
             """Если персонаж вошел в левую дверь, поменяй комнату на левую."""
@@ -58,7 +58,7 @@ def main(PATH_TO_ROOMS="rooms_in_dungeon/"):
             CURRENT_ROOM = PATH_TO_ROOMS + \
                 map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
             g = Game()
-            g.new(CURRENT_ROOM)
+            g.new(CURRENT_ROOM, "right_door")
             continue
         elif g.player.go_right:
             """Если персонаж вошел в правую дверь, поменяй комнату на правую."""
@@ -66,7 +66,7 @@ def main(PATH_TO_ROOMS="rooms_in_dungeon/"):
             CURRENT_ROOM = PATH_TO_ROOMS + \
                 map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
             g = Game()
-            g.new(CURRENT_ROOM)
+            g.new(CURRENT_ROOM, "left_door")
             continue
         elif g.player.go_up:
             """Если персонаж вошел в верхнюю дверь, поменяй комнату на верхнюю."""
@@ -74,7 +74,7 @@ def main(PATH_TO_ROOMS="rooms_in_dungeon/"):
             CURRENT_ROOM = PATH_TO_ROOMS + \
                 map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
             g = Game()
-            g.new(CURRENT_ROOM)
+            g.new(CURRENT_ROOM, "down_door")
             continue
         """Проверка какой экран конца игры выводить."""
         if g.player.win:
