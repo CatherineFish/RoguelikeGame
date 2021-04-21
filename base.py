@@ -74,20 +74,21 @@ class Player(pygame.sprite.Sprite):
         self._layer = PLAYER_LAYER
         super().__init__()
 
-        """инициализация координат персонажа."""
+        """Инициализация координат персонажа."""
         self.x = x * TILESIZE
         self.y = y * TILESIZE
 
-        """инициализация размера персонажа."""
+        """Инициализация размера персонажа."""
         self.width = TILESIZE
         self.height = TILESIZE
 
-        """инициализация скорости персонажа."""
+        """Инициализация скорости персонажа."""
         self.x_change = 0
         self.y_change = 0
-        """куда смотрит персонаж в данных момент."""
+        """Куда смотрит персонаж в данных момент."""
         self.facing = 'down'
 
+        """Инициализация списков со спрайтами других классов."""
         self.walls = None
         self.coins = None
         self.traps = None
@@ -95,30 +96,124 @@ class Player(pygame.sprite.Sprite):
         self.doors = None
         self.exits = None
 
+        """Инициализация флагов пермещений между комнатами."""
+        self.go_up = False
+        self.go_down = False
+        self.go_right = False
+        self.go_left = False
+
         """Жив ли персонаж?"""
         self.alive = True
         """Выиграл ли персонаж?"""
         self.win = False
 
+        """Инициализация картинки для персонаж."""
         down1 = pygame.transform.scale(pygame.image.load(
             'down1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
-
         self.image = down1
+
+        """Инциализация rect для заданной картинки."""
         self.rect = self.image.get_rect()
+        self.rect = pygame.rect.Rect((0, 0), (self.width - 12, self.height - 2))
+
+        """Инциализация colliderect для описания коллизий."""
+        self.collideRect = pygame.rect.Rect((0, 0), (self.width - 28, 8))
         self.rect.x = self.x
         self.rect.y = self.y
+
+        """Сolliderect будет совпадать с нашей rect картинкой по середине нижней грани (ногам)."""
+        self.collideRect.midbottom = self.rect.midbottom
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
         self.movement()
 
+        """Движение по оси x и проверка коллизий со стенами."""
         self.rect.x += self.x_change
-        self.rect.y += self.y_change
+        self.collideRect.midbottom = self.rect.midbottom
+        rect_list = []
+        for sprite in self.walls:
+            rect_list.append(sprite.rect)
+        block_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
+        for block in block_hit_list:
+            if ERROR_LEVEL == 1:
+                print("hitted wall")
+            if self.x_change > 0:
+                self.collideRect.right = rect_list[block].left
+                self.rect.midbottom = self.collideRect.midbottom
+            else:
+                self.collideRect.left = rect_list[block].right
+                self.rect.midbottom = self.collideRect.midbottom
+        if self.collideRect.x > SCREEN_WIDTH:
+            self.collideRect.x = SCREEN_WIDTH
+            self.rect.midbottom = self.collideRect.midbottom
+        if self.collideRect.x < 0:
+            self.collideRect.x = 0
+            self.rect.midbottom = self.collideRect.midbottom
 
-        if self.rect.y > SCREEN_HEIGHT:
-            self.rect.y = 0
-        if self.rect.y < 0:
-            self.rect.y = SCREEN_HEIGHT
+        """Движение по оси y и проверка коллизий со стенами."""
+        self.rect.y += self.y_change
+        self.collideRect.midbottom = self.rect.midbottom
+        rect_list = []
+        for sprite in self.walls:
+            rect_list.append(sprite.rect)
+        block_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
+        for block in block_hit_list:
+            if self.y_change > 0:
+                self.collideRect.bottom = rect_list[block].top
+                self.rect.midbottom = self.collideRect.midbottom
+            else:
+                self.collideRect.top = rect_list[block].bottom
+                self.rect.midbottom = self.collideRect.midbottom
+        if self.collideRect.y > SCREEN_HEIGHT:
+            self.collideRect.y = SCREEN_HEIGHT
+            self.rect.midbottom = self.collideRect.midbottom
+        if self.collideRect.y < 0:
+            self.collideRect.y = 0
+            self.rect.midbottom = self.collideRect.midbottom
+
+        """Проверка коллизий с дверьми."""
+        rect_list = []
+        for sprite in self.doors:
+            rect_list.append(sprite.rect)
+        doors_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
+        for door_find in doors_hit_list:
+            """
+            Определение перехода в следующую комнату:
+            go_down – переход в комнату ниже текущей
+            go_left – переход в комнату левее текущей
+            go_right – переход в комнату правее текущей
+            go_up – переход в комнату выше текущей
+            """
+            if self.facing == 'down':
+                self.go_down = True
+                self.go_left = False
+                self.go_right = False
+                self.go_up = False
+            elif self.facing == 'left':
+                self.go_down = False
+                self.go_left = True
+                self.go_right = False
+                self.go_up = False
+            elif self.facing == 'right':
+                self.go_down = False
+                self.go_left = False
+                self.go_right = True
+                self.go_up = False
+            elif self.facing == 'up':
+                self.go_down = False
+                self.go_left = False
+                self.go_right = False
+                self.go_up = True
+
+        """Проверка коллизий с выходом."""
+        rect_list = []
+        for sprite in self.exits:
+            rect_list.append(sprite.rect)
+        exit_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
+        """Выставление флага победы на True"""
+        if len(exit_hit_list) > 0:
+            self.win = True
 
         self.x_change = 0
         self.y_change = 0
@@ -200,6 +295,7 @@ class Door(pygame.sprite.Sprite):
         self.width = TILESIZE
         self.height = TILESIZE
 
+        """инициализация картинки для двери."""
         self.image = pygame.transform.scale2x(pygame.image.load('door.png').convert())
         self.rect = self.image.get_rect()
 
@@ -216,7 +312,24 @@ class Exit(pygame.sprite.Sprite):
 
     def __init__(self, game, x, y):
         """Создание класса Выход."""
-        pass
+        self.game = game
+        self._layer = PLAYER_LAYER
+        super().__init__()
+
+        """инициализация координат выхода."""
+        self.x = x * TILESIZE
+        self.y = y * TILESIZE
+
+        """инициализация размера выхода."""
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        """инициализация картинки для выхода."""
+        self.image = pygame.transform.scale2x(pygame.image.load('exit.png').convert())
+        self.rect = self.image.get_rect()
+
+        self.rect.x = self.x
+        self.rect.y = self.y
 
 
 class Floor(pygame.sprite.Sprite):
@@ -240,6 +353,7 @@ class Floor(pygame.sprite.Sprite):
         self.width = TILESIZE
         self.height = TILESIZE
 
+        """инициализация картинки для пола."""
         self.image = pygame.transform.scale2x(pygame.image.load('floor.png').convert())
         self.rect = self.image.get_rect()
 
@@ -391,20 +505,44 @@ class Game:
             self.floors_list.add(floor)
             self.all_sprite_list.add(floor)
         """
+            Группа спрайтов класса Выход
+        """
+        self.exits_list = pygame.sprite.Group()
+        for coord in exits_coord:
+            exit = Exit(self, coord[0], coord[1])
+            self.exits_list.add(exit)
+            self.all_sprite_list.add(exit)
+        """
             Спрайт класса Персонаж
         """
         self.player = Player(self, player_coord[0], player_coord[1])
         floor = Floor(self, player_coord[0], player_coord[1])
         self.all_sprite_list.add(floor)
         self.all_sprite_list.add(self.player)
+
+        """Передача всех спрайтов разных классов в класс Персонаж."""
         self.player.walls = self.wall_list
+        self.player.exits = self.exits_list
+        self.player.doors = self.doors_list
 
     def events(self):
         """Отлавливание событий в Игровом цикле."""
         for event in pygame.event.get():
+            """Проверка на завершение (выключение) игры."""
             if event.type is pygame.QUIT:
                 self.playing = False
                 self.running = False
+            """Проверка на переход в новую комнату."""
+            if self.player.go_down:
+                self.playing = False
+            if self.player.go_left:
+                self.playing = False
+            if self.player.go_right:
+                self.playing = False
+            if self.player.go_up:
+                self.playing = False
+            if self.player.win:
+                self.playing = False
 
     def update(self):
         """Обновление спрайтов в Игровом цикле."""
@@ -439,5 +577,5 @@ class Game:
         pass
 
     def win_screen(self):
-        """Финальный экран в случае победы или поражения."""
+        """Финальный экран в случае победы."""
         pass

@@ -35,12 +35,43 @@ CURRENT_ROOM = map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in
 
 def main():
     """Инициализация переменной типа Игра."""
+    global CURRENT_ROOM
     g = Game()
     g.intro_screen()
     g.new(CURRENT_ROOM)
-    """ Основной цикл игры."""
+    """Основной цикл игры."""
     while g.running:
         g.main()
+        """Считывание новой комнаты при переходе через двери."""
+        if g.player.go_down:
+            """Если персонаж вошел в нижнюю дверь, поменяй комнату на нижнюю."""
+            CURRENT_MAP_POSITION[1] += 1
+            CURRENT_ROOM = map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
+            g = Game()
+            g.new(CURRENT_ROOM)
+            continue
+        elif g.player.go_left:
+            """Если персонаж вошел в левую дверь, поменяй комнату на левую."""
+            CURRENT_MAP_POSITION[0] -= 1
+            CURRENT_ROOM = map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
+            g = Game()
+            g.new(CURRENT_ROOM)
+            continue
+        elif g.player.go_right:
+            """Если персонаж вошел в правую дверь, поменяй комнату на правую."""
+            CURRENT_MAP_POSITION[0] += 1
+            CURRENT_ROOM = map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
+            g = Game()
+            g.new(CURRENT_ROOM)
+            continue
+        elif g.player.go_up:
+            """Если персонаж вошел в верхнюю дверь, поменяй комнату на верхнюю."""
+            CURRENT_MAP_POSITION[1] -= 1
+            CURRENT_ROOM = map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
+            g = Game()
+            g.new(CURRENT_ROOM)
+            continue
+        """Проверка какой экран конца игры выводить."""
         if g.player.win:
             g.win_screen()
         else:
