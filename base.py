@@ -267,7 +267,7 @@ class Wall(pygame.sprite.Sprite):
         self.width = TILESIZE
         self.height = TILESIZE
 
-        self.image = pygame.transform.scale2x(pygame.image.load('wall.png').convert())
+        self.image = pygame.transform.scale2x(pygame.image.load('white_wall.png').convert())
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -296,7 +296,7 @@ class Door(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для двери."""
-        self.image = pygame.transform.scale2x(pygame.image.load('door.png').convert())
+        self.image = pygame.transform.scale2x(pygame.image.load('white_door.png').convert())
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -325,7 +325,7 @@ class Exit(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для выхода."""
-        self.image = pygame.transform.scale2x(pygame.image.load('exit.png').convert())
+        self.image = pygame.transform.scale2x(pygame.image.load('white_exit.png').convert())
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -354,7 +354,7 @@ class Floor(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для пола."""
-        self.image = pygame.transform.scale2x(pygame.image.load('floor.png').convert())
+        self.image = pygame.transform.scale2x(pygame.image.load('white_floor.png').convert())
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
