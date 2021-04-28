@@ -1,5 +1,5 @@
 import unittest
-
+import pygame_menu
 from base import Game, SCREEN_WIDTH, SCREEN_HEIGHT
 
 
@@ -23,4 +23,5 @@ class TestBase(unittest.TestCase):
         self.assertEqual(vars(vars(self.game.menu.menu)["_theme"])["title_font_color"], (217, 178, 63, 255))
         self.assertEqual(vars(vars(self.game.menu.menu)["_theme"])["widget_font_color"], (217, 178, 63, 255))
 
-        
+    def test_3_menu_obj(self):
+        self.assertEqual(len((vars(self.game.menu.menu)["_widget_columns"])[0]), 5) 
