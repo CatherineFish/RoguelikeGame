@@ -13,3 +13,5 @@ class TestBase(unittest.TestCase):
 
     def test_2_menu(self):
         self.assertEqual(vars(self.game.menu.menu)["_window_size"], (SCREEN_WIDTH, SCREEN_HEIGHT)) 
+        self.assertEqual(vars(vars(vars(self.game.menu.menu)["_theme"])["background_color"])["_filepath"], "intro.png") 
+        
