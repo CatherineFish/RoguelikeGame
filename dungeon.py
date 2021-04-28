@@ -6,6 +6,7 @@ Roguelike 2D-игра
 import pygame
 import sys
 from base import Player, Wall, Door, Exit, Floor, Dark, Coin, Trap, Enemy, Game
+import unittest
 
 # import time
 
@@ -38,7 +39,7 @@ def main(PATH_TO_ROOMS="rooms_in_dungeon/"):
     """Инициализация переменной типа Игра."""
     global CURRENT_ROOM
     g = Game()
-    g.intro_screen()
+    g.menu.menu.mainloop(g.screen)
     g.new(CURRENT_ROOM)
     """Основной цикл игры."""
     while g.running:

@@ -9,6 +9,13 @@
 
 import pygame
 import sys
+import menu
+import pygame_menu
+import gettext
+import unittest
+
+gettext.install("click", ".", names=("ngettext",))
+
 
 """Объявление глобальных переменны."""
 """
@@ -427,6 +434,12 @@ class Game:
         self.clock = pygame.time.Clock()
         # self.font = pygame.font.Font('Arial', 32)
         self.running = True
+        self.menu = menu.MyMenu(BLUE,
+                                "Arial",
+                                "intro.png",
+                                WHITE,
+                                SCREEN_WIDTH,
+                                SCREEN_HEIGHT)
 
     def new(self, room, spawn_door="default"):
         """Начало новой игры с созданием всех спрайтов."""
