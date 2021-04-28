@@ -1,6 +1,7 @@
 import pygame
 import pygame_menu
 import gettext
+import unittest
 
 gettext.install("click", ".", names=("ngettext",))
 
