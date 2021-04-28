@@ -117,6 +117,7 @@ class Player(pygame.sprite.Sprite):
         """Инициализация картинки для персонаж."""
         down1 = pygame.transform.scale(pygame.image.load(
             'down1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        self.game.png_names.add("down1.png")
         self.image = down1
 
         """Инциализация rect для заданной картинки."""
@@ -275,6 +276,7 @@ class Wall(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         self.image = pygame.transform.scale2x(pygame.image.load('white_wall.png').convert())
+        self.game.png_names.add('white_wall.png')
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -304,6 +306,7 @@ class Door(pygame.sprite.Sprite):
 
         """инициализация картинки для двери."""
         self.image = pygame.transform.scale2x(pygame.image.load('white_door.png').convert())
+        self.game.png_names.add('white_door.png')
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -333,6 +336,7 @@ class Exit(pygame.sprite.Sprite):
 
         """инициализация картинки для выхода."""
         self.image = pygame.transform.scale2x(pygame.image.load('white_exit.png').convert())
+        self.game.png_names.add('white_exit.png')
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -362,6 +366,7 @@ class Floor(pygame.sprite.Sprite):
 
         """инициализация картинки для пола."""
         self.image = pygame.transform.scale2x(pygame.image.load('white_floor.png').convert())
+        self.game.png_names.add('white_floor.png')
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -426,6 +431,7 @@ class Enemy(pygame.sprite.Sprite):
 
 class Game:
     """Основная игра, реагирующая на различные игровые события."""
+    png_names = set()
 
     def __init__(self):
         """Создание класса Игра с настройкой размера окна игры."""
@@ -440,19 +446,10 @@ class Game:
                                 WHITE,
                                 SCREEN_WIDTH,
                                 SCREEN_HEIGHT)
+        self.png_names.add("intro.png")
 
-    def new(self, room, spawn_door="default"):
-        """Начало новой игры с созданием всех спрайтов."""
-        self.playing = True
-        """обьявление массивов для запоминания координат каждого из объектов."""
-        wall_coords = []
-        doors_coord = []
-        coins_coord = []
-        traps_coord = []
-        darks_coord = []
-        enemies_coord = []
-        exits_coord = []
-        floors_coord = []
+    def read_room_file(self, room):
+        """Функция, считывающая все объекты, хранящиеся в файле комнаты"""
         """открываем файл комнаты с координатам."""
         with open(room, 'r') as f:
             data = f.read()
@@ -462,31 +459,49 @@ class Game:
                 for i in range(0, 25):
                     if lines[j][i] == "#":
                         """если встретилась стена."""
-                        wall_coords.append([i, j])
+                        self.wall_coords.append([i, j])
                     elif lines[j][i] == "m":
                         """если встретилась монета."""
-                        coins_coord.append([i, j])
+                        self.coins_coord.append([i, j])
                     elif lines[j][i] == "x":
                         """если встретилась дверь."""
-                        doors_coord.append([i, j])
+                        self.doors_coord.append([i, j])
                     elif lines[j][i] == "T":
                         """если встретилась ловушк."""
-                        traps_coord.append([i, j])
+                        self.traps_coord.append([i, j])
                     elif lines[j][i] == " ":
                         """если встретилась темнота."""
-                        darks_coord.append([i, j])
+                        self.darks_coord.append([i, j])
                     elif lines[j][i] == "e":
                         """если встретился враг."""
-                        enemies_coord.append([i, j])
+                        self.enemies_coord.append([i, j])
                     elif lines[j][i] == "Q":
                         """если встретился выход."""
-                        exits_coord.append([i, j])
+                        self.exits_coord.append([i, j])
                     elif lines[j][i] == ".":
                         """если встретлся пол."""
-                        floors_coord.append([i, j])
+                        self.floors_coord.append([i, j])
                     elif lines[j][i] == "@":
                         """если встретился персонаж."""
-                        player_coord = [i, j]
+                        self.player_coord = [i, j]
+                    else:
+                        raise ValueError(f'Такого объекта в комнате {room} не существует.')
+
+    def new(self, room, spawn_door="default"):
+        """Начало новой игры с созданием всех спрайтов."""
+        self.playing = True
+        """обьявление массивов для запоминания координат каждого из объектов."""
+        self.wall_coords = []
+        self.doors_coord = []
+        self.coins_coord = []
+        self.traps_coord = []
+        self.darks_coord = []
+        self.enemies_coord = []
+        self.exits_coord = []
+        self.floors_coord = []
+
+        """вызываем функцию, считывающую все объекты, хранящиеся в файле комнаты"""
+        self.read_room_file(room)
 
         """
             для каждого массива зададим группу спрайтов,
@@ -497,7 +512,7 @@ class Game:
             Группа спрайтов класса Стена
         """
         self.wall_list = pygame.sprite.Group()
-        for coord in wall_coords:
+        for coord in self.wall_coords:
             wall = Wall(self, coord[0], coord[1])
             self.wall_list.add(wall)
             self.all_sprite_list.add(wall)
@@ -505,7 +520,7 @@ class Game:
             Группа спрайтов класса Дверь
         """
         self.doors_list = pygame.sprite.Group()
-        for coord in doors_coord:
+        for coord in self.doors_coord:
             door = Door(self, coord[0], coord[1])
             self.doors_list.add(door)
             self.all_sprite_list.add(door)
@@ -513,7 +528,7 @@ class Game:
             Группа спрайтов класса Пол
         """
         self.floors_list = pygame.sprite.Group()
-        for coord in floors_coord:
+        for coord in self.floors_coord:
             floor = Floor(self, coord[0], coord[1])
             self.floors_list.add(floor)
             self.all_sprite_list.add(floor)
@@ -521,7 +536,7 @@ class Game:
             Группа спрайтов класса Выход
         """
         self.exits_list = pygame.sprite.Group()
-        for coord in exits_coord:
+        for coord in self.exits_coord:
             exit = Exit(self, coord[0], coord[1])
             self.exits_list.add(exit)
             self.all_sprite_list.add(exit)
@@ -529,40 +544,40 @@ class Game:
             Спрайт класса Персонаж
         """
         if spawn_door == "left_door":
-            left_door_x = doors_coord[0][0]
-            left_door_y = doors_coord[0][1]
-            for door in doors_coord:
+            left_door_x = self.doors_coord[0][0]
+            left_door_y = self.doors_coord[0][1]
+            for door in self.doors_coord:
                 if door[0] < left_door_x:
                     left_door_x = door[0]
                     left_door_y = door[1]
             self.player = Player(self, left_door_x + 1, left_door_y)
         elif spawn_door == "up_door":
-            up_door_x = doors_coord[0][0]
-            up_door_y = doors_coord[0][1]
-            for door in doors_coord:
+            up_door_x = self.doors_coord[0][0]
+            up_door_y = self.doors_coord[0][1]
+            for door in self.doors_coord:
                 if door[1] < up_door_y:
                     up_door_x = door[0]
                     up_door_y = door[1]
             self.player = Player(self, up_door_x, up_door_y + 1)
         elif spawn_door == "right_door":
-            right_door_x = doors_coord[0][0]
-            right_door_y = doors_coord[0][1]
-            for door in doors_coord:
+            right_door_x = self.doors_coord[0][0]
+            right_door_y = self.doors_coord[0][1]
+            for door in self.doors_coord:
                 if door[0] > right_door_x:
                     right_door_x = door[0]
                     right_door_y = door[1]
             self.player = Player(self, right_door_x - 1, right_door_y)
         elif spawn_door == "down_door":
-            down_door_x = doors_coord[0][0]
-            down_door_y = doors_coord[0][1]
-            for door in doors_coord:
+            down_door_x = self.doors_coord[0][0]
+            down_door_y = self.doors_coord[0][1]
+            for door in self.doors_coord:
                 if door[1] > down_door_y:
                     down_door_x = door[0]
                     down_door_y = door[1]
             self.player = Player(self, down_door_x, down_door_y - 1)
         elif spawn_door == "default":
-            self.player = Player(self, player_coord[0], player_coord[1])
-        floor = Floor(self, player_coord[0], player_coord[1])
+            self.player = Player(self, self.player_coord[0], self.player_coord[1])
+        floor = Floor(self, self.player_coord[0], self.player_coord[1])
         self.all_sprite_list.add(floor)
         self.all_sprite_list.add(self.player)
 
@@ -602,6 +617,7 @@ class Game:
         """Прорисовка спрайтов и фона окна в Игровом цикле."""
         self.screen.fill(BLACK)
         self.all_sprite_list.draw(self.screen)
+        # print(self.png_names)
         self.clock.tick(FPS)
         """После того как всё нарисовали, отобразим на экране всё сразу."""
         pygame.display.flip()
