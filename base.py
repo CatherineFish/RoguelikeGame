@@ -559,7 +559,6 @@ class Game:
             lines = data.splitlines()
             """для каждой собранной монет заменяем её значение в файле на пол."""
             for coin in self.collected_coins_list:
-                print(coin)
                 lines[coin[1]] = lines[coin[1]][:coin[0]] + "." + lines[coin[1]][coin[0] + 1:]
             data = "\n".join(lines)
             f.close()
