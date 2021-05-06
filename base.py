@@ -275,8 +275,11 @@ class Wall(pygame.sprite.Sprite):
         self.width = TILESIZE
         self.height = TILESIZE
 
+        """инициализация картинки для стены."""
         self.image = pygame.transform.scale2x(pygame.image.load('white_wall.png').convert())
         self.game.png_names.add('white_wall.png')
+
+        """Инциализация rect для заданной картинки."""
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -307,6 +310,8 @@ class Door(pygame.sprite.Sprite):
         """инициализация картинки для двери."""
         self.image = pygame.transform.scale2x(pygame.image.load('white_door.png').convert())
         self.game.png_names.add('white_door.png')
+
+        """Инциализация rect для заданной картинки."""
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -337,6 +342,8 @@ class Exit(pygame.sprite.Sprite):
         """инициализация картинки для выхода."""
         self.image = pygame.transform.scale2x(pygame.image.load('white_exit.png').convert())
         self.game.png_names.add('white_exit.png')
+
+        """Инциализация rect для заданной картинки."""
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -367,6 +374,8 @@ class Floor(pygame.sprite.Sprite):
         """инициализация картинки для пола."""
         self.image = pygame.transform.scale2x(pygame.image.load('white_floor.png').convert())
         self.game.png_names.add('white_floor.png')
+
+        """Инциализация rect для заданной картинки."""
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -381,7 +390,7 @@ class Dark(pygame.sprite.Sprite):
     """
 
     def __init__(self, game, x, y):
-        """Создание класса Темнота."""
+        """Создание класса Темнота с начальными настройками."""
         pass
 
 
@@ -393,8 +402,28 @@ class Coin(pygame.sprite.Sprite):
     """
 
     def __init__(self, game, x, y):
-        """Создание класса Монета."""
-        pass
+        """Создание класса Монета с начальными настройками."""
+        self.game = game
+        self._layer = PLAYER_LAYER
+        super().__init__()
+
+        """инициализация координат монеты."""
+        self.x = x * TILESIZE
+        self.y = y * TILESIZE
+
+        """инициализация размера монеты."""
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        """инициализация картинки длsя монеты."""
+        self.image = pygame.transform.scale2x(pygame.image.load('gold.png').convert())
+        self.game.png_names.add('gold.png')
+
+        """Инциализация rect для заданной картинки."""
+        self.rect = self.image.get_rect()
+
+        self.rect.x = self.x
+        self.rect.y = self.y
 
 
 class Trap(pygame.sprite.Sprite):
