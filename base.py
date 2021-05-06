@@ -391,7 +391,27 @@ class Dark(pygame.sprite.Sprite):
 
     def __init__(self, game, x, y):
         """Создание класса Темнота с начальными настройками."""
-        pass
+        self.game = game
+        self._layer = PLAYER_LAYER
+        super().__init__()
+
+        """инициализация координат темноты."""
+        self.x = x * TILESIZE
+        self.y = y * TILESIZE
+
+        """инициализация размера темноты."""
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        """инициализация картинки для темноты."""
+        self.image = pygame.transform.scale2x(pygame.image.load('dark.png').convert())
+        self.game.png_names.add('dark.png')
+
+        """Инциализация rect для заданной картинки."""
+        self.rect = self.image.get_rect()
+
+        self.rect.x = self.x
+        self.rect.y = self.y
 
 
 class Coin(pygame.sprite.Sprite):
