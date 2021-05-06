@@ -66,10 +66,6 @@ PLAYER_SPEED = 3
 animation_count = 0
 animation_count_slime = 0
 animation_count_trap = 0
-"""
-    Объявление глобальной переменной для подсчета монет
-"""
-collected_coins = 0
 
 
 class Player(pygame.sprite.Sprite):
@@ -134,6 +130,8 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
+        """будем изменять глобальную переменную количества собранных монет"""
+
         self.movement()
 
         """Движение по оси x и проверка коллизий со стенами."""
@@ -213,6 +211,19 @@ class Player(pygame.sprite.Sprite):
                 self.go_left = False
                 self.go_right = False
                 self.go_up = True
+
+        """Проверка коллизий с монетами."""
+        rect_list = []
+        sprite_list = []
+        for sprite in self.coins:
+            rect_list.append(sprite.rect)
+            sprite_list.append(sprite)
+        coins_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
+        for coin_find in coins_hit_list:
+            self.game.collected_coins += 1
+            self.game.collected_coins_list.append(
+                [sprite_list[coin_find].x // TILESIZE, sprite_list[coin_find].y // TILESIZE])
+            sprite_list[coin_find].kill()
 
         """Проверка коллизий с выходом."""
         rect_list = []
@@ -436,8 +447,8 @@ class Coin(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки длsя монеты."""
-        self.image = pygame.transform.scale2x(pygame.image.load('gold.png').convert())
-        self.game.png_names.add('gold.png')
+        self.image = pygame.image.load('loot_gold.png').convert_alpha()
+        self.game.png_names.add('loot_gold.png')
 
         """Инциализация rect для заданной картинки."""
         self.rect = self.image.get_rect()
@@ -481,10 +492,12 @@ class Enemy(pygame.sprite.Sprite):
 class Game:
     """Основная игра, реагирующая на различные игровые события."""
     png_names = set()
+    collected_coins = 0
 
     def __init__(self):
         """Создание класса Игра с настройкой размера окна игры."""
         pygame.init()
+        self.collected_coins_list = []
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         # self.font = pygame.font.Font('Arial', 32)
@@ -528,13 +541,31 @@ class Game:
                         """если встретился выход."""
                         self.exits_coord.append([i, j])
                     elif lines[j][i] == ".":
-                        """если встретлся пол."""
+                        """если встретился пол."""
                         self.floors_coord.append([i, j])
                     elif lines[j][i] == "@":
                         """если встретился персонаж."""
                         self.player_coord = [i, j]
                     else:
                         raise ValueError(f'Такого объекта в комнате {room} не существует.')
+            f.close()
+
+    def delete_coins_in_room_file(self, room):
+        """Функция, удаляющая уже собранные монеты, хранящиеся в файле комнаты"""
+        """открываем файл комнаты с координатами."""
+        data = None
+        with open(room, 'r') as f:
+            data = f.read()
+            lines = data.splitlines()
+            """для каждой собранной монет заменяем её значение в файле на пол."""
+            for coin in self.collected_coins_list:
+                print(coin)
+                lines[coin[1]] = lines[coin[1]][:coin[0]] + "." + lines[coin[1]][coin[0] + 1:]
+            data = "\n".join(lines)
+            f.close()
+        with open(room, 'w') as f:
+            f.write(data)
+            f.close()
 
     def new(self, room, spawn_door="default"):
         """Начало новой игры с созданием всех спрайтов."""
@@ -590,6 +621,16 @@ class Game:
             self.exits_list.add(exit)
             self.all_sprite_list.add(exit)
         """
+            Группа спрайтов класса Монета
+        """
+        self.coins_list = pygame.sprite.Group()
+        for coord in self.coins_coord:
+            coin = Coin(self, coord[0], coord[1])
+            self.coins_list.add(coin)
+            floor = Floor(self, coord[0], coord[1])
+            self.all_sprite_list.add(floor)
+            self.all_sprite_list.add(coin)
+        """
             Спрайт класса Персонаж
         """
         if spawn_door == "left_door":
@@ -634,6 +675,7 @@ class Game:
         self.player.walls = self.wall_list
         self.player.exits = self.exits_list
         self.player.doors = self.doors_list
+        self.player.coins = self.coins_list
 
     def events(self):
         """Отлавливание событий в Игровом цикле."""
