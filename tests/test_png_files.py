@@ -16,7 +16,7 @@ class TestBase(unittest.TestCase):
         self.floor = Floor(self.game, 0, 0)
 
     def test_1_png_names(self):
-        """Проверка на то, все ли файлы *.png используемые для прорисовки скриптов имеются в репоизтории"""
+        """Проверка на то, все ли файлы *.png используемые для прорисовки скриптов имеются в репозитории"""
         # print(os.getcwd())
         for name in self.game.png_names:
             self.assertTrue(os.path.exists(name))
