@@ -225,6 +225,14 @@ class Player(pygame.sprite.Sprite):
                 [sprite_list[coin_find].x // TILESIZE, sprite_list[coin_find].y // TILESIZE])
             sprite_list[coin_find].kill()
 
+        """Проверка коллизий с монетами."""
+        rect_list = []
+        for sprite in self.darks:
+            rect_list.append(sprite.rect)
+        dark_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
+        if len(dark_hit_list) > 0:
+            self.alive = False
+
         """Проверка коллизий с выходом."""
         rect_list = []
         for sprite in self.exits:
@@ -630,6 +638,14 @@ class Game:
             self.all_sprite_list.add(floor)
             self.all_sprite_list.add(coin)
         """
+            Группа спрайтов класса Темнота
+        """
+        self.darks_list = pygame.sprite.Group()
+        for coord in self.darks_coord:
+            dark = Dark(self, coord[0], coord[1])
+            self.darks_list.add(dark)
+            self.all_sprite_list.add(dark)
+        """
             Спрайт класса Персонаж
         """
         if spawn_door == "left_door":
@@ -675,15 +691,27 @@ class Game:
         self.player.exits = self.exits_list
         self.player.doors = self.doors_list
         self.player.coins = self.coins_list
+        self.player.darks = self.darks_list
 
     def events(self):
         """Отлавливание событий в Игровом цикле."""
         for event in pygame.event.get():
-            """Проверка на завершение (выключение) игры."""
+            """
+                Проверка на завершение (выключение) игры.
+            """
             if event.type is pygame.QUIT:
                 self.playing = False
                 self.running = False
-            """Проверка на переход в новую комнату."""
+            """
+                Проверка на погиб ли игрок.
+            """
+            if not self.player.alive:
+                self.playing = False
+                if ERROR_LEVEL == 1:
+                    print("changed playing on False because alive is False")
+            """
+                Проверка на переход в новую комнату.
+            """
             if self.player.go_down:
                 self.playing = False
             if self.player.go_left:
