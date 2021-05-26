@@ -41,7 +41,7 @@ class Intro(MyMenu):
         self.MyInstruction.InstructionMenu.enable()
 
     def set_character(self, value, character):
-        print(value, " \n\n", character)
+        pass
 
     def set_difficulty(self, value, difficulty):
         pass
@@ -67,3 +67,12 @@ class Instruction(MyMenu):
 
     def back_to_menu(self):
         self.InstructionMenu.disable()
+
+class DieScreen(MyMenu):
+    def __init__(self, bgColor, font, into_image, textColor, width, height, die_image):
+        MyMenu.__init__(self, bgColor, font, into_image, textColor, width, height)
+        self.DieMenu = pygame_menu.Menu(_('YOU DIED!'), width, height, theme=self.myTheme)
+        self.image_die = pygame_menu.baseimage.BaseImage(image_path=die_image,
+                                                       drawing_mode=pygame_menu.baseimage.IMAGE_MODE_FILL)
+        self.DieMenu.add.image(self.image_die, scale_smooth=True, align=pygame_menu.locals.ALIGN_CENTER)
+        self.DieMenu.add.button(_('Exit'), pygame_menu.events.EXIT)

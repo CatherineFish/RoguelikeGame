@@ -751,7 +751,15 @@ class Game:
 
     def game_over(self):
         """Финальный экран в случае поражения."""
-        pass
+        self.DieScreen = menu.DieScreen(BLUE,
+                                "Arial",
+                                "intro.png",
+                                WHITE,
+                                SCREEN_WIDTH,
+                                SCREEN_HEIGHT,
+                                "game_over.png")
+        self.DieScreen.DieMenu.mainloop(self.screen)
+
 
     def intro_screen(self):
         """Начальный экран с приветсвием, правилами и управлением."""
