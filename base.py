@@ -510,7 +510,8 @@ class Game:
         self.clock = pygame.time.Clock()
         # self.font = pygame.font.Font('Arial', 32)
         self.running = True
-        self.menu = menu.Intro(self.screen,
+        self.playerName = ''
+        self.menu = menu.Intro(self,
                                 BLUE,
                                 "Arial",
                                 "intro.png",
@@ -742,14 +743,14 @@ class Game:
         pygame.display.flip()
 
     def main(self):
-        """Игровой цик."""
+        """Игровой цикл."""
         while self.playing:
             self.events()
             self.update()
             self.draw()
         self.running = False
 
-    def game_over(self):
+    def game_over(self, coins, playerName):
         """Финальный экран в случае поражения."""
         self.DieScreen = menu.DieScreen(BLUE,
                                 "Arial",
@@ -757,7 +758,10 @@ class Game:
                                 WHITE,
                                 SCREEN_WIDTH,
                                 SCREEN_HEIGHT,
-                                "game_over.png")
+                                "game_over.png",
+                                coins,
+                                playerName
+                                )
         self.DieScreen.DieMenu.mainloop(self.screen)
 
 
