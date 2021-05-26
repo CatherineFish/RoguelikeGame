@@ -510,7 +510,8 @@ class Game:
         self.clock = pygame.time.Clock()
         # self.font = pygame.font.Font('Arial', 32)
         self.running = True
-        self.menu = menu.Intro(BLUE,
+        self.menu = menu.Intro(self.screen,
+                                BLUE,
                                 "Arial",
                                 "intro.png",
                                 WHITE,

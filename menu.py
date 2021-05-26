@@ -24,20 +24,23 @@ class MyMenu:
 
 class Intro(MyMenu):
 
-    def __init__(self, bgColor, font, into_image, textColor, width, height):
+    def __init__(self, gameScreen, bgColor, font, into_image, textColor, width, height):
         MyMenu.__init__(self, bgColor, font, into_image, textColor, width, height)
+        self.gameScreen = gameScreen
+        self.MyInstruction = Instruction(bgColor, font, into_image, textColor, width, height)
         self.menu = pygame_menu.Menu(_('WELCOME!'), width, height, theme=self.myTheme)
         self.menu.add.text_input(_('Your name:'))
         self.menu.add.selector(_('Difficulty:'), [(_('Low'), 1), (_('Medium'), 2), (_('High'), 3)], onchange=self.set_difficulty)
         self.menu.add.selector(_('Сharacter:'), [(_('Name_1'), 1), (_('Name_2'), 2), (_('Name_3'), 3)], onchange=self.set_character)
-
         self.menu.add.button(_('Play'), self.start_the_game)
-
-        self.menu.add.button(_('Instruction'), self.start_the_game)
+        self.menu.add.button(_('Instruction'), self.instruction)
         self.menu.add.button(_('Exit'), pygame_menu.events.EXIT)
 
+    def instruction(self):
+        self.MyInstruction.InstructionMenu.mainloop(self.gameScreen)
+
     def set_character(self, value, character):
-        pass
+        print(value, " \n\n", character)
 
     def set_difficulty(self, value, difficulty):
         pass
@@ -45,3 +48,18 @@ class Intro(MyMenu):
     def start_the_game(self):
         self.menu.disable()
         self.menu.full_reset()
+
+
+class Instruction(MyMenu):
+    def __init__(self, bgColor, font, into_image, textColor, width, height):
+        MyMenu.__init__(self, bgColor, font, into_image, textColor, width, height)
+        self.InstructionMenu = pygame_menu.Menu(_('Instruction'), width, height, theme=self.myTheme)
+        instruction = '''
+        This is Instruction
+        keys
+        goal
+        die
+        '''
+        for word in instruction:
+            self.InstructionMenu.add.label(word, align=pygame_menu.locals.ALIGN_LEFT)
+        self.InstructionMenu.add.button(_('Back'), pygame_menu.events.EXIT)
