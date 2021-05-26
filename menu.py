@@ -38,6 +38,7 @@ class Intro(MyMenu):
 
     def instruction(self):
         self.MyInstruction.InstructionMenu.mainloop(self.gameScreen)
+        self.MyInstruction.InstructionMenu.enable()
 
     def set_character(self, value, character):
         print(value, " \n\n", character)
@@ -54,12 +55,15 @@ class Instruction(MyMenu):
     def __init__(self, bgColor, font, into_image, textColor, width, height):
         MyMenu.__init__(self, bgColor, font, into_image, textColor, width, height)
         self.InstructionMenu = pygame_menu.Menu(_('Instruction'), width, height, theme=self.myTheme)
-        instruction = '''
+        instruction = _('''
         This is Instruction
         keys
         goal
         die
-        '''
-        for word in instruction:
-            self.InstructionMenu.add.label(word, align=pygame_menu.locals.ALIGN_LEFT)
-        self.InstructionMenu.add.button(_('Back'), pygame_menu.events.EXIT)
+        ''')
+
+        self.InstructionMenu.add.label(instruction, align=pygame_menu.locals.ALIGN_LEFT)
+        self.InstructionMenu.add.button(_('Back'), self.back_to_menu)
+
+    def back_to_menu(self):
+        self.InstructionMenu.disable()
