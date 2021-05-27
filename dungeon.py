@@ -99,8 +99,7 @@ if __name__ == "__main__":
             """Проверка какой экран конца игры выводить."""
             if g.player.win:
                 all_collected_coins += g.collected_coins
-                g.win_screen()
-                print("победа, собрано монет:", all_collected_coins)
+                g.win_screen(all_collected_coins, playerName)
             else:
                 all_collected_coins += g.collected_coins
                 g.game_over(all_collected_coins, playerName)

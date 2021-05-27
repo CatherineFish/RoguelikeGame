@@ -80,9 +80,20 @@ class DieScreen(MyMenu):
         self.image_die = pygame_menu.baseimage.BaseImage(image_path=die_image,
                                                        drawing_mode=pygame_menu.baseimage.IMAGE_MODE_FILL)
         self.DieMenu.add.image(self.image_die, scale_smooth=True, align=pygame_menu.locals.ALIGN_CENTER)
-        die_text = _(f'''
-        {playerName}, you died!
-        You collected {coins} coins
-        ''')
+        die_text = _(f''' {playerName}, you died!
+        You collected {coins} coins''')
         self.DieMenu.add.label(die_text, align=pygame_menu.locals.ALIGN_LEFT, font_size=30)
         self.DieMenu.add.button(_('Exit'), pygame_menu.events.EXIT)
+
+
+class WinScreen(MyMenu):
+    def __init__(self, bgColor, font, into_image, textColor, width, height, win_image, coins, playerName):
+        MyMenu.__init__(self, bgColor, font, into_image, textColor, width, height)
+        self.WinMenu = pygame_menu.Menu(_('CONGRATULATION!'), width, height, theme=self.myTheme)
+        self.image_win = pygame_menu.baseimage.BaseImage(image_path=win_image,
+                                                       drawing_mode=pygame_menu.baseimage.IMAGE_MODE_FILL)
+        self.WinMenu.add.image(self.image_win, scale_smooth=True, align=pygame_menu.locals.ALIGN_CENTER)
+        win_text = _(f'''{playerName}, you win!
+        You collected {coins} coins''')
+        self.WinMenu.add.label(win_text, align=pygame_menu.locals.ALIGN_LEFT, font_size=30)
+        self.WinMenu.add.button(_('Exit'), pygame_menu.events.EXIT)

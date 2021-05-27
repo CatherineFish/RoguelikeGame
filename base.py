@@ -769,6 +769,16 @@ class Game:
         """Начальный экран с приветсвием, правилами и управлением."""
         pass
 
-    def win_screen(self):
+    def win_screen(self, coins, playerName):
         """Финальный экран в случае победы."""
-        pass
+        self.WinScreen = menu.WinScreen(BLUE,
+                                "Arial",
+                                "intro.png",
+                                WHITE,
+                                SCREEN_WIDTH,
+                                SCREEN_HEIGHT,
+                                "win_screen.png",
+                                coins,
+                                playerName
+                                )
+        self.WinScreen.WinMenu.mainloop(self.screen)
