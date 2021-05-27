@@ -510,7 +510,9 @@ class Game:
         self.clock = pygame.time.Clock()
         # self.font = pygame.font.Font('Arial', 32)
         self.running = True
-        self.menu = menu.MyMenu(BLUE,
+        self.playerName = ''
+        self.menu = menu.Intro(self,
+                                BLUE,
                                 "Arial",
                                 "intro.png",
                                 WHITE,
@@ -741,21 +743,42 @@ class Game:
         pygame.display.flip()
 
     def main(self):
-        """Игровой цик."""
+        """Игровой цикл."""
         while self.playing:
             self.events()
             self.update()
             self.draw()
         self.running = False
 
-    def game_over(self):
+    def game_over(self, coins, playerName):
         """Финальный экран в случае поражения."""
-        pass
+        self.DieScreen = menu.DieScreen(BLUE,
+                                "Arial",
+                                "intro.png",
+                                WHITE,
+                                SCREEN_WIDTH,
+                                SCREEN_HEIGHT,
+                                "game_over.png",
+                                coins,
+                                playerName
+                                )
+        self.DieScreen.DieMenu.mainloop(self.screen)
+
 
     def intro_screen(self):
         """Начальный экран с приветсвием, правилами и управлением."""
         pass
 
-    def win_screen(self):
+    def win_screen(self, coins, playerName):
         """Финальный экран в случае победы."""
-        pass
+        self.WinScreen = menu.WinScreen(BLUE,
+                                "Arial",
+                                "intro.png",
+                                WHITE,
+                                SCREEN_WIDTH,
+                                SCREEN_HEIGHT,
+                                "win_screen.png",
+                                coins,
+                                playerName
+                                )
+        self.WinScreen.WinMenu.mainloop(self.screen)

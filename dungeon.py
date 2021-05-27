@@ -44,6 +44,7 @@ if __name__ == "__main__":
     try:
         g = Game()
         g.menu.menu.mainloop(g.screen)
+        playerName = g.playerName
         path = os.getcwd()
         cached_dir = shutil.copytree(str(path + "/rooms_in_dungeon"),
                                      str(path + "/cached_rooms_in_dungeon"))
@@ -98,12 +99,10 @@ if __name__ == "__main__":
             """Проверка какой экран конца игры выводить."""
             if g.player.win:
                 all_collected_coins += g.collected_coins
-                g.win_screen()
-                print("победа, собрано монет:", all_collected_coins)
+                g.win_screen(all_collected_coins, playerName)
             else:
                 all_collected_coins += g.collected_coins
-                g.game_over()
-                print("поражение, собрано монет:", all_collected_coins)
+                g.game_over(all_collected_coins, playerName)
     except Exception:
         exc_type, exc_value, exc_traceback = sys.exc_info()
         for i in traceback.format_exception(exc_type, exc_value,
