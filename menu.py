@@ -78,6 +78,7 @@ class Instruction(MyMenu):
     def back_to_menu(self):
         self.InstructionMenu.disable()
 
+
 class DieScreen(MyMenu):
     def __init__(self, bgColor, font, into_image, textColor, width, height, die_image, coins, playerName):
         MyMenu.__init__(self, bgColor, font, into_image, textColor, width, height)
@@ -87,7 +88,11 @@ class DieScreen(MyMenu):
         self.DieMenu.add.image(self.image_die, scale_smooth=True, align=pygame_menu.locals.ALIGN_CENTER)
         die_text = _(f'''{playerName}, you died!\nYou collected {coins} coins''')
         self.DieMenu.add.label(die_text, align=pygame_menu.locals.ALIGN_CENTER, font_size=30)
-        self.DieMenu.add.button(_('Exit'), pygame_menu.events.EXIT)
+        self.DieMenu.add.button(_('Exit'), self.exit)
+
+    def exit(self):
+        self.DieMenu.disable()
+        self.DieMenu.full_reset()
 
 
 class WinScreen(MyMenu):
@@ -99,4 +104,8 @@ class WinScreen(MyMenu):
         self.WinMenu.add.image(self.image_win, scale_smooth=True, align=pygame_menu.locals.ALIGN_CENTER)
         win_text = _(f'''{playerName}, you win!\nYou collected {coins} coins''')
         self.WinMenu.add.label(win_text, align=pygame_menu.locals.ALIGN_CENTER, font_size=30)
-        self.WinMenu.add.button(_('Exit'), pygame_menu.events.EXIT)
+        self.WinMenu.add.button(_('Exit'), self.exit)
+
+    def exit(self):
+        self.WinMenu.disable()
+        self.WinMenu.full_reset()
