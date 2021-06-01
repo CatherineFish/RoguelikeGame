@@ -310,7 +310,18 @@ class Player(pygame.sprite.Sprite):
                 [sprite_list[coin_find].x // TILESIZE, sprite_list[coin_find].y // TILESIZE])
             sprite_list[coin_find].kill()
 
-        """Проверка коллизий с монетами."""
+        """Проверка коллизий с ловушками."""
+        rect_list = []
+        sprite_list = []
+        for sprite in self.traps:
+            rect_list.append(sprite.rect)
+            sprite_list.append(sprite)
+        traps_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
+        for trap_find in traps_hit_list:
+            if sprite_list[trap_find].image == sprite_list[trap_find].image_traps[0]:
+                self.alive = False
+
+        """Проверка коллизий с темнотой."""
         rect_list = []
         for sprite in self.darks:
             rect_list.append(sprite.rect)
@@ -539,7 +550,7 @@ class Coin(pygame.sprite.Sprite):
         self.width = TILESIZE
         self.height = TILESIZE
 
-        """инициализация картинки длsя монеты."""
+        """инициализация картинки для монеты."""
         self.image = pygame.image.load('loot_gold.png').convert_alpha()
         self.game.png_names.add('loot_gold.png')
 
@@ -558,12 +569,44 @@ class Trap(pygame.sprite.Sprite):
     """
 
     def __init__(self, game, x, y):
-        """Создание класса Ловушк."""
-        pass
+        """Создание класса Ловушка."""
+        self.game = game
+        self._layer = PLAYER_LAYER
+        super().__init__()
+
+        """инициализация координат ловушки."""
+        self.x = x * TILESIZE
+        self.y = y * TILESIZE
+
+        """инициализация размера ловушки."""
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        """инициализация изображений для ловушки."""
+        trap1 = pygame.transform.scale2x(pygame.image.load('trap1.png')).convert_alpha()
+        trap2 = pygame.transform.scale2x(pygame.image.load('trap2.png')).convert_alpha()
+        self.game.png_names.add('trap1.png')
+        self.game.png_names.add('trap2.png')
+
+        """Инциализация rect для заданного изображения."""
+        self.image = trap1
+        self.image_traps = [trap1, trap2]
+
+        """Инциализация rect для заданной картинки."""
+        self.rect = self.image.get_rect()
+
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
-        pass
+        """Будем изменять глобальную переменную смены анимаций ловушки."""
+        global animation_count_trap
+        """Изменение переменной анимицации ловушки, а вместе с ней и изображения"""
+        animation_count_trap += 1
+        if animation_count_trap + 1 >= 2048:
+            animation_count_trap = 0
+        self.image = self.image_traps[animation_count_trap // 1024]
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -624,7 +667,7 @@ class Game:
                         """если встретилась дверь."""
                         self.doors_coord.append([i, j])
                     elif lines[j][i] == "T":
-                        """если встретилась ловушк."""
+                        """если встретилась ловушка."""
                         self.traps_coord.append([i, j])
                     elif lines[j][i] == " ":
                         """если встретилась темнота."""
@@ -725,6 +768,16 @@ class Game:
             self.all_sprite_list.add(floor)
             self.all_sprite_list.add(coin)
         """
+            Группа спрайтов класса Ловушка
+        """
+        self.traps_list = pygame.sprite.Group()
+        for coord in self.traps_coord:
+            trap = Trap(self, coord[0], coord[1])
+            floor = Floor(self, coord[0], coord[1])
+            self.all_sprite_list.add(floor)
+            self.traps_list.add(trap)
+            self.all_sprite_list.add(trap)
+        """
             Группа спрайтов класса Темнота
         """
         self.darks_list = pygame.sprite.Group()
@@ -778,6 +831,7 @@ class Game:
         self.player.exits = self.exits_list
         self.player.doors = self.doors_list
         self.player.coins = self.coins_list
+        self.player.traps = self.traps_list
         self.player.darks = self.darks_list
 
     def events(self):
