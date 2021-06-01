@@ -110,10 +110,81 @@ class Player(pygame.sprite.Sprite):
         """Выиграл ли персонаж?"""
         self.win = False
 
-        """Инициализация картинки для персонаж."""
+        """Инициализация изображений для персонажа."""
         down1 = pygame.transform.scale(pygame.image.load(
             'down1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
-        self.game.png_names.add("down1.png")
+        down2 = pygame.transform.scale(pygame.image.load(
+            'down2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        down3 = pygame.transform.scale(pygame.image.load(
+            'down3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        down4 = pygame.transform.scale(pygame.image.load(
+            'down4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        down5 = pygame.transform.scale(pygame.image.load(
+            'down5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        down6 = pygame.transform.scale(pygame.image.load(
+            'down6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        down7 = pygame.transform.scale(pygame.image.load(
+            'down7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        down8 = pygame.transform.scale(pygame.image.load(
+            'down8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        self.image_down = [down1, down2, down3, down4, down5, down6, down7, down8]
+        up1 = pygame.transform.scale(pygame.image.load(
+            'up1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up2 = pygame.transform.scale(pygame.image.load(
+            'up2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up3 = pygame.transform.scale(pygame.image.load(
+            'up3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up4 = pygame.transform.scale(pygame.image.load(
+            'up4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up5 = pygame.transform.scale(pygame.image.load(
+            'up5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up6 = pygame.transform.scale(pygame.image.load(
+            'up6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up7 = pygame.transform.scale(pygame.image.load(
+            'up7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up8 = pygame.transform.scale(pygame.image.load(
+            'up8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        self.image_up = [up1, up2, up3, up4, up5, up6, up7, up8]
+        left1 = pygame.transform.scale(pygame.image.load(
+            'left1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left2 = pygame.transform.scale(pygame.image.load(
+            'left2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left3 = pygame.transform.scale(pygame.image.load(
+            'left3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left4 = pygame.transform.scale(pygame.image.load(
+            'left4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left5 = pygame.transform.scale(pygame.image.load(
+            'left5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left6 = pygame.transform.scale(pygame.image.load(
+            'left6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left7 = pygame.transform.scale(pygame.image.load(
+            'left7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left8 = pygame.transform.scale(pygame.image.load(
+            'left8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        self.image_left = [left1, left2, left3, left4, left5, left6, left7, left8]
+        right1 = pygame.transform.scale(pygame.image.load(
+            'right1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right2 = pygame.transform.scale(pygame.image.load(
+            'right2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right3 = pygame.transform.scale(pygame.image.load(
+            'right3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right4 = pygame.transform.scale(pygame.image.load(
+            'right4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right5 = pygame.transform.scale(pygame.image.load(
+            'right5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right6 = pygame.transform.scale(pygame.image.load(
+            'right6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right7 = pygame.transform.scale(pygame.image.load(
+            'right7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right8 = pygame.transform.scale(pygame.image.load(
+            'right8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        self.image_right = [right1, right2, right3, right4, right5, right6, right7, right8]
+        for i in range(8):
+            self.game.png_names.add(f"down{i+1}.png")
+            self.game.png_names.add(f"up{i+1}.png")
+            self.game.png_names.add(f"left{i+1}.png")
+            self.game.png_names.add(f"right{i+1}.png")
+
         self.image = down1
 
         """Инциализация rect для заданной картинки."""
@@ -130,9 +201,23 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
-        """будем изменять глобальную переменную количества собранных монет"""
-
+        """Будем изменять глобальную переменную смены анимаций персонажа."""
+        global animation_count
+        """Считывание движений с клавиатуры."""
         self.movement()
+        """Изменение переменной анимицации персонажа, а вместе с ней и изображения"""
+        animation_count += 1
+        if animation_count + 1 >= 24:
+            animation_count = 0
+        if self.x_change != 0 or self.y_change != 0:
+            if self.facing == "right":
+                self.image = self.image_right[animation_count // 8]
+            elif self.facing == "left":
+                self.image = self.image_left[animation_count // 8]
+            elif self.facing == "up":
+                self.image = self.image_up[animation_count // 8]
+            else:
+                self.image = self.image_down[animation_count // 8]
 
         """Движение по оси x и проверка коллизий со стенами."""
         self.rect.x += self.x_change
@@ -512,12 +597,12 @@ class Game:
         self.running = True
         self.playerName = ''
         self.menu = menu.Intro(self,
-                                BLUE,
-                                "Arial",
-                                "intro.png",
-                                WHITE,
-                                SCREEN_WIDTH,
-                                SCREEN_HEIGHT)
+                               BLUE,
+                               "Arial",
+                               "intro.png",
+                               WHITE,
+                               SCREEN_WIDTH,
+                               SCREEN_HEIGHT)
         self.png_names.add("intro.png")
 
     def read_room_file(self, room):
@@ -753,17 +838,16 @@ class Game:
     def game_over(self, coins, playerName):
         """Финальный экран в случае поражения."""
         self.DieScreen = menu.DieScreen(BLUE,
-                                "Arial",
-                                "intro.png",
-                                WHITE,
-                                SCREEN_WIDTH,
-                                SCREEN_HEIGHT,
-                                "game_over.png",
-                                coins,
-                                playerName
-                                )
+                                        "Arial",
+                                        "intro.png",
+                                        WHITE,
+                                        SCREEN_WIDTH,
+                                        SCREEN_HEIGHT,
+                                        "game_over.png",
+                                        coins,
+                                        playerName
+                                        )
         self.DieScreen.DieMenu.mainloop(self.screen)
-
 
     def intro_screen(self):
         """Начальный экран с приветсвием, правилами и управлением."""
@@ -772,13 +856,13 @@ class Game:
     def win_screen(self, coins, playerName):
         """Финальный экран в случае победы."""
         self.WinScreen = menu.WinScreen(BLUE,
-                                "Arial",
-                                "intro.png",
-                                WHITE,
-                                SCREEN_WIDTH,
-                                SCREEN_HEIGHT,
-                                "win_screen.png",
-                                coins,
-                                playerName
-                                )
+                                        "Arial",
+                                        "intro.png",
+                                        WHITE,
+                                        SCREEN_WIDTH,
+                                        SCREEN_HEIGHT,
+                                        "win_screen.png",
+                                        coins,
+                                        playerName
+                                        )
         self.WinScreen.WinMenu.mainloop(self.screen)
