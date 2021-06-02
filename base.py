@@ -107,8 +107,16 @@ class Player(pygame.sprite.Sprite):
 
         """Жив ли персонаж?"""
         self.alive = True
+
         """Выиграл ли персонаж?"""
         self.win = False
+
+        """Жизни персонажа."""
+        self.lifes = 2
+
+        """Флаг и отслеживания времени для неуязвимости."""
+        self.collision_immune = False
+        self.collision_time = 0
 
         """Инициализация изображений для персонажа."""
         down1 = pygame.transform.scale(pygame.image.load(
@@ -317,9 +325,21 @@ class Player(pygame.sprite.Sprite):
             rect_list.append(sprite.rect)
             sprite_list.append(sprite)
         traps_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
-        for trap_find in traps_hit_list:
-            if sprite_list[trap_find].image == sprite_list[trap_find].image_traps[0]:
-                self.alive = False
+        if not self.collision_immune:
+            for trap_find in traps_hit_list:
+                if sprite_list[trap_find].image == sprite_list[trap_find].image_traps[0]:
+                    self.lifes -= 1
+                    self.collision_immune = True
+                    self.collision_time = pygame.time.get_ticks()
+                    break
+
+        """Проверка на конец жизней."""
+        if self.lifes <= 0:
+            self.alive = False
+
+        """Проверка на конец жизней"""
+        if pygame.time.get_ticks() - self.collision_time > 3000:    # время в ms.
+            self.collision_immune = False
 
         """Проверка коллизий с темнотой."""
         rect_list = []
