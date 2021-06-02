@@ -33,7 +33,7 @@ class Intro(MyMenu):
         self.menu.add.text_input(_('Your name:'), onchange=self.get_name, onreturn=self.get_name)
         self.menu.add.selector(_('Difficulty:'), [(_('Low'), 1), (_('Medium'), 2), (_('High'), 3)], onchange=self.set_difficulty)
         self.menu.add.selector(_('Сharacter:'), [(_('Name_1'), 1), (_('Name_2'), 2), (_('Name_3'), 3)], onchange=self.set_character)
-        self.menu.add.button(_('Play'), lambda:self.start_the_game(game))
+        self.menu.add.button(_('Play'), lambda: self.start_the_game(game))
         self.menu.add.button(_('Instruction'), self.instruction)
         self.menu.add.button(_('Exit'), pygame_menu.events.EXIT)
 
@@ -54,6 +54,7 @@ class Intro(MyMenu):
         game.playerName = self.current_name
         self.menu.disable()
         self.menu.full_reset()
+
 
 class Instruction(MyMenu):
     def __init__(self, bgColor, font, into_image, textColor, width, height):
@@ -84,7 +85,7 @@ class DieScreen(MyMenu):
         MyMenu.__init__(self, bgColor, font, into_image, textColor, width, height)
         self.DieMenu = pygame_menu.Menu(_('GAME OVER!'), width, height, theme=self.myTheme)
         self.image_die = pygame_menu.baseimage.BaseImage(image_path=die_image,
-                                                       drawing_mode=pygame_menu.baseimage.IMAGE_MODE_FILL)
+                                                         drawing_mode=pygame_menu.baseimage.IMAGE_MODE_FILL)
         self.DieMenu.add.image(self.image_die, scale_smooth=True, align=pygame_menu.locals.ALIGN_CENTER)
         die_text = _(f'''{playerName}, you died!\nYou collected {coins} coins''')
         self.DieMenu.add.label(die_text, align=pygame_menu.locals.ALIGN_CENTER, font_size=30)
@@ -100,7 +101,7 @@ class WinScreen(MyMenu):
         MyMenu.__init__(self, bgColor, font, into_image, textColor, width, height)
         self.WinMenu = pygame_menu.Menu(_('CONGRATULATION!'), width, height, theme=self.myTheme)
         self.image_win = pygame_menu.baseimage.BaseImage(image_path=win_image,
-                                                       drawing_mode=pygame_menu.baseimage.IMAGE_MODE_FILL)
+                                                         drawing_mode=pygame_menu.baseimage.IMAGE_MODE_FILL)
         self.WinMenu.add.image(self.image_win, scale_smooth=True, align=pygame_menu.locals.ALIGN_CENTER)
         win_text = _(f'''{playerName}, you win!\nYou collected {coins} coins''')
         self.WinMenu.add.label(win_text, align=pygame_menu.locals.ALIGN_CENTER, font_size=30)
