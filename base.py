@@ -13,6 +13,7 @@ import menu
 import pygame_menu
 import gettext
 import unittest
+import random
 
 gettext.install("click", ".", names=("ngettext",))
 
@@ -111,6 +112,7 @@ class Player(pygame.sprite.Sprite):
         self.darks = None
         self.doors = None
         self.exits = None
+        self.enemies = None
 
         """Инициализация флагов пермещений между комнатами."""
         self.go_up = False
@@ -344,6 +346,18 @@ class Player(pygame.sprite.Sprite):
                     self.collision_immune = True
                     self.collision_time = pygame.time.get_ticks()
                     break
+
+        rect_list = []
+        for sprite in self.enemies:
+            rect_list.append(sprite.rect)
+        enemies_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
+        # if ERROR_LEVEL == 1:
+        #    print("here was:", type(enemies_hit_list), ' ;', len(enemies_hit_list))
+        if not self.collision_immune:
+            if len(enemies_hit_list) > 0:
+                lifes -= 1
+                self.collision_immune = True
+                self.collision_time = pygame.time.get_ticks()
 
         """Проверка на конец жизней."""
         if lifes <= 0:
@@ -650,11 +664,131 @@ class Enemy(pygame.sprite.Sprite):
 
     def __init__(self, game, x, y):
         """Создание класса Враг."""
-        pass
+        self.game = game
+        self._layer = PLAYER_LAYER
+        super().__init__()
+
+        """инициализация координат врага."""
+        self.x = x * TILESIZE
+        self.y = y * TILESIZE
+
+        """инициализация размера врага."""
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        """инициализация хаотичного движения врага."""
+        self.randdirect = random.randint(0, 1)
+        if self.randdirect:
+            self.start = self.x - TILESIZE * random.randint(1, 3)
+            self.stop = self.x + TILESIZE * random.randint(5, 8)
+            self.x_direction = 1
+            self.y_direction = 0
+        else:
+            self.start = self.y - TILESIZE * random.randint(1, 3)
+            self.stop = self.y + TILESIZE * random.randint(5, 8)
+            self.y_direction = 1
+            self.x_direction = 0
+
+        """инициализация классов стен для врага."""
+        self.walls = None
+        self.facing = 'down'
+
+        """инициализация изображений для врага."""
+        slime1 = pygame.image.load('slime1.png').convert_alpha()
+        slime2 = pygame.image.load('slime2.png').convert_alpha()
+        slime3 = pygame.image.load('slime3.png').convert_alpha()
+        slime4 = pygame.image.load('slime4.png').convert_alpha()
+        self.game.png_names.add('slime1.png')
+        self.game.png_names.add('slime2.png')
+        self.game.png_names.add('slime3.png')
+        self.game.png_names.add('slime4.png')
+        self.image_slime = [slime1, slime2, slime3, slime4]
+
+        """Инциализация rect для заданной картинки."""
+        self.image = slime1
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
-        pass
+        """Будем изменять глобальную переменную смены анимаций персонажа."""
+        global animation_count_slime
+
+        """Инициализация скорости врага и направления движения"""
+        if self.randdirect:
+            self.rect.x += self.x_direction * 2
+            block_hit_list = pygame.sprite.spritecollide(self, self.game.player.walls, False)
+            for block in block_hit_list:
+                if self.x_direction > 0:
+                    self.rect.right = block.rect.left
+                    self.x_direction = -1
+                else:
+                    self.rect.left = block.rect.right
+                    self.x_direction = 1
+            dark_hit_list = pygame.sprite.spritecollide(self, self.game.player.darks, False)
+            for block in dark_hit_list:
+                if self.x_direction > 0:
+                    self.rect.right = block.rect.left
+                    self.x_direction = -1
+                else:
+                    self.rect.left = block.rect.right
+                    self.x_direction = 1
+            trap_hit_list = pygame.sprite.spritecollide(self, self.game.player.traps, False)
+            for block in trap_hit_list:
+                if self.x_direction > 0:
+                    self.rect.right = block.rect.left
+                    self.x_direction = -1
+                else:
+                    self.rect.left = block.rect.right
+                    self.x_direction = 1
+
+            if self.rect.x <= self.start:
+                self.rect.x = self.start
+                self.x_direction = 1
+            if self.rect.x >= self.stop:
+                self.rect.x = self.stop
+                self.x_direction = -1
+        else:
+            self.rect.y += self.y_direction * 2
+            block_hit_list = pygame.sprite.spritecollide(self, self.game.player.walls, False)
+            for block in block_hit_list:
+                if self.y_direction > 0:
+                    self.rect.bottom = block.rect.top
+                    self.y_direction = -1
+                else:
+                    self.rect.top = block.rect.bottom
+                    self.y_direction = 1
+            dark_hit_list = pygame.sprite.spritecollide(self, self.game.player.darks, False)
+            for block in dark_hit_list:
+                if self.y_direction > 0:
+                    self.rect.bottom = block.rect.top
+                    self.y_direction = -1
+                else:
+                    self.rect.top = block.rect.bottom
+                    self.y_direction = 1
+            trap_hit_list = pygame.sprite.spritecollide(self, self.game.player.traps, False)
+            for block in trap_hit_list:
+                if self.y_direction > 0:
+                    self.rect.bottom = block.rect.top
+                    self.y_direction = -1
+                else:
+                    self.rect.top = block.rect.bottom
+                    self.y_direction = 1
+
+            if self.rect.y <= self.start:
+                self.rect.y = self.start
+                self.y_direction = 1
+            if self.rect.y >= self.stop:
+                self.rect.y = self.stop
+                self.y_direction = -1
+
+        """Изменение изображения врага."""
+        animation_count_slime += 1
+        if animation_count_slime + 1 >= 512:
+            animation_count_slime = 0
+        # print(animation_count_slime)
+        self.image = self.image_slime[animation_count_slime // 128]
 
 
 class Game:
@@ -810,6 +944,16 @@ class Game:
             self.traps_list.add(trap)
             self.all_sprite_list.add(trap)
         """
+            Группа спрайтов класса Враг
+        """
+        self.enemies_list = pygame.sprite.Group()
+        for coord in self.enemies_coord:
+            floor = Floor(self, coord[0], coord[1])
+            enemy = Enemy(self, coord[0], coord[1])
+            self.enemies_list.add(enemy)
+            self.all_sprite_list.add(floor)
+            self.all_sprite_list.add(enemy)
+        """
             Группа спрайтов класса Темнота
         """
         self.darks_list = pygame.sprite.Group()
@@ -865,6 +1009,7 @@ class Game:
         self.player.coins = self.coins_list
         self.player.traps = self.traps_list
         self.player.darks = self.darks_list
+        self.player.enemies = self.enemies_list
 
     def events(self):
         """Отлавливание событий в Игровом цикле."""
