@@ -130,6 +130,10 @@ class Player(pygame.sprite.Sprite):
         self.collision_immune = False
         self.collision_time = 0
 
+        """Флаг для атак."""
+        self.attacking = False
+        self.attacking_time = 0
+
         """Инициализация изображений для персонажа."""
         down1 = pygame.transform.scale(pygame.image.load(
             'down1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
@@ -216,8 +220,27 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
 
+        """Инциализация attackrect для описания атак."""
+        self.attackimage = pygame.image.load("slash.png").convert_alpha()
+        self.game.png_names.add('slash.png')
+        sprite0, sprite1, sprite2, sprite3 = pygame.Surface([TILESIZE, TILESIZE]), pygame.Surface(
+            [TILESIZE, TILESIZE]), pygame.Surface([TILESIZE, TILESIZE]), pygame.Surface([TILESIZE, TILESIZE])
+        sprite0.blit(self.attackimage, (0, 0), (0, 0, TILESIZE, TILESIZE))
+        sprite0.set_colorkey(BLACK)
+        sprite1.blit(self.attackimage, (0, 0), (32, 0, TILESIZE, TILESIZE))
+        sprite1.set_colorkey(BLACK)
+        sprite2.blit(self.attackimage, (0, 0), (64, 0, TILESIZE, TILESIZE))
+        sprite2.set_colorkey(BLACK)
+        sprite3.blit(self.attackimage, (0, 0), (96, 0, TILESIZE, TILESIZE))
+        sprite3.set_colorkey(BLACK)
+        self.attackloop = [sprite0, sprite1, sprite2, sprite3]
+        self.attackrect = self.attackloop[0].get_rect()
+
         """Сolliderect будет совпадать с нашей rect картинкой по середине нижней грани (ногам)."""
         self.collideRect.midbottom = self.rect.midbottom
+
+        """attackrect верхней гранью будет совпадать с нашей rect картинкой по середине нижней грани."""
+        self.attackrect.midtop = self.rect.midbottom
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
@@ -234,12 +257,16 @@ class Player(pygame.sprite.Sprite):
         if self.x_change != 0 or self.y_change != 0:
             if self.facing == "right":
                 self.image = self.image_right[animation_count // 8]
+                self.attackrect.midleft = self.rect.midright
             elif self.facing == "left":
                 self.image = self.image_left[animation_count // 8]
+                self.attackrect.midright = self.rect.midleft
             elif self.facing == "up":
                 self.image = self.image_up[animation_count // 8]
+                self.attackrect.midbottom = self.rect.midtop
             else:
                 self.image = self.image_down[animation_count // 8]
+                self.attackrect.midtop = self.rect.midbottom
 
         """Движение по оси x и проверка коллизий со стенами."""
         self.rect.x += self.x_change
@@ -284,6 +311,16 @@ class Player(pygame.sprite.Sprite):
         if self.collideRect.y < 0:
             self.collideRect.y = 0
             self.rect.midbottom = self.collideRect.midbottom
+
+        """Сдвиг attackrect во время движения персонажа."""
+        if self.facing == "right":
+            self.attackrect.midleft = self.rect.midright
+        elif self.facing == "left":
+            self.attackrect.midright = self.rect.midleft
+        elif self.facing == "up":
+            self.attackrect.midbottom = self.rect.midtop
+        else:
+            self.attackrect.midtop = self.rect.midbottom
 
         """Проверка коллизий с дверьми."""
         rect_list = []
@@ -363,9 +400,13 @@ class Player(pygame.sprite.Sprite):
         if lifes <= 0:
             self.alive = False
 
-        """Проверка на конец жизней"""
+        """Проверка на конец времени неуязвимости."""
         if pygame.time.get_ticks() - self.collision_time > 3000:    # время в ms.
             self.collision_immune = False
+
+        """Проверка на конец времени атаки."""
+        if pygame.time.get_ticks() - self.attacking_time > 500:    # время в ms.
+            self.attacking = False
 
         """Проверка коллизий с темнотой."""
         rect_list = []
@@ -413,6 +454,9 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_s]:
             self.y_change += PLAYER_SPEED
             self.facing = 'down'
+        if keys[pygame.K_SPACE]:
+            self.attacking = True
+            self.attacking_time = pygame.time.get_ticks()
 
 
 class Wall(pygame.sprite.Sprite):
@@ -1059,6 +1103,52 @@ class Game:
         """Прорисовка спрайтов и фона окна в Игровом цикле."""
         self.screen.fill(BLACK)
         self.all_sprite_list.draw(self.screen)
+        """Проверка на конец времени атаки."""
+        if self.player.attacking:
+            if pygame.time.get_ticks() - self.player.attacking_time <= 125:    # время в ms.
+                if self.player.facing == "left":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[0], 90)
+                elif self.player.facing == "down":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[0], 180)
+                elif self.player.facing == "right":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[0], 270)
+                else:
+                    rotated_image = self.player.attackloop[0]
+                self.screen.blit(rotated_image,
+                                 (self.player.attackrect.x, self.player.attackrect.y))
+            elif pygame.time.get_ticks() - self.player.attacking_time <= 250:
+                if self.player.facing == "left":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[1], 90)
+                elif self.player.facing == "down":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[1], 180)
+                elif self.player.facing == "right":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[1], 270)
+                else:
+                    rotated_image = self.player.attackloop[1]
+                self.screen.blit(rotated_image,
+                                 (self.player.attackrect.x, self.player.attackrect.y))
+            elif pygame.time.get_ticks() - self.player.attacking_time <= 375:
+                if self.player.facing == "left":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[2], 90)
+                elif self.player.facing == "down":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[2], 180)
+                elif self.player.facing == "right":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[2], 270)
+                else:
+                    rotated_image = self.player.attackloop[2]
+                self.screen.blit(rotated_image,
+                                 (self.player.attackrect.x, self.player.attackrect.y))
+            else:
+                if self.player.facing == "left":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[3], 90)
+                elif self.player.facing == "down":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[3], 180)
+                elif self.player.facing == "right":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[3], 270)
+                else:
+                    rotated_image = self.player.attackloop[3]
+                self.screen.blit(rotated_image,
+                                 (self.player.attackrect.x, self.player.attackrect.y))
         pygame.draw.rect(self.screen, GREY, (5, 5, 104, 24), 3)
         pygame.draw.rect(self.screen, self.player_life_color,
                          (7, 7, round(lifes * 100 / MAX_LIFE), 20))
