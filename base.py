@@ -455,8 +455,9 @@ class Player(pygame.sprite.Sprite):
             self.y_change += PLAYER_SPEED
             self.facing = 'down'
         if keys[pygame.K_SPACE]:
-            self.attacking = True
-            self.attacking_time = pygame.time.get_ticks()
+            if self.attacking is False:
+                self.attacking = True
+                self.attacking_time = pygame.time.get_ticks()
 
 
 class Wall(pygame.sprite.Sprite):
