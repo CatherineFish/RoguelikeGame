@@ -737,6 +737,9 @@ class Enemy(pygame.sprite.Sprite):
         self.walls = None
         self.facing = 'down'
 
+        """инициализация жизней для врага."""
+        self.lifes = 1
+
         """инициализация изображений для врага."""
         slime1 = pygame.image.load('slime1.png').convert_alpha()
         slime2 = pygame.image.load('slime2.png').convert_alpha()
@@ -833,6 +836,14 @@ class Enemy(pygame.sprite.Sprite):
             animation_count_slime = 0
         # print(animation_count_slime)
         self.image = self.image_slime[animation_count_slime // 128]
+
+        """Проверка коллизий с атакой персонажа."""
+        if self.game.player.attacking:
+            if pygame.Rect.colliderect(self.rect, self.game.player.attackrect):
+                self.lifes -= 1
+
+        if self.lifes <= 0:
+            self.kill()
 
 
 class Game:
