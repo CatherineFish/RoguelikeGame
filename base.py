@@ -512,12 +512,12 @@ class Game:
         self.running = True
         self.playerName = ''
         self.menu = menu.Intro(self,
-                                BLUE,
-                                "Arial",
-                                "intro.png",
-                                WHITE,
-                                SCREEN_WIDTH,
-                                SCREEN_HEIGHT)
+                               BLUE,
+                               "Arial",
+                               "intro.png",
+                               WHITE,
+                               SCREEN_WIDTH,
+                               SCREEN_HEIGHT)
         self.png_names.add("intro.png")
 
     def read_room_file(self, room):
@@ -753,17 +753,15 @@ class Game:
     def game_over(self, coins, playerName):
         """Финальный экран в случае поражения."""
         self.DieScreen = menu.DieScreen(BLUE,
-                                "Arial",
-                                "intro.png",
-                                WHITE,
-                                SCREEN_WIDTH,
-                                SCREEN_HEIGHT,
-                                "game_over.png",
-                                coins,
-                                playerName
-                                )
+                                        "Arial",
+                                        "intro.png",
+                                        WHITE,
+                                        SCREEN_WIDTH,
+                                        SCREEN_HEIGHT,
+                                        "game_over.png",
+                                        coins,
+                                        playerName)
         self.DieScreen.DieMenu.mainloop(self.screen)
-
 
     def intro_screen(self):
         """Начальный экран с приветсвием, правилами и управлением."""
@@ -772,13 +770,12 @@ class Game:
     def win_screen(self, coins, playerName):
         """Финальный экран в случае победы."""
         self.WinScreen = menu.WinScreen(BLUE,
-                                "Arial",
-                                "intro.png",
-                                WHITE,
-                                SCREEN_WIDTH,
-                                SCREEN_HEIGHT,
-                                "win_screen.png",
-                                coins,
-                                playerName
-                                )
+                                        "Arial",
+                                        "intro.png",
+                                        WHITE,
+                                        SCREEN_WIDTH,
+                                        SCREEN_HEIGHT,
+                                        "win_screen.png",
+                                        coins,
+                                        playerName)
         self.WinScreen.WinMenu.mainloop(self.screen)
