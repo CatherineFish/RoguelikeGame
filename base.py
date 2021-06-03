@@ -13,6 +13,7 @@ import menu
 import pygame_menu
 import gettext
 import unittest
+import random
 
 gettext.install("click", ".", names=("ngettext",))
 
@@ -32,6 +33,10 @@ PINK = (221, 160, 221)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (29, 32, 76)
+GREY = (127, 127, 127)
+GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
+RED = (255, 0, 0)
 """
     Объявление глобального размера игрового окна
 """
@@ -66,6 +71,15 @@ PLAYER_SPEED = 3
 animation_count = 0
 animation_count_slime = 0
 animation_count_trap = 0
+"""
+    Количество жизней в зависимости от сложности
+    (по умолчанию 3)
+"""
+MAX_LIFE = 3
+"""
+    Текущее количество жизней
+"""
+lifes = MAX_LIFE
 
 
 class Player(pygame.sprite.Sprite):
@@ -98,6 +112,7 @@ class Player(pygame.sprite.Sprite):
         self.darks = None
         self.doors = None
         self.exits = None
+        self.enemies = None
 
         """Инициализация флагов пермещений между комнатами."""
         self.go_up = False
@@ -107,13 +122,93 @@ class Player(pygame.sprite.Sprite):
 
         """Жив ли персонаж?"""
         self.alive = True
+
         """Выиграл ли персонаж?"""
         self.win = False
 
-        """Инициализация картинки для персонаж."""
+        """Флаг и отслеживания времени для неуязвимости."""
+        self.collision_immune = False
+        self.collision_time = 0
+
+        """Флаг для атак."""
+        self.attacking = False
+        self.attacking_time = 0
+
+        """Инициализация изображений для персонажа."""
         down1 = pygame.transform.scale(pygame.image.load(
             'down1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
-        self.game.png_names.add("down1.png")
+        down2 = pygame.transform.scale(pygame.image.load(
+            'down2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        down3 = pygame.transform.scale(pygame.image.load(
+            'down3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        down4 = pygame.transform.scale(pygame.image.load(
+            'down4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        down5 = pygame.transform.scale(pygame.image.load(
+            'down5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        down6 = pygame.transform.scale(pygame.image.load(
+            'down6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        down7 = pygame.transform.scale(pygame.image.load(
+            'down7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        down8 = pygame.transform.scale(pygame.image.load(
+            'down8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        self.image_down = [down1, down2, down3, down4, down5, down6, down7, down8]
+        up1 = pygame.transform.scale(pygame.image.load(
+            'up1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up2 = pygame.transform.scale(pygame.image.load(
+            'up2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up3 = pygame.transform.scale(pygame.image.load(
+            'up3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up4 = pygame.transform.scale(pygame.image.load(
+            'up4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up5 = pygame.transform.scale(pygame.image.load(
+            'up5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up6 = pygame.transform.scale(pygame.image.load(
+            'up6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up7 = pygame.transform.scale(pygame.image.load(
+            'up7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        up8 = pygame.transform.scale(pygame.image.load(
+            'up8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        self.image_up = [up1, up2, up3, up4, up5, up6, up7, up8]
+        left1 = pygame.transform.scale(pygame.image.load(
+            'left1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left2 = pygame.transform.scale(pygame.image.load(
+            'left2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left3 = pygame.transform.scale(pygame.image.load(
+            'left3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left4 = pygame.transform.scale(pygame.image.load(
+            'left4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left5 = pygame.transform.scale(pygame.image.load(
+            'left5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left6 = pygame.transform.scale(pygame.image.load(
+            'left6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left7 = pygame.transform.scale(pygame.image.load(
+            'left7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        left8 = pygame.transform.scale(pygame.image.load(
+            'left8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        self.image_left = [left1, left2, left3, left4, left5, left6, left7, left8]
+        right1 = pygame.transform.scale(pygame.image.load(
+            'right1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right2 = pygame.transform.scale(pygame.image.load(
+            'right2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right3 = pygame.transform.scale(pygame.image.load(
+            'right3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right4 = pygame.transform.scale(pygame.image.load(
+            'right4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right5 = pygame.transform.scale(pygame.image.load(
+            'right5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right6 = pygame.transform.scale(pygame.image.load(
+            'right6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right7 = pygame.transform.scale(pygame.image.load(
+            'right7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        right8 = pygame.transform.scale(pygame.image.load(
+            'right8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+        self.image_right = [right1, right2, right3, right4, right5, right6, right7, right8]
+        for i in range(8):
+            self.game.png_names.add(f"down{i+1}.png")
+            self.game.png_names.add(f"up{i+1}.png")
+            self.game.png_names.add(f"left{i+1}.png")
+            self.game.png_names.add(f"right{i+1}.png")
+
         self.image = down1
 
         """Инциализация rect для заданной картинки."""
@@ -125,14 +220,53 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
 
+        """Инциализация attackrect для описания атак."""
+        self.attackimage = pygame.image.load("slash.png").convert_alpha()
+        self.game.png_names.add('slash.png')
+        sprite0, sprite1, sprite2, sprite3 = pygame.Surface([TILESIZE, TILESIZE]), pygame.Surface(
+            [TILESIZE, TILESIZE]), pygame.Surface([TILESIZE, TILESIZE]), pygame.Surface([TILESIZE, TILESIZE])
+        sprite0.blit(self.attackimage, (0, 0), (0, 0, TILESIZE, TILESIZE))
+        sprite0.set_colorkey(BLACK)
+        sprite1.blit(self.attackimage, (0, 0), (32, 0, TILESIZE, TILESIZE))
+        sprite1.set_colorkey(BLACK)
+        sprite2.blit(self.attackimage, (0, 0), (64, 0, TILESIZE, TILESIZE))
+        sprite2.set_colorkey(BLACK)
+        sprite3.blit(self.attackimage, (0, 0), (96, 0, TILESIZE, TILESIZE))
+        sprite3.set_colorkey(BLACK)
+        self.attackloop = [sprite0, sprite1, sprite2, sprite3]
+        self.attackrect = self.attackloop[0].get_rect()
+
         """Сolliderect будет совпадать с нашей rect картинкой по середине нижней грани (ногам)."""
         self.collideRect.midbottom = self.rect.midbottom
 
+        """attackrect верхней гранью будет совпадать с нашей rect картинкой по середине нижней грани."""
+        self.attackrect.midtop = self.rect.midbottom
+
     def update(self):
         """Объявления основных механик и их изменение во времени."""
-        """будем изменять глобальную переменную количества собранных монет"""
-
+        """Будем изменять глобальную переменную смены анимаций персонажа."""
+        global animation_count
+        """Будем изменять глобальную переменную количество жизней персонажа."""
+        global lifes
+        """Считывание движений с клавиатуры."""
         self.movement()
+        """Изменение переменной анимицации персонажа, а вместе с ней и изображения"""
+        animation_count += 1
+        if animation_count + 1 >= 24:
+            animation_count = 0
+        if self.x_change != 0 or self.y_change != 0:
+            if self.facing == "right":
+                self.image = self.image_right[animation_count // 8]
+                self.attackrect.midleft = self.rect.midright
+            elif self.facing == "left":
+                self.image = self.image_left[animation_count // 8]
+                self.attackrect.midright = self.rect.midleft
+            elif self.facing == "up":
+                self.image = self.image_up[animation_count // 8]
+                self.attackrect.midbottom = self.rect.midtop
+            else:
+                self.image = self.image_down[animation_count // 8]
+                self.attackrect.midtop = self.rect.midbottom
 
         """Движение по оси x и проверка коллизий со стенами."""
         self.rect.x += self.x_change
@@ -177,6 +311,16 @@ class Player(pygame.sprite.Sprite):
         if self.collideRect.y < 0:
             self.collideRect.y = 0
             self.rect.midbottom = self.collideRect.midbottom
+
+        """Сдвиг attackrect во время движения персонажа."""
+        if self.facing == "right":
+            self.attackrect.midleft = self.rect.midright
+        elif self.facing == "left":
+            self.attackrect.midright = self.rect.midleft
+        elif self.facing == "up":
+            self.attackrect.midbottom = self.rect.midtop
+        else:
+            self.attackrect.midtop = self.rect.midbottom
 
         """Проверка коллизий с дверьми."""
         rect_list = []
@@ -225,13 +369,52 @@ class Player(pygame.sprite.Sprite):
                 [sprite_list[coin_find].x // TILESIZE, sprite_list[coin_find].y // TILESIZE])
             sprite_list[coin_find].kill()
 
-        """Проверка коллизий с монетами."""
+        """Проверка коллизий с ловушками."""
+        rect_list = []
+        sprite_list = []
+        for sprite in self.traps:
+            rect_list.append(sprite.rect)
+            sprite_list.append(sprite)
+        traps_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
+        if not self.collision_immune:
+            for trap_find in traps_hit_list:
+                if sprite_list[trap_find].image == sprite_list[trap_find].image_traps[0]:
+                    lifes -= 1
+                    self.collision_immune = True
+                    self.collision_time = pygame.time.get_ticks()
+                    break
+
+        rect_list = []
+        for sprite in self.enemies:
+            rect_list.append(sprite.rect)
+        enemies_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
+        # if ERROR_LEVEL == 1:
+        #    print("here was:", type(enemies_hit_list), ' ;', len(enemies_hit_list))
+        if not self.collision_immune:
+            if len(enemies_hit_list) > 0:
+                lifes -= 1
+                self.collision_immune = True
+                self.collision_time = pygame.time.get_ticks()
+
+        """Проверка на конец жизней."""
+        if lifes <= 0:
+            self.alive = False
+
+        """Проверка на конец времени неуязвимости."""
+        if pygame.time.get_ticks() - self.collision_time > 3000:    # время в ms.
+            self.collision_immune = False
+
+        """Проверка на конец времени атаки."""
+        if pygame.time.get_ticks() - self.attacking_time > 500:    # время в ms.
+            self.attacking = False
+
+        """Проверка коллизий с темнотой."""
         rect_list = []
         for sprite in self.darks:
             rect_list.append(sprite.rect)
         dark_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
         if len(dark_hit_list) > 0:
-            self.alive = False
+            lifes = 0
 
         """Проверка коллизий с выходом."""
         rect_list = []
@@ -271,6 +454,10 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_s]:
             self.y_change += PLAYER_SPEED
             self.facing = 'down'
+        if keys[pygame.K_SPACE]:
+            if self.attacking is False:
+                self.attacking = True
+                self.attacking_time = pygame.time.get_ticks()
 
 
 class Wall(pygame.sprite.Sprite):
@@ -454,7 +641,7 @@ class Coin(pygame.sprite.Sprite):
         self.width = TILESIZE
         self.height = TILESIZE
 
-        """инициализация картинки длsя монеты."""
+        """инициализация картинки для монеты."""
         self.image = pygame.image.load('loot_gold.png').convert_alpha()
         self.game.png_names.add('loot_gold.png')
 
@@ -473,12 +660,44 @@ class Trap(pygame.sprite.Sprite):
     """
 
     def __init__(self, game, x, y):
-        """Создание класса Ловушк."""
-        pass
+        """Создание класса Ловушка."""
+        self.game = game
+        self._layer = PLAYER_LAYER
+        super().__init__()
+
+        """инициализация координат ловушки."""
+        self.x = x * TILESIZE
+        self.y = y * TILESIZE
+
+        """инициализация размера ловушки."""
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        """инициализация изображений для ловушки."""
+        trap1 = pygame.transform.scale2x(pygame.image.load('trap1.png')).convert_alpha()
+        trap2 = pygame.transform.scale2x(pygame.image.load('trap2.png')).convert_alpha()
+        self.game.png_names.add('trap1.png')
+        self.game.png_names.add('trap2.png')
+
+        """Инциализация rect для заданного изображения."""
+        self.image = trap1
+        self.image_traps = [trap1, trap2]
+
+        """Инциализация rect для заданной картинки."""
+        self.rect = self.image.get_rect()
+
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
-        pass
+        """Будем изменять глобальную переменную смены анимаций ловушки."""
+        global animation_count_trap
+        """Изменение переменной анимицации ловушки, а вместе с ней и изображения"""
+        animation_count_trap += 1
+        if animation_count_trap + 1 >= 2048:
+            animation_count_trap = 0
+        self.image = self.image_traps[animation_count_trap // 1024]
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -490,11 +709,144 @@ class Enemy(pygame.sprite.Sprite):
 
     def __init__(self, game, x, y):
         """Создание класса Враг."""
-        pass
+        self.game = game
+        self._layer = PLAYER_LAYER
+        super().__init__()
+
+        """инициализация координат врага."""
+        self.x = x * TILESIZE
+        self.y = y * TILESIZE
+
+        """инициализация размера врага."""
+        self.width = TILESIZE
+        self.height = TILESIZE
+
+        """инициализация хаотичного движения врага."""
+        self.randdirect = random.randint(0, 1)
+        if self.randdirect:
+            self.start = self.x - TILESIZE * random.randint(1, 3)
+            self.stop = self.x + TILESIZE * random.randint(5, 8)
+            self.x_direction = 1
+            self.y_direction = 0
+        else:
+            self.start = self.y - TILESIZE * random.randint(1, 3)
+            self.stop = self.y + TILESIZE * random.randint(5, 8)
+            self.y_direction = 1
+            self.x_direction = 0
+
+        """инициализация классов стен для врага."""
+        self.walls = None
+        self.facing = 'down'
+
+        """инициализация жизней для врага."""
+        self.lifes = 1
+
+        """инициализация изображений для врага."""
+        slime1 = pygame.image.load('slime1.png').convert_alpha()
+        slime2 = pygame.image.load('slime2.png').convert_alpha()
+        slime3 = pygame.image.load('slime3.png').convert_alpha()
+        slime4 = pygame.image.load('slime4.png').convert_alpha()
+        self.game.png_names.add('slime1.png')
+        self.game.png_names.add('slime2.png')
+        self.game.png_names.add('slime3.png')
+        self.game.png_names.add('slime4.png')
+        self.image_slime = [slime1, slime2, slime3, slime4]
+
+        """Инциализация rect для заданной картинки."""
+        self.image = slime1
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
-        pass
+        """Будем изменять глобальную переменную смены анимаций персонажа."""
+        global animation_count_slime
+
+        """Инициализация скорости врага и направления движения"""
+        if self.randdirect:
+            self.rect.x += self.x_direction * 2
+            block_hit_list = pygame.sprite.spritecollide(self, self.game.player.walls, False)
+            for block in block_hit_list:
+                if self.x_direction > 0:
+                    self.rect.right = block.rect.left
+                    self.x_direction = -1
+                else:
+                    self.rect.left = block.rect.right
+                    self.x_direction = 1
+            dark_hit_list = pygame.sprite.spritecollide(self, self.game.player.darks, False)
+            for block in dark_hit_list:
+                if self.x_direction > 0:
+                    self.rect.right = block.rect.left
+                    self.x_direction = -1
+                else:
+                    self.rect.left = block.rect.right
+                    self.x_direction = 1
+            trap_hit_list = pygame.sprite.spritecollide(self, self.game.player.traps, False)
+            for block in trap_hit_list:
+                if self.x_direction > 0:
+                    self.rect.right = block.rect.left
+                    self.x_direction = -1
+                else:
+                    self.rect.left = block.rect.right
+                    self.x_direction = 1
+
+            if self.rect.x <= self.start:
+                self.rect.x = self.start
+                self.x_direction = 1
+            if self.rect.x >= self.stop:
+                self.rect.x = self.stop
+                self.x_direction = -1
+        else:
+            self.rect.y += self.y_direction * 2
+            block_hit_list = pygame.sprite.spritecollide(self, self.game.player.walls, False)
+            for block in block_hit_list:
+                if self.y_direction > 0:
+                    self.rect.bottom = block.rect.top
+                    self.y_direction = -1
+                else:
+                    self.rect.top = block.rect.bottom
+                    self.y_direction = 1
+            dark_hit_list = pygame.sprite.spritecollide(self, self.game.player.darks, False)
+            for block in dark_hit_list:
+                if self.y_direction > 0:
+                    self.rect.bottom = block.rect.top
+                    self.y_direction = -1
+                else:
+                    self.rect.top = block.rect.bottom
+                    self.y_direction = 1
+            trap_hit_list = pygame.sprite.spritecollide(self, self.game.player.traps, False)
+            for block in trap_hit_list:
+                if self.y_direction > 0:
+                    self.rect.bottom = block.rect.top
+                    self.y_direction = -1
+                else:
+                    self.rect.top = block.rect.bottom
+                    self.y_direction = 1
+
+            if self.rect.y <= self.start:
+                self.rect.y = self.start
+                self.y_direction = 1
+            if self.rect.y >= self.stop:
+                self.rect.y = self.stop
+                self.y_direction = -1
+
+        """Изменение изображения врага."""
+        animation_count_slime += 1
+        if animation_count_slime + 1 >= 512:
+            animation_count_slime = 0
+        # print(animation_count_slime)
+        self.image = self.image_slime[animation_count_slime // 128]
+
+        """Проверка коллизий с атакой персонажа."""
+        if self.game.player.attacking:
+            if pygame.Rect.colliderect(self.rect, self.game.player.attackrect):
+                self.lifes -= 1
+
+        if self.lifes <= 0:
+            self.game.killed_enemies_list.append(
+                [self.x // TILESIZE, self.y // TILESIZE])
+            self.kill()
 
 
 class Game:
@@ -506,6 +858,7 @@ class Game:
         """Создание класса Игра с настройкой размера окна игры."""
         pygame.init()
         self.collected_coins_list = []
+        self.killed_enemies_list = []
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         # self.font = pygame.font.Font('Arial', 32)
@@ -539,7 +892,7 @@ class Game:
                         """если встретилась дверь."""
                         self.doors_coord.append([i, j])
                     elif lines[j][i] == "T":
-                        """если встретилась ловушк."""
+                        """если встретилась ловушка."""
                         self.traps_coord.append([i, j])
                     elif lines[j][i] == " ":
                         """если встретилась темнота."""
@@ -560,16 +913,18 @@ class Game:
                         raise ValueError(f'Такого объекта в комнате {room} не существует.')
             f.close()
 
-    def delete_coins_in_room_file(self, room):
+    def delete_coins_and_enemies_in_room_file(self, room):
         """Функция, удаляющая уже собранные монеты, хранящиеся в файле комнаты"""
         """открываем файл комнаты с координатами."""
         data = None
         with open(room, 'r') as f:
             data = f.read()
             lines = data.splitlines()
-            """для каждой собранной монет заменяем её значение в файле на пол."""
+            """для каждой собранной монеты и убитого врага заменяем её значение в файле на пол."""
             for coin in self.collected_coins_list:
                 lines[coin[1]] = lines[coin[1]][:coin[0]] + "." + lines[coin[1]][coin[0] + 1:]
+            for enemy in self.killed_enemies_list:
+                lines[enemy[1]] = lines[enemy[1]][:enemy[0]] + "." + lines[enemy[1]][enemy[0] + 1:]
             data = "\n".join(lines)
             f.close()
         with open(room, 'w') as f:
@@ -640,6 +995,26 @@ class Game:
             self.all_sprite_list.add(floor)
             self.all_sprite_list.add(coin)
         """
+            Группа спрайтов класса Ловушка
+        """
+        self.traps_list = pygame.sprite.Group()
+        for coord in self.traps_coord:
+            trap = Trap(self, coord[0], coord[1])
+            floor = Floor(self, coord[0], coord[1])
+            self.all_sprite_list.add(floor)
+            self.traps_list.add(trap)
+            self.all_sprite_list.add(trap)
+        """
+            Группа спрайтов класса Враг
+        """
+        self.enemies_list = pygame.sprite.Group()
+        for coord in self.enemies_coord:
+            floor = Floor(self, coord[0], coord[1])
+            enemy = Enemy(self, coord[0], coord[1])
+            self.enemies_list.add(enemy)
+            self.all_sprite_list.add(floor)
+            self.all_sprite_list.add(enemy)
+        """
             Группа спрайтов класса Темнота
         """
         self.darks_list = pygame.sprite.Group()
@@ -693,7 +1068,9 @@ class Game:
         self.player.exits = self.exits_list
         self.player.doors = self.doors_list
         self.player.coins = self.coins_list
+        self.player.traps = self.traps_list
         self.player.darks = self.darks_list
+        self.player.enemies = self.enemies_list
 
     def events(self):
         """Отлавливание событий в Игровом цикле."""
@@ -732,12 +1109,66 @@ class Game:
         if ERROR_LEVEL == 1:
             print("TIME is ", ERROR_TIME, "and win flag is", self.player.win)
         self.all_sprite_list.update()
+        if lifes >= 3 * MAX_LIFE / 4:
+            self.player_life_color = GREEN
+        elif lifes >= MAX_LIFE / 2:
+            self.player_life_color = YELLOW
+        else:
+            self.player_life_color = RED
 
     def draw(self):
         """Прорисовка спрайтов и фона окна в Игровом цикле."""
         self.screen.fill(BLACK)
         self.all_sprite_list.draw(self.screen)
-        # print(self.png_names)
+        """Проверка на конец времени атаки."""
+        if self.player.attacking:
+            if pygame.time.get_ticks() - self.player.attacking_time <= 125:    # время в ms.
+                if self.player.facing == "left":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[0], 90)
+                elif self.player.facing == "down":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[0], 180)
+                elif self.player.facing == "right":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[0], 270)
+                else:
+                    rotated_image = self.player.attackloop[0]
+                self.screen.blit(rotated_image,
+                                 (self.player.attackrect.x, self.player.attackrect.y))
+            elif pygame.time.get_ticks() - self.player.attacking_time <= 250:
+                if self.player.facing == "left":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[1], 90)
+                elif self.player.facing == "down":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[1], 180)
+                elif self.player.facing == "right":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[1], 270)
+                else:
+                    rotated_image = self.player.attackloop[1]
+                self.screen.blit(rotated_image,
+                                 (self.player.attackrect.x, self.player.attackrect.y))
+            elif pygame.time.get_ticks() - self.player.attacking_time <= 375:
+                if self.player.facing == "left":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[2], 90)
+                elif self.player.facing == "down":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[2], 180)
+                elif self.player.facing == "right":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[2], 270)
+                else:
+                    rotated_image = self.player.attackloop[2]
+                self.screen.blit(rotated_image,
+                                 (self.player.attackrect.x, self.player.attackrect.y))
+            else:
+                if self.player.facing == "left":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[3], 90)
+                elif self.player.facing == "down":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[3], 180)
+                elif self.player.facing == "right":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[3], 270)
+                else:
+                    rotated_image = self.player.attackloop[3]
+                self.screen.blit(rotated_image,
+                                 (self.player.attackrect.x, self.player.attackrect.y))
+        pygame.draw.rect(self.screen, GREY, (5, 5, 104, 24), 3)
+        pygame.draw.rect(self.screen, self.player_life_color,
+                         (7, 7, round(lifes * 100 / MAX_LIFE), 20))
         self.clock.tick(FPS)
         """После того как всё нарисовали, отобразим на экране всё сразу."""
         pygame.display.flip()

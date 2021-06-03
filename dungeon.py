@@ -59,7 +59,7 @@ if __name__ == "__main__":
             if g.player.go_down:
                 """Если персонаж вошел в нижнюю дверь, поменяй комнату на нижнюю."""
                 CURRENT_MAP_POSITION[1] += 1
-                g.delete_coins_in_room_file(CURRENT_ROOM)
+                g.delete_coins_and_enemies_in_room_file(CURRENT_ROOM)
                 CURRENT_ROOM = PATH_TO_ROOMS + \
                     map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
                 all_collected_coins += g.collected_coins
@@ -69,7 +69,7 @@ if __name__ == "__main__":
             elif g.player.go_left:
                 """Если персонаж вошел в левую дверь, поменяй комнату на левую."""
                 CURRENT_MAP_POSITION[0] -= 1
-                g.delete_coins_in_room_file(CURRENT_ROOM)
+                g.delete_coins_and_enemies_in_room_file(CURRENT_ROOM)
                 CURRENT_ROOM = PATH_TO_ROOMS + \
                     map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
                 all_collected_coins += g.collected_coins
@@ -79,7 +79,7 @@ if __name__ == "__main__":
             elif g.player.go_right:
                 """Если персонаж вошел в правую дверь, поменяй комнату на правую."""
                 CURRENT_MAP_POSITION[0] += 1
-                g.delete_coins_in_room_file(CURRENT_ROOM)
+                g.delete_coins_and_enemies_in_room_file(CURRENT_ROOM)
                 CURRENT_ROOM = PATH_TO_ROOMS + \
                     map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
                 all_collected_coins += g.collected_coins
@@ -89,7 +89,7 @@ if __name__ == "__main__":
             elif g.player.go_up:
                 """Если персонаж вошел в верхнюю дверь, поменяй комнату на верхнюю."""
                 CURRENT_MAP_POSITION[1] -= 1
-                g.delete_coins_in_room_file(CURRENT_ROOM)
+                g.delete_coins_and_enemies_in_room_file(CURRENT_ROOM)
                 CURRENT_ROOM = PATH_TO_ROOMS + \
                     map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
                 all_collected_coins += g.collected_coins
