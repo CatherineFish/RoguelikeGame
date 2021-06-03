@@ -130,10 +130,12 @@ class Instruction(MyMenu):
                              _('S - down'),
                              _('D - right'),
                              _('A - left'),
+                             _('SPACE - hit the enemy'),
                              _('Collect coins to get more points'),
                              _('Darkness is deadly to you'),
                              _('Traps can hurt you'),
-                             _('GOOG LUCK!'),
+                             _('Enemies can hurt you too? but you can kill them'),
+                             _('GOOD LUCK!'),
                              ]
         for inst in instruction_intro:
             self.InstructionMenu.add.label(inst, align=pygame_menu.locals.ALIGN_CENTER, font_size=25)
