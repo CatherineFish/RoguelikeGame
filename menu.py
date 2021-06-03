@@ -69,7 +69,6 @@ class Intro(MyMenu):
         self.current_name = ''
         self.menu.add.text_input(_('Your name:'), onchange=self.get_name, onreturn=self.get_name)
         self.menu.add.selector(_('Difficulty:'), [(_('Low'), 1), (_('Medium'), 2), (_('High'), 3)], onchange=self.set_difficulty)
-        self.menu.add.selector(_('Сharacter:'), [(_('Name_1'), 1), (_('Name_2'), 2), (_('Name_3'), 3)], onchange=self.set_character)
         self.menu.add.button(_('Play'), lambda: self.start_the_game(game))
         self.menu.add.button(_('Instruction'), self.instruction)
         self.menu.add.button(_('Exit'), pygame_menu.events.EXIT)
@@ -86,14 +85,6 @@ class Intro(MyMenu):
         """Вызов окна-инструкции с его созданием, если нужно."""
         self.MyInstruction.InstructionMenu.mainloop(self.gameScreen)
         self.MyInstruction.InstructionMenu.enable()
-
-    def set_character(self, value, character):
-        """
-        Установка выбранного персонажа.
-
-        :param value: выбранный персонаж
-        """
-        pass
 
     def set_difficulty(self, value, difficulty):
         """
