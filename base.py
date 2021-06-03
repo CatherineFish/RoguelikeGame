@@ -130,6 +130,10 @@ class Player(pygame.sprite.Sprite):
         self.collision_immune = False
         self.collision_time = 0
 
+        """Флаг для атак."""
+        self.attacking = False
+        self.attacking_time = 0
+
         """Инициализация изображений для персонажа."""
         down1 = pygame.transform.scale(pygame.image.load(
             'down1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
@@ -216,8 +220,27 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
 
+        """Инциализация attackrect для описания атак."""
+        self.attackimage = pygame.image.load("slash.png").convert_alpha()
+        self.game.png_names.add('slash.png')
+        sprite0, sprite1, sprite2, sprite3 = pygame.Surface([TILESIZE, TILESIZE]), pygame.Surface(
+            [TILESIZE, TILESIZE]), pygame.Surface([TILESIZE, TILESIZE]), pygame.Surface([TILESIZE, TILESIZE])
+        sprite0.blit(self.attackimage, (0, 0), (0, 0, TILESIZE, TILESIZE))
+        sprite0.set_colorkey(BLACK)
+        sprite1.blit(self.attackimage, (0, 0), (32, 0, TILESIZE, TILESIZE))
+        sprite1.set_colorkey(BLACK)
+        sprite2.blit(self.attackimage, (0, 0), (64, 0, TILESIZE, TILESIZE))
+        sprite2.set_colorkey(BLACK)
+        sprite3.blit(self.attackimage, (0, 0), (96, 0, TILESIZE, TILESIZE))
+        sprite3.set_colorkey(BLACK)
+        self.attackloop = [sprite0, sprite1, sprite2, sprite3]
+        self.attackrect = self.attackloop[0].get_rect()
+
         """Сolliderect будет совпадать с нашей rect картинкой по середине нижней грани (ногам)."""
         self.collideRect.midbottom = self.rect.midbottom
+
+        """attackrect верхней гранью будет совпадать с нашей rect картинкой по середине нижней грани."""
+        self.attackrect.midtop = self.rect.midbottom
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
@@ -234,12 +257,16 @@ class Player(pygame.sprite.Sprite):
         if self.x_change != 0 or self.y_change != 0:
             if self.facing == "right":
                 self.image = self.image_right[animation_count // 8]
+                self.attackrect.midleft = self.rect.midright
             elif self.facing == "left":
                 self.image = self.image_left[animation_count // 8]
+                self.attackrect.midright = self.rect.midleft
             elif self.facing == "up":
                 self.image = self.image_up[animation_count // 8]
+                self.attackrect.midbottom = self.rect.midtop
             else:
                 self.image = self.image_down[animation_count // 8]
+                self.attackrect.midtop = self.rect.midbottom
 
         """Движение по оси x и проверка коллизий со стенами."""
         self.rect.x += self.x_change
@@ -284,6 +311,16 @@ class Player(pygame.sprite.Sprite):
         if self.collideRect.y < 0:
             self.collideRect.y = 0
             self.rect.midbottom = self.collideRect.midbottom
+
+        """Сдвиг attackrect во время движения персонажа."""
+        if self.facing == "right":
+            self.attackrect.midleft = self.rect.midright
+        elif self.facing == "left":
+            self.attackrect.midright = self.rect.midleft
+        elif self.facing == "up":
+            self.attackrect.midbottom = self.rect.midtop
+        else:
+            self.attackrect.midtop = self.rect.midbottom
 
         """Проверка коллизий с дверьми."""
         rect_list = []
@@ -363,9 +400,13 @@ class Player(pygame.sprite.Sprite):
         if lifes <= 0:
             self.alive = False
 
-        """Проверка на конец жизней"""
+        """Проверка на конец времени неуязвимости."""
         if pygame.time.get_ticks() - self.collision_time > 3000:    # время в ms.
             self.collision_immune = False
+
+        """Проверка на конец времени атаки."""
+        if pygame.time.get_ticks() - self.attacking_time > 500:    # время в ms.
+            self.attacking = False
 
         """Проверка коллизий с темнотой."""
         rect_list = []
@@ -413,6 +454,10 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_s]:
             self.y_change += PLAYER_SPEED
             self.facing = 'down'
+        if keys[pygame.K_SPACE]:
+            if self.attacking is False:
+                self.attacking = True
+                self.attacking_time = pygame.time.get_ticks()
 
 
 class Wall(pygame.sprite.Sprite):
@@ -693,6 +738,9 @@ class Enemy(pygame.sprite.Sprite):
         self.walls = None
         self.facing = 'down'
 
+        """инициализация жизней для врага."""
+        self.lifes = 1
+
         """инициализация изображений для врага."""
         slime1 = pygame.image.load('slime1.png').convert_alpha()
         slime2 = pygame.image.load('slime2.png').convert_alpha()
@@ -790,6 +838,16 @@ class Enemy(pygame.sprite.Sprite):
         # print(animation_count_slime)
         self.image = self.image_slime[animation_count_slime // 128]
 
+        """Проверка коллизий с атакой персонажа."""
+        if self.game.player.attacking:
+            if pygame.Rect.colliderect(self.rect, self.game.player.attackrect):
+                self.lifes -= 1
+
+        if self.lifes <= 0:
+            self.game.killed_enemies_list.append(
+                [self.x // TILESIZE, self.y // TILESIZE])
+            self.kill()
+
 
 class Game:
     """Основная игра, реагирующая на различные игровые события."""
@@ -800,6 +858,7 @@ class Game:
         """Создание класса Игра с настройкой размера окна игры."""
         pygame.init()
         self.collected_coins_list = []
+        self.killed_enemies_list = []
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         # self.font = pygame.font.Font('Arial', 32)
@@ -854,16 +913,18 @@ class Game:
                         raise ValueError(f'Такого объекта в комнате {room} не существует.')
             f.close()
 
-    def delete_coins_in_room_file(self, room):
+    def delete_coins_and_enemies_in_room_file(self, room):
         """Функция, удаляющая уже собранные монеты, хранящиеся в файле комнаты"""
         """открываем файл комнаты с координатами."""
         data = None
         with open(room, 'r') as f:
             data = f.read()
             lines = data.splitlines()
-            """для каждой собранной монет заменяем её значение в файле на пол."""
+            """для каждой собранной монеты и убитого врага заменяем её значение в файле на пол."""
             for coin in self.collected_coins_list:
                 lines[coin[1]] = lines[coin[1]][:coin[0]] + "." + lines[coin[1]][coin[0] + 1:]
+            for enemy in self.killed_enemies_list:
+                lines[enemy[1]] = lines[enemy[1]][:enemy[0]] + "." + lines[enemy[1]][enemy[0] + 1:]
             data = "\n".join(lines)
             f.close()
         with open(room, 'w') as f:
@@ -1059,6 +1120,52 @@ class Game:
         """Прорисовка спрайтов и фона окна в Игровом цикле."""
         self.screen.fill(BLACK)
         self.all_sprite_list.draw(self.screen)
+        """Проверка на конец времени атаки."""
+        if self.player.attacking:
+            if pygame.time.get_ticks() - self.player.attacking_time <= 125:    # время в ms.
+                if self.player.facing == "left":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[0], 90)
+                elif self.player.facing == "down":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[0], 180)
+                elif self.player.facing == "right":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[0], 270)
+                else:
+                    rotated_image = self.player.attackloop[0]
+                self.screen.blit(rotated_image,
+                                 (self.player.attackrect.x, self.player.attackrect.y))
+            elif pygame.time.get_ticks() - self.player.attacking_time <= 250:
+                if self.player.facing == "left":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[1], 90)
+                elif self.player.facing == "down":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[1], 180)
+                elif self.player.facing == "right":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[1], 270)
+                else:
+                    rotated_image = self.player.attackloop[1]
+                self.screen.blit(rotated_image,
+                                 (self.player.attackrect.x, self.player.attackrect.y))
+            elif pygame.time.get_ticks() - self.player.attacking_time <= 375:
+                if self.player.facing == "left":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[2], 90)
+                elif self.player.facing == "down":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[2], 180)
+                elif self.player.facing == "right":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[2], 270)
+                else:
+                    rotated_image = self.player.attackloop[2]
+                self.screen.blit(rotated_image,
+                                 (self.player.attackrect.x, self.player.attackrect.y))
+            else:
+                if self.player.facing == "left":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[3], 90)
+                elif self.player.facing == "down":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[3], 180)
+                elif self.player.facing == "right":
+                    rotated_image = pygame.transform.rotate(self.player.attackloop[3], 270)
+                else:
+                    rotated_image = self.player.attackloop[3]
+                self.screen.blit(rotated_image,
+                                 (self.player.attackrect.x, self.player.attackrect.y))
         pygame.draw.rect(self.screen, GREY, (5, 5, 104, 24), 3)
         pygame.draw.rect(self.screen, self.player_life_color,
                          (7, 7, round(lifes * 100 / MAX_LIFE), 20))
