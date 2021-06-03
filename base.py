@@ -11,8 +11,9 @@ import pygame
 import menu
 import gettext
 import random
+import os
 
-gettext.install("click", ".", names=("ngettext",))
+gettext.install("game", os.path.dirname(__file__), names=("ngettext",))
 
 
 """Объявление глобальных переменны."""
