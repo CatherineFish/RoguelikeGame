@@ -844,6 +844,8 @@ class Enemy(pygame.sprite.Sprite):
                 self.lifes -= 1
 
         if self.lifes <= 0:
+            self.game.killed_enemies_list.append(
+                [self.x // TILESIZE, self.y // TILESIZE])
             self.kill()
 
 
@@ -856,6 +858,7 @@ class Game:
         """Создание класса Игра с настройкой размера окна игры."""
         pygame.init()
         self.collected_coins_list = []
+        self.killed_enemies_list = []
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         # self.font = pygame.font.Font('Arial', 32)
@@ -910,16 +913,18 @@ class Game:
                         raise ValueError(f'Такого объекта в комнате {room} не существует.')
             f.close()
 
-    def delete_coins_in_room_file(self, room):
+    def delete_coins_and_enemies_in_room_file(self, room):
         """Функция, удаляющая уже собранные монеты, хранящиеся в файле комнаты"""
         """открываем файл комнаты с координатами."""
         data = None
         with open(room, 'r') as f:
             data = f.read()
             lines = data.splitlines()
-            """для каждой собранной монет заменяем её значение в файле на пол."""
+            """для каждой собранной монеты и убитого врага заменяем её значение в файле на пол."""
             for coin in self.collected_coins_list:
                 lines[coin[1]] = lines[coin[1]][:coin[0]] + "." + lines[coin[1]][coin[0] + 1:]
+            for enemy in self.killed_enemies_list:
+                lines[enemy[1]] = lines[enemy[1]][:enemy[0]] + "." + lines[enemy[1]][enemy[0] + 1:]
             data = "\n".join(lines)
             f.close()
         with open(room, 'w') as f:
