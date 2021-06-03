@@ -14,9 +14,13 @@ class TestBase(unittest.TestCase):
         self.door = Door(self.game, 0, 0)
         self.exit = Exit(self.game, 0, 0)
         self.floor = Floor(self.game, 0, 0)
+        self.dark = Dark(self.game, 0, 0)
+        self.trap = Trap(self.game, 0, 0)
+        self.enemy = Enemy(self.game, 0, 0)
+        self.coin = Coin(self.game, 0, 0)
 
     def test_1_png_names(self):
-        """Проверка на то, все ли файлы *.png используемые для прорисовки скриптов имеются в репозитории"""
+        """Проверка на то, все ли файлы *.png используемые для прорисовки скриптов выбранных классов имеются в репозитории"""
         # print(os.getcwd())
         for name in self.game.png_names:
             self.assertTrue(os.path.exists(name))
