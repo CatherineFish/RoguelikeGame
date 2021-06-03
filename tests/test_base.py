@@ -1,5 +1,4 @@
 import unittest
-import pygame_menu
 from base import Game, SCREEN_WIDTH, SCREEN_HEIGHT
 
 

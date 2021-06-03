@@ -6,8 +6,7 @@ Roguelike 2D-игра
 import pygame
 import sys
 import traceback
-from base import Player, Wall, Door, Exit, Floor, Dark, Coin, Trap, Enemy, Game
-import unittest
+from base import Game
 import os
 import shutil
 

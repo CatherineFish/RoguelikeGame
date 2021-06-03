@@ -8,11 +8,8 @@
 """
 
 import pygame
-import sys
 import menu
-import pygame_menu
 import gettext
-import unittest
 import random
 
 gettext.install("click", ".", names=("ngettext",))

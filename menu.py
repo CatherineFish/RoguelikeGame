@@ -6,10 +6,8 @@
 :copyright: (c) 2021 by Larin Andrey and Chekhonina Ekaterina
 :license: MIT, see COPYING for more details.
 """
-import pygame
 import pygame_menu
 import gettext
-import unittest
 
 gettext.install("click", ".", names=("ngettext",))
 
