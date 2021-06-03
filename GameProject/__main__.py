@@ -30,7 +30,7 @@ all_collected_coins = 0
     Считывание из общей директории карты комнат
 """
 
-with open('map.in', 'r') as f:
+with open('GameProject/RoomsInDungeon/map.in', 'r') as f:
     map = f.read()
     map_list = map.splitlines()
 """
@@ -45,9 +45,9 @@ if __name__ == "__main__":
         g.menu.menu.mainloop(g.screen)
         playerName = g.playerName
         path = os.getcwd()
-        cached_dir = shutil.copytree(str(path + "/rooms_in_dungeon"),
-                                     str(path + "/cached_rooms_in_dungeon"))
-        PATH_TO_ROOMS = "cached_rooms_in_dungeon/"
+        cached_dir = shutil.copytree(str(path + "/GameProject/RoomsInDungeon"),
+                                     str(path + "/GameProject/CachedRoomsInDungeon"))
+        PATH_TO_ROOMS = "GameProject/CachedRoomsInDungeon/"
         CURRENT_ROOM = PATH_TO_ROOMS + \
             map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
         g.new(CURRENT_ROOM)
