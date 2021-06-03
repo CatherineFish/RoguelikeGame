@@ -79,7 +79,7 @@ class Intro(MyMenu):
         self.MyInstruction.InstructionMenu.mainloop(self.gameScreen)
         self.MyInstruction.InstructionMenu.enable()
 
-    def set_character(self, value):
+    def set_character(self, value, character):
         """
         Установка выбранного персонажа.
 
@@ -87,7 +87,7 @@ class Intro(MyMenu):
         """
         pass
 
-    def set_difficulty(self, value):
+    def set_difficulty(self, value, difficulty):
         """
         Установка сложности игры.
 
@@ -95,7 +95,7 @@ class Intro(MyMenu):
         """
         pass
 
-    def start_the_game(self, game):
+    def start_the_game(self, game, **kwargs):
         """
         Запуск игры через выключение привественного окна.
 
