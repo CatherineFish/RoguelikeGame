@@ -158,9 +158,12 @@ class DieScreen(MyMenu):
     :param textColor: цвет текста
     :param width: ширина окна приложения
     :param height: высота окна приложения
+    :param die_image: картинка в случае смерти
+    :param coins: количество собранных монет
+    :param playerName:имя игрока
     """
 
-    def __init__(self, bgColor, font, intro_image, textColor, width, height, die_image, coins, playerName):
+    def __init__(self, bgColor, font, intro_image, textColor, width, height, die_image, coins, playerName="My friend"):
         """Создание экрана смерти со всеми необходимыми кнопками."""
         MyMenu.__init__(self, bgColor, font, intro_image, textColor, width, height)
         self.DieMenu = pygame_menu.Menu(_('GAME OVER!'), width, height, theme=self.myTheme)
@@ -187,9 +190,12 @@ class WinScreen(MyMenu):
     :param textColor: цвет текста
     :param width: ширина окна приложения
     :param height: высота окна приложения
+    :param win_image: картинка в случае победы
+    :param coins: количество собранных монет
+    :param playerName:имя игрока
     """
 
-    def __init__(self, bgColor, font, intro_image, textColor, width, height, win_image, coins, playerName):
+    def __init__(self, bgColor, font, intro_image, textColor, width, height, win_image, coins, playerName="My friend"):
         """Создание экрана победы со всеми необходимыми кнопками."""
         MyMenu.__init__(self, bgColor, font, intro_image, textColor, width, height)
         self.WinMenu = pygame_menu.Menu(_('CONGRATULATION!'), width, height, theme=self.myTheme)
