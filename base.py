@@ -68,15 +68,6 @@ PLAYER_SPEED = 3
 animation_count = 0
 animation_count_slime = 0
 animation_count_trap = 0
-"""
-Количество жизней в зависимости от сложности
-(по умолчанию 3)
-"""
-MAX_LIFE = 3
-"""
-Текущее количество жизней
-"""
-lifes = MAX_LIFE
 
 
 class Player(pygame.sprite.Sprite):
@@ -249,8 +240,6 @@ class Player(pygame.sprite.Sprite):
         """Объявления основных механик и их изменение во времени."""
         """Будем изменять глобальную переменную смены анимаций персонажа."""
         global animation_count
-        """Будем изменять глобальную переменную количество жизней персонажа."""
-        global lifes
         """Считывание движений с клавиатуры."""
         self.movement()
         """Изменение переменной анимицации персонажа, а вместе с ней и изображения"""
@@ -382,7 +371,7 @@ class Player(pygame.sprite.Sprite):
         if not self.collision_immune:
             for trap_find in traps_hit_list:
                 if sprite_list[trap_find].image == sprite_list[trap_find].image_traps[0]:
-                    lifes -= 1
+                    menu.lifes -= 1
                     self.collision_immune = True
                     self.collision_time = pygame.time.get_ticks()
                     break
@@ -395,12 +384,12 @@ class Player(pygame.sprite.Sprite):
         #    print("here was:", type(enemies_hit_list), ' ;', len(enemies_hit_list))
         if not self.collision_immune:
             if len(enemies_hit_list) > 0:
-                lifes -= 1
+                menu.lifes -= 1
                 self.collision_immune = True
                 self.collision_time = pygame.time.get_ticks()
 
         """Проверка на конец жизней."""
-        if lifes <= 0:
+        if menu.lifes <= 0:
             self.alive = False
 
         """Проверка на конец времени неуязвимости."""
@@ -417,7 +406,7 @@ class Player(pygame.sprite.Sprite):
             rect_list.append(sprite.rect)
         dark_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
         if len(dark_hit_list) > 0:
-            lifes = 0
+            menu.lifes = 0
 
         """Проверка коллизий с выходом."""
         rect_list = []
@@ -797,7 +786,6 @@ class Enemy(pygame.sprite.Sprite):
         """Объявления основных механик и их изменение во времени."""
         """Будем изменять глобальную переменную смены анимаций персонажа."""
         global animation_count_slime
-
         """Инициализация скорости врага и направления движения"""
         if self.randdirect:
             self.rect.x += self.x_direction * 2
@@ -1149,9 +1137,9 @@ class Game:
         if ERROR_LEVEL == 1:
             print("TIME is ", ERROR_TIME, "and win flag is", self.player.win)
         self.all_sprite_list.update()
-        if lifes >= 3 * MAX_LIFE / 4:
+        if menu.lifes >= 3 * menu.MAX_LIFE / 4:
             self.player_life_color = GREEN
-        elif lifes >= MAX_LIFE / 2:
+        elif menu.lifes >= menu.MAX_LIFE / 2:
             self.player_life_color = YELLOW
         else:
             self.player_life_color = RED
@@ -1208,7 +1196,7 @@ class Game:
                                  (self.player.attackrect.x, self.player.attackrect.y))
         pygame.draw.rect(self.screen, GREY, (5, 5, 104, 24), 3)
         pygame.draw.rect(self.screen, self.player_life_color,
-                         (7, 7, round(lifes * 100 / MAX_LIFE), 20))
+                         (7, 7, round(menu.lifes * 100 / menu.MAX_LIFE), 20))
         self.clock.tick(FPS)
         """После того как всё нарисовали, отобразим на экране всё сразу."""
         pygame.display.flip()

@@ -8,7 +8,15 @@
 """
 import pygame_menu
 import gettext
-
+"""
+Количество жизней в зависимости от сложности
+(по умолчанию 3)
+"""
+MAX_LIFE = 3
+"""
+Текущее количество жизней
+"""
+lifes = MAX_LIFE
 gettext.install("click", ".", names=("ngettext",))
 
 
@@ -93,7 +101,8 @@ class Intro(MyMenu):
 
         :param value: выбранный уровень сложности
         """
-        pass
+        global MAX_LIFE
+        MAX_LIFE = 5 - difficulty
 
     def start_the_game(self, game, **kwargs):
         """
@@ -102,6 +111,8 @@ class Intro(MyMenu):
         :param game: сама игра для передачи имени игрока
         """
         game.playerName = self.current_name
+        global lifes
+        lifes = MAX_LIFE
         self.menu.disable()
         self.menu.full_reset()
 
