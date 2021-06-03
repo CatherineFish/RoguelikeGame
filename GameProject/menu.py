@@ -135,7 +135,7 @@ class Instruction(MyMenu):
                              _('Collect coins to get more points'),
                              _('Darkness is deadly to you'),
                              _('Traps can hurt you'),
-                             _('Enemies can hurt you too? but you can kill them'),
+                             _('Enemies can hurt you too, but you can kill them'),
                              _('GOOD LUCK!'),
                              ]
         for inst in instruction_intro:
