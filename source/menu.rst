@@ -1,6 +1,6 @@
-Base
+Menu
 ~~~~
 
-.. automodule:: base
+.. automodule:: menu
    :members:
    :private-members:

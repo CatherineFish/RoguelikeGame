@@ -5,6 +5,7 @@
 
 :copyright: (c) 2021 by Larin Andrey and Chekhonina Ekaterina
 :license: MIT, see COPYING for more details.
+
 """
 
 import pygame
