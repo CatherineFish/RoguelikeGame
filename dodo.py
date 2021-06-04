@@ -4,21 +4,21 @@ import glob
 
 
 def task_pot():
-    """Recreate .pot ."""
+    """Пересоздать шаблон .pot ."""
     return {'actions': ['pybabel extract -o game.pot GameProject'],
             'file_dep': glob.glob('GameProject/*.py'),
             'targets': ['game.pot'], }
 
 
 def task_po():
-    """Update translations."""
+    """Обновить перевод."""
     return {'actions': ['pybabel update -D game -d po -i game.pot'],
             'file_dep': ['game.pot'],
             'targets': ['po/ru/LC_MESSAGES/game.po'], }
 
 
 def task_mo():
-    """Compile translations."""
+    """Скомпилировать перевод."""
     return {'actions': [(create_folder,
                         ['GameProject/ru/LC_MESSAGES']),
                         'pybabel compile -D game -l ru -i po/ru/LC_MESSAGES/game.po -d GameProject'],
@@ -27,22 +27,40 @@ def task_mo():
 
 
 def task_test():
-    """Run tests."""
+    """Запустить тесты."""
     return {'actions': ['python -m unittest -v'], }
 
 
 def task_myclean():
-    """Clean all generated files."""
+    """Очистка всех генератов."""
     return {'actions': ['git clean -xdf'], }
 
 
 def task_sdist():
-    """Create source distribution."""
+    """Сборка архива с исходниками."""
     return {'actions': ['python -m build -s'],
             'task_dep': ['myclean'], }
 
 
 def task_wheel():
-    """Create binary wheel distribution."""
+    """Сборка wheel."""
     return {'actions': ['python -m build -w'],
+            'task_dep': ['mo'], }
+
+def task_html():
+    """Создание HTML документации."""
+    return {'actions': ['sphinx-build -M html source build'], }
+
+
+def task_style():
+    """Проверка стиля кода согласно flake8."""
+    return {'actions': ['flake8 GameProject']}
+
+def task_docstyle():
+    """Проверка стиля кода согласно pydocstyle."""
+    return {'actions': ['pydocstyle GameProject']}
+
+def task_app():
+    """Запуск приложения."""
+    return {'actions': ['python -m GameProject'],
             'task_dep': ['mo'], }
