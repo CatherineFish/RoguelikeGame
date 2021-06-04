@@ -8,8 +8,17 @@
 """
 import pygame_menu
 import gettext
-
-gettext.install("click", ".", names=("ngettext",))
+import os
+"""
+Количество жизней в зависимости от сложности
+(по умолчанию 3)
+"""
+MAX_LIFE = 3
+"""
+Текущее количество жизней
+"""
+lifes = MAX_LIFE
+gettext.install("game", os.path.dirname(__file__), names=("ngettext",))
 
 
 class MyMenu:
@@ -58,10 +67,9 @@ class Intro(MyMenu):
         self.gameScreen = game.screen
         self.MyInstruction = Instruction(bgColor, font, intro_image, textColor, width, height)
         self.menu = pygame_menu.Menu(_('WELCOME!'), width, height, theme=self.myTheme)
-        self.current_name = ''
-        self.menu.add.text_input(_('Your name:'), onchange=self.get_name, onreturn=self.get_name)
-        self.menu.add.selector(_('Difficulty:'), [(_('Low'), 1), (_('Medium'), 2), (_('High'), 3)], onchange=self.set_difficulty)
-        self.menu.add.selector(_('Сharacter:'), [(_('Name_1'), 1), (_('Name_2'), 2), (_('Name_3'), 3)], onchange=self.set_character)
+        self.current_name = _("My friend")
+        self.menu.add.text_input(_('Your name: '), onchange=self.get_name, onreturn=self.get_name)
+        self.menu.add.selector(_('Difficulty: '), [(_('Low'), 1), (_('Medium'), 2), (_('High'), 3)], onchange=self.set_difficulty)
         self.menu.add.button(_('Play'), lambda: self.start_the_game(game))
         self.menu.add.button(_('Instruction'), self.instruction)
         self.menu.add.button(_('Exit'), pygame_menu.events.EXIT)
@@ -79,21 +87,14 @@ class Intro(MyMenu):
         self.MyInstruction.InstructionMenu.mainloop(self.gameScreen)
         self.MyInstruction.InstructionMenu.enable()
 
-    def set_character(self, value, character):
-        """
-        Установка выбранного персонажа.
-
-        :param value: выбранный персонаж
-        """
-        pass
-
     def set_difficulty(self, value, difficulty):
         """
         Установка сложности игры.
 
         :param value: выбранный уровень сложности
         """
-        pass
+        global MAX_LIFE
+        MAX_LIFE = 5 - difficulty
 
     def start_the_game(self, game, **kwargs):
         """
@@ -102,6 +103,8 @@ class Intro(MyMenu):
         :param game: сама игра для передачи имени игрока
         """
         game.playerName = self.current_name
+        global lifes
+        lifes = MAX_LIFE
         self.menu.disable()
         self.menu.full_reset()
 
@@ -128,10 +131,12 @@ class Instruction(MyMenu):
                              _('S - down'),
                              _('D - right'),
                              _('A - left'),
+                             _('SPACE - hit the enemy'),
                              _('Collect coins to get more points'),
                              _('Darkness is deadly to you'),
                              _('Traps can hurt you'),
-                             _('GOOG LUCK!'),
+                             _('Enemies can hurt you too, but you can kill them'),
+                             _('GOOD LUCK!'),
                              ]
         for inst in instruction_intro:
             self.InstructionMenu.add.label(inst, align=pygame_menu.locals.ALIGN_CENTER, font_size=25)
@@ -153,16 +158,19 @@ class DieScreen(MyMenu):
     :param textColor: цвет текста
     :param width: ширина окна приложения
     :param height: высота окна приложения
+    :param die_image: картинка в случае смерти
+    :param coins: количество собранных монет
+    :param playerName:имя игрока
     """
 
-    def __init__(self, bgColor, font, intro_image, textColor, width, height, die_image, coins, playerName):
+    def __init__(self, bgColor, font, intro_image, textColor, width, height, die_image, coins, playerName=_("My friend")):
         """Создание экрана смерти со всеми необходимыми кнопками."""
         MyMenu.__init__(self, bgColor, font, intro_image, textColor, width, height)
         self.DieMenu = pygame_menu.Menu(_('GAME OVER!'), width, height, theme=self.myTheme)
         self.image_die = pygame_menu.baseimage.BaseImage(image_path=die_image,
                                                          drawing_mode=pygame_menu.baseimage.IMAGE_MODE_FILL)
         self.DieMenu.add.image(self.image_die, scale_smooth=True, align=pygame_menu.locals.ALIGN_CENTER)
-        die_text = _(f'''{playerName}, you died!\nYou collected {coins} coins''')
+        die_text = ngettext('%s, you died!\nYou collected %d coin', '%s, you died!\nYou collected %d coins', coins) % (playerName, coins)
         self.DieMenu.add.label(die_text, align=pygame_menu.locals.ALIGN_CENTER, font_size=30)
         self.DieMenu.add.button(_('Exit'), self.exit)
 
@@ -182,16 +190,19 @@ class WinScreen(MyMenu):
     :param textColor: цвет текста
     :param width: ширина окна приложения
     :param height: высота окна приложения
+    :param win_image: картинка в случае победы
+    :param coins: количество собранных монет
+    :param playerName:имя игрока
     """
 
-    def __init__(self, bgColor, font, intro_image, textColor, width, height, win_image, coins, playerName):
+    def __init__(self, bgColor, font, intro_image, textColor, width, height, win_image, coins, playerName=_("My friend")):
         """Создание экрана победы со всеми необходимыми кнопками."""
         MyMenu.__init__(self, bgColor, font, intro_image, textColor, width, height)
         self.WinMenu = pygame_menu.Menu(_('CONGRATULATION!'), width, height, theme=self.myTheme)
         self.image_win = pygame_menu.baseimage.BaseImage(image_path=win_image,
                                                          drawing_mode=pygame_menu.baseimage.IMAGE_MODE_FILL)
         self.WinMenu.add.image(self.image_win, scale_smooth=True, align=pygame_menu.locals.ALIGN_CENTER)
-        win_text = _(f'''{playerName}, you win!\nYou collected {coins} coins''')
+        win_text = ngettext('%s, you win!\nYou collected %d coin', '%s, you win!\nYou collected %d coins', coins) % (playerName, coins)
         self.WinMenu.add.label(win_text, align=pygame_menu.locals.ALIGN_CENTER, font_size=30)
         self.WinMenu.add.button(_('Exit'), self.exit)
 

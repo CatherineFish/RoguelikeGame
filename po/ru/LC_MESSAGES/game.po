@@ -1,0 +1,159 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-06-04 14:06+0300\n"
+"PO-Revision-Date: 2021-06-04 13:54+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+#: GameProject/menu.py:69
+msgid "WELCOME!"
+msgstr "ДОБРО ПОЖАЛОВАТЬ!"
+
+#: GameProject/menu.py:70 GameProject/menu.py:166 GameProject/menu.py:198
+msgid "My friend"
+msgstr "Мой друг"
+
+#: GameProject/menu.py:71
+#, fuzzy
+msgid "Your name: "
+msgstr "Твоё имя: "
+
+#: GameProject/menu.py:72
+#, fuzzy
+msgid "Difficulty: "
+msgstr "Сложность: "
+
+#: GameProject/menu.py:72
+msgid "Low"
+msgstr "Низкая"
+
+#: GameProject/menu.py:72
+msgid "Medium"
+msgstr "Средняя"
+
+#: GameProject/menu.py:72
+msgid "High"
+msgstr "Высокая"
+
+#: GameProject/menu.py:73
+msgid "Play"
+msgstr "Играть"
+
+#: GameProject/menu.py:74 GameProject/menu.py:127
+msgid "Instruction"
+msgstr "Инструкция"
+
+#: GameProject/menu.py:75 GameProject/menu.py:175 GameProject/menu.py:207
+msgid "Exit"
+msgstr "Выход"
+
+#: GameProject/menu.py:128
+msgid "Your goal is to find your way out of the dungeon!"
+msgstr "Твоя цель - найти выход из подземелья"
+
+#: GameProject/menu.py:129
+msgid "Control:"
+msgstr "Управление"
+
+#: GameProject/menu.py:130
+msgid "W - up"
+msgstr "W - вверх"
+
+#: GameProject/menu.py:131
+msgid "S - down"
+msgstr "S - вниз"
+
+#: GameProject/menu.py:132
+msgid "D - right"
+msgstr "D - вправо"
+
+#: GameProject/menu.py:133
+msgid "A - left"
+msgstr "A - влево"
+
+#: GameProject/menu.py:134
+msgid "SPACE - hit the enemy"
+msgstr "SPACE - атаковать врага"
+
+#: GameProject/menu.py:135
+msgid "Collect coins to get more points"
+msgstr "Собирай монеты, чтобы получить больше очков"
+
+#: GameProject/menu.py:136
+msgid "Darkness is deadly to you"
+msgstr "Темнота смертельна для тебя"
+
+#: GameProject/menu.py:137
+msgid "Traps can hurt you"
+msgstr "Ловушки могут ранить тебя"
+
+#: GameProject/menu.py:138
+msgid "Enemies can hurt you too, but you can kill them"
+msgstr "Враги тоже могут ранить тебя, но ты можешь убить их"
+
+#: GameProject/menu.py:139
+msgid "GOOD LUCK!"
+msgstr "УДАЧИ!"
+
+#: GameProject/menu.py:144
+msgid "Back"
+msgstr "Назад"
+
+#: GameProject/menu.py:169
+msgid "GAME OVER!"
+msgstr "ИГРА ОКОНЧЕНА!"
+
+#: GameProject/menu.py:173
+#, python-format
+msgid ""
+"%s, you died!\n"
+"You collected %d coin"
+msgid_plural ""
+"%s, you died!\n"
+"You collected %d coins"
+msgstr[0] ""
+"%s, ты умер!\n"
+"Ты собрал %d монету"
+msgstr[1] ""
+"%s, ты умер!\n"
+"Ты собрал %d монеты"
+msgstr[2] ""
+"%s, ты умер!\n"
+"Ты собрал %d монет"
+
+
+#: GameProject/menu.py:201
+msgid "CONGRATULATION!"
+msgstr "ПОЗДРАВЛЯЕМ!"
+
+#: GameProject/menu.py:205
+#, python-format
+msgid ""
+"%s, you win!\n"
+"You collected %d coin"
+msgid_plural ""
+"%s, you win!\n"
+"You collected %d coins"
+msgstr[0] ""
+"%s, ты выиграл!\n"
+"Ты собрал %d монету"
+msgstr[1] ""
+"%s, ты выиграл!\n"
+"Ты собрал %d монеты"
+msgstr[2] ""
+"%s, ты выиграл!\n"
+"Ты собрал %d монет"

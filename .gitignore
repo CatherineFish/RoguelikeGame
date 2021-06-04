@@ -1,4 +1,11 @@
-__pycache__/menu.cpython-39.pyc
-__pycache__/base.cpython-39.pyc
+GameProject/__pycache__
 __pycache__
 tests/__pycache__
+*~
+Pipfile.*
+build
+dist
+*.mo
+.doit*
+*.pot
+*.egg-info

@@ -11,9 +11,10 @@ import pygame
 import menu
 import gettext
 import random
+import os
 
-gettext.install("click", ".", names=("ngettext",))
-
+gettext.install("game", os.path.dirname(__file__), names=("ngettext",))
+dir_path_tileset = "GameProject/Tileset/"
 
 """Объявление глобальных переменны."""
 """
@@ -68,15 +69,6 @@ PLAYER_SPEED = 3
 animation_count = 0
 animation_count_slime = 0
 animation_count_trap = 0
-"""
-Количество жизней в зависимости от сложности
-(по умолчанию 3)
-"""
-MAX_LIFE = 3
-"""
-Текущее количество жизней
-"""
-lifes = MAX_LIFE
 
 
 class Player(pygame.sprite.Sprite):
@@ -139,78 +131,78 @@ class Player(pygame.sprite.Sprite):
 
         """Инициализация изображений для персонажа."""
         down1 = pygame.transform.scale(pygame.image.load(
-            'down1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'down1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         down2 = pygame.transform.scale(pygame.image.load(
-            'down2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'down2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         down3 = pygame.transform.scale(pygame.image.load(
-            'down3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'down3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         down4 = pygame.transform.scale(pygame.image.load(
-            'down4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'down4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         down5 = pygame.transform.scale(pygame.image.load(
-            'down5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'down5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         down6 = pygame.transform.scale(pygame.image.load(
-            'down6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'down6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         down7 = pygame.transform.scale(pygame.image.load(
-            'down7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'down7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         down8 = pygame.transform.scale(pygame.image.load(
-            'down8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'down8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         self.image_down = [down1, down2, down3, down4, down5, down6, down7, down8]
         up1 = pygame.transform.scale(pygame.image.load(
-            'up1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'up1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         up2 = pygame.transform.scale(pygame.image.load(
-            'up2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'up2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         up3 = pygame.transform.scale(pygame.image.load(
-            'up3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'up3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         up4 = pygame.transform.scale(pygame.image.load(
-            'up4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'up4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         up5 = pygame.transform.scale(pygame.image.load(
-            'up5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'up5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         up6 = pygame.transform.scale(pygame.image.load(
-            'up6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'up6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         up7 = pygame.transform.scale(pygame.image.load(
-            'up7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'up7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         up8 = pygame.transform.scale(pygame.image.load(
-            'up8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'up8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         self.image_up = [up1, up2, up3, up4, up5, up6, up7, up8]
         left1 = pygame.transform.scale(pygame.image.load(
-            'left1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'left1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         left2 = pygame.transform.scale(pygame.image.load(
-            'left2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'left2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         left3 = pygame.transform.scale(pygame.image.load(
-            'left3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'left3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         left4 = pygame.transform.scale(pygame.image.load(
-            'left4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'left4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         left5 = pygame.transform.scale(pygame.image.load(
-            'left5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'left5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         left6 = pygame.transform.scale(pygame.image.load(
-            'left6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'left6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         left7 = pygame.transform.scale(pygame.image.load(
-            'left7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'left7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         left8 = pygame.transform.scale(pygame.image.load(
-            'left8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'left8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         self.image_left = [left1, left2, left3, left4, left5, left6, left7, left8]
         right1 = pygame.transform.scale(pygame.image.load(
-            'right1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'right1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         right2 = pygame.transform.scale(pygame.image.load(
-            'right2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'right2.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         right3 = pygame.transform.scale(pygame.image.load(
-            'right3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'right3.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         right4 = pygame.transform.scale(pygame.image.load(
-            'right4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'right4.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         right5 = pygame.transform.scale(pygame.image.load(
-            'right5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'right5.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         right6 = pygame.transform.scale(pygame.image.load(
-            'right6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'right6.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         right7 = pygame.transform.scale(pygame.image.load(
-            'right7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'right7.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         right8 = pygame.transform.scale(pygame.image.load(
-            'right8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
+            dir_path_tileset + 'right8.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         self.image_right = [right1, right2, right3, right4, right5, right6, right7, right8]
         for i in range(8):
-            self.game.png_names.add(f"down{i+1}.png")
-            self.game.png_names.add(f"up{i+1}.png")
-            self.game.png_names.add(f"left{i+1}.png")
-            self.game.png_names.add(f"right{i+1}.png")
+            self.game.png_names.add(dir_path_tileset + f"down{i+1}.png")
+            self.game.png_names.add(dir_path_tileset + f"up{i+1}.png")
+            self.game.png_names.add(dir_path_tileset + f"left{i+1}.png")
+            self.game.png_names.add(dir_path_tileset + f"right{i+1}.png")
 
         self.image = down1
 
@@ -224,8 +216,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = self.y
 
         """Инциализация attackrect для описания атак."""
-        self.attackimage = pygame.image.load("slash.png").convert_alpha()
-        self.game.png_names.add('slash.png')
+        self.attackimage = pygame.image.load(dir_path_tileset + "slash.png").convert_alpha()
+        self.game.png_names.add(dir_path_tileset + 'slash.png')
         sprite0, sprite1, sprite2, sprite3 = pygame.Surface([TILESIZE, TILESIZE]), pygame.Surface(
             [TILESIZE, TILESIZE]), pygame.Surface([TILESIZE, TILESIZE]), pygame.Surface([TILESIZE, TILESIZE])
         sprite0.blit(self.attackimage, (0, 0), (0, 0, TILESIZE, TILESIZE))
@@ -249,8 +241,6 @@ class Player(pygame.sprite.Sprite):
         """Объявления основных механик и их изменение во времени."""
         """Будем изменять глобальную переменную смены анимаций персонажа."""
         global animation_count
-        """Будем изменять глобальную переменную количество жизней персонажа."""
-        global lifes
         """Считывание движений с клавиатуры."""
         self.movement()
         """Изменение переменной анимицации персонажа, а вместе с ней и изображения"""
@@ -382,7 +372,7 @@ class Player(pygame.sprite.Sprite):
         if not self.collision_immune:
             for trap_find in traps_hit_list:
                 if sprite_list[trap_find].image == sprite_list[trap_find].image_traps[0]:
-                    lifes -= 1
+                    menu.lifes -= 1
                     self.collision_immune = True
                     self.collision_time = pygame.time.get_ticks()
                     break
@@ -395,12 +385,12 @@ class Player(pygame.sprite.Sprite):
         #    print("here was:", type(enemies_hit_list), ' ;', len(enemies_hit_list))
         if not self.collision_immune:
             if len(enemies_hit_list) > 0:
-                lifes -= 1
+                menu.lifes -= 1
                 self.collision_immune = True
                 self.collision_time = pygame.time.get_ticks()
 
         """Проверка на конец жизней."""
-        if lifes <= 0:
+        if menu.lifes <= 0:
             self.alive = False
 
         """Проверка на конец времени неуязвимости."""
@@ -417,7 +407,7 @@ class Player(pygame.sprite.Sprite):
             rect_list.append(sprite.rect)
         dark_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
         if len(dark_hit_list) > 0:
-            lifes = 0
+            menu.lifes = 0
 
         """Проверка коллизий с выходом."""
         rect_list = []
@@ -489,8 +479,8 @@ class Wall(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для стены."""
-        self.image = pygame.transform.scale2x(pygame.image.load('white_wall.png').convert())
-        self.game.png_names.add('white_wall.png')
+        self.image = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'white_wall.png').convert())
+        self.game.png_names.add(dir_path_tileset + 'white_wall.png')
 
         """Инциализация rect для заданной картинки."""
         self.rect = self.image.get_rect()
@@ -525,8 +515,8 @@ class Door(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для двери."""
-        self.image = pygame.transform.scale2x(pygame.image.load('white_door.png').convert())
-        self.game.png_names.add('white_door.png')
+        self.image = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'white_door.png').convert())
+        self.game.png_names.add(dir_path_tileset + 'white_door.png')
 
         """Инциализация rect для заданной картинки."""
         self.rect = self.image.get_rect()
@@ -561,8 +551,8 @@ class Exit(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для выхода."""
-        self.image = pygame.transform.scale2x(pygame.image.load('white_exit.png').convert())
-        self.game.png_names.add('white_exit.png')
+        self.image = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'white_exit.png').convert())
+        self.game.png_names.add(dir_path_tileset + 'white_exit.png')
 
         """Инциализация rect для заданной картинки."""
         self.rect = self.image.get_rect()
@@ -597,8 +587,8 @@ class Floor(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для пола."""
-        self.image = pygame.transform.scale2x(pygame.image.load('white_floor.png').convert())
-        self.game.png_names.add('white_floor.png')
+        self.image = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'white_floor.png').convert())
+        self.game.png_names.add(dir_path_tileset + 'white_floor.png')
 
         """Инциализация rect для заданной картинки."""
         self.rect = self.image.get_rect()
@@ -633,8 +623,8 @@ class Dark(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для темноты."""
-        self.image = pygame.transform.scale2x(pygame.image.load('dark.png').convert())
-        self.game.png_names.add('dark.png')
+        self.image = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'dark.png').convert())
+        self.game.png_names.add(dir_path_tileset + 'dark.png')
 
         """Инциализация rect для заданной картинки."""
         self.rect = self.image.get_rect()
@@ -669,8 +659,8 @@ class Coin(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для монеты."""
-        self.image = pygame.image.load('loot_gold.png').convert_alpha()
-        self.game.png_names.add('loot_gold.png')
+        self.image = pygame.image.load(dir_path_tileset + 'loot_gold.png').convert_alpha()
+        self.game.png_names.add(dir_path_tileset + 'loot_gold.png')
 
         """Инциализация rect для заданной картинки."""
         self.rect = self.image.get_rect()
@@ -705,10 +695,10 @@ class Trap(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация изображений для ловушки."""
-        trap1 = pygame.transform.scale2x(pygame.image.load('trap1.png')).convert_alpha()
-        trap2 = pygame.transform.scale2x(pygame.image.load('trap2.png')).convert_alpha()
-        self.game.png_names.add('trap1.png')
-        self.game.png_names.add('trap2.png')
+        trap1 = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'trap1.png')).convert_alpha()
+        trap2 = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'trap2.png')).convert_alpha()
+        self.game.png_names.add(dir_path_tileset + 'trap1.png')
+        self.game.png_names.add(dir_path_tileset + 'trap2.png')
 
         """Инциализация rect для заданного изображения."""
         self.image = trap1
@@ -777,14 +767,14 @@ class Enemy(pygame.sprite.Sprite):
         self.lifes = 1
 
         """инициализация изображений для врага."""
-        slime1 = pygame.image.load('slime1.png').convert_alpha()
-        slime2 = pygame.image.load('slime2.png').convert_alpha()
-        slime3 = pygame.image.load('slime3.png').convert_alpha()
-        slime4 = pygame.image.load('slime4.png').convert_alpha()
-        self.game.png_names.add('slime1.png')
-        self.game.png_names.add('slime2.png')
-        self.game.png_names.add('slime3.png')
-        self.game.png_names.add('slime4.png')
+        slime1 = pygame.image.load(dir_path_tileset + 'slime1.png').convert_alpha()
+        slime2 = pygame.image.load(dir_path_tileset + 'slime2.png').convert_alpha()
+        slime3 = pygame.image.load(dir_path_tileset + 'slime3.png').convert_alpha()
+        slime4 = pygame.image.load(dir_path_tileset + 'slime4.png').convert_alpha()
+        self.game.png_names.add(dir_path_tileset + 'slime1.png')
+        self.game.png_names.add(dir_path_tileset + 'slime2.png')
+        self.game.png_names.add(dir_path_tileset + 'slime3.png')
+        self.game.png_names.add(dir_path_tileset + 'slime4.png')
         self.image_slime = [slime1, slime2, slime3, slime4]
 
         """Инциализация rect для заданной картинки."""
@@ -797,7 +787,6 @@ class Enemy(pygame.sprite.Sprite):
         """Объявления основных механик и их изменение во времени."""
         """Будем изменять глобальную переменную смены анимаций персонажа."""
         global animation_count_slime
-
         """Инициализация скорости врага и направления движения"""
         if self.randdirect:
             self.rect.x += self.x_direction * 2
@@ -907,11 +896,11 @@ class Game:
         self.menu = menu.Intro(self,
                                BLUE,
                                "Arial",
-                               "intro.png",
+                               "GameProject/Screens/intro.png",
                                WHITE,
                                SCREEN_WIDTH,
                                SCREEN_HEIGHT)
-        self.png_names.add("intro.png")
+        self.png_names.add("GameProject/Screens/intro.png")
 
     def read_room_file(self, room):
         """Функция, считывающая все объекты, хранящиеся в файле комнаты."""
@@ -1149,9 +1138,9 @@ class Game:
         if ERROR_LEVEL == 1:
             print("TIME is ", ERROR_TIME, "and win flag is", self.player.win)
         self.all_sprite_list.update()
-        if lifes >= 3 * MAX_LIFE / 4:
+        if menu.lifes >= 3 * menu.MAX_LIFE / 4:
             self.player_life_color = GREEN
-        elif lifes >= MAX_LIFE / 2:
+        elif menu.lifes >= menu.MAX_LIFE / 2:
             self.player_life_color = YELLOW
         else:
             self.player_life_color = RED
@@ -1208,7 +1197,7 @@ class Game:
                                  (self.player.attackrect.x, self.player.attackrect.y))
         pygame.draw.rect(self.screen, GREY, (5, 5, 104, 24), 3)
         pygame.draw.rect(self.screen, self.player_life_color,
-                         (7, 7, round(lifes * 100 / MAX_LIFE), 20))
+                         (7, 7, round(menu.lifes * 100 / menu.MAX_LIFE), 20))
         self.clock.tick(FPS)
         """После того как всё нарисовали, отобразим на экране всё сразу."""
         pygame.display.flip()
@@ -1225,11 +1214,11 @@ class Game:
         """Финальный экран в случае поражения."""
         self.DieScreen = menu.DieScreen(BLUE,
                                         "Arial",
-                                        "intro.png",
+                                        "GameProject/Screens/intro.png",
                                         WHITE,
                                         SCREEN_WIDTH,
                                         SCREEN_HEIGHT,
-                                        "game_over.png",
+                                        "GameProject/Screens/game_over.png",
                                         coins,
                                         playerName)
         self.DieScreen.DieMenu.mainloop(self.screen)
@@ -1242,11 +1231,11 @@ class Game:
         """Финальный экран в случае победы."""
         self.WinScreen = menu.WinScreen(BLUE,
                                         "Arial",
-                                        "intro.png",
+                                        "GameProject/Screens/intro.png",
                                         WHITE,
                                         SCREEN_WIDTH,
                                         SCREEN_HEIGHT,
-                                        "win_screen.png",
+                                        "GameProject/Screens/win_screen.png",
                                         coins,
                                         playerName)
         self.WinScreen.WinMenu.mainloop(self.screen)
