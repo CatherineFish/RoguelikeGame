@@ -1,3 +1,11 @@
 GameProject/__pycache__
 __pycache__
 tests/__pycache__
+*~
+Pipfile.*
+build
+dist
+*.mo
+.doit*
+*.pot
+*.egg-info
