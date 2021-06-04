@@ -67,8 +67,6 @@ PLAYER_SPEED = 3
 для отслеживания спрайтов с анимациями
 """
 animation_count = 0
-animation_count_slime = 0
-animation_count_trap = 0
 
 
 class Player(pygame.sprite.Sprite):
@@ -479,7 +477,8 @@ class Wall(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для стены."""
-        self.image = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'white_wall.png').convert())
+        self.image = pygame.transform.scale2x(pygame.image.load(
+            dir_path_tileset + 'white_wall.png').convert())
         self.game.png_names.add(dir_path_tileset + 'white_wall.png')
 
         """Инциализация rect для заданной картинки."""
@@ -515,7 +514,8 @@ class Door(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для двери."""
-        self.image = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'white_door.png').convert())
+        self.image = pygame.transform.scale2x(pygame.image.load(
+            dir_path_tileset + 'white_door.png').convert())
         self.game.png_names.add(dir_path_tileset + 'white_door.png')
 
         """Инциализация rect для заданной картинки."""
@@ -551,7 +551,8 @@ class Exit(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для выхода."""
-        self.image = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'white_exit.png').convert())
+        self.image = pygame.transform.scale2x(pygame.image.load(
+            dir_path_tileset + 'white_exit.png').convert())
         self.game.png_names.add(dir_path_tileset + 'white_exit.png')
 
         """Инциализация rect для заданной картинки."""
@@ -587,7 +588,8 @@ class Floor(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для пола."""
-        self.image = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'white_floor.png').convert())
+        self.image = pygame.transform.scale2x(pygame.image.load(
+            dir_path_tileset + 'white_floor.png').convert())
         self.game.png_names.add(dir_path_tileset + 'white_floor.png')
 
         """Инциализация rect для заданной картинки."""
@@ -623,7 +625,8 @@ class Dark(pygame.sprite.Sprite):
         self.height = TILESIZE
 
         """инициализация картинки для темноты."""
-        self.image = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'dark.png').convert())
+        self.image = pygame.transform.scale2x(
+            pygame.image.load(dir_path_tileset + 'dark.png').convert())
         self.game.png_names.add(dir_path_tileset + 'dark.png')
 
         """Инциализация rect для заданной картинки."""
@@ -694,9 +697,14 @@ class Trap(pygame.sprite.Sprite):
         self.width = TILESIZE
         self.height = TILESIZE
 
+        """Будем изменять переменную смены анимаций ловушки."""
+        self.animation_count_trap = 0
+
         """инициализация изображений для ловушки."""
-        trap1 = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'trap1.png')).convert_alpha()
-        trap2 = pygame.transform.scale2x(pygame.image.load(dir_path_tileset + 'trap2.png')).convert_alpha()
+        trap1 = pygame.transform.scale2x(pygame.image.load(
+            dir_path_tileset + 'trap1.png')).convert_alpha()
+        trap2 = pygame.transform.scale2x(pygame.image.load(
+            dir_path_tileset + 'trap2.png')).convert_alpha()
         self.game.png_names.add(dir_path_tileset + 'trap1.png')
         self.game.png_names.add(dir_path_tileset + 'trap2.png')
 
@@ -712,13 +720,11 @@ class Trap(pygame.sprite.Sprite):
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
-        """Будем изменять глобальную переменную смены анимаций ловушки."""
-        global animation_count_trap
         """Изменение переменной анимицации ловушки, а вместе с ней и изображения"""
-        animation_count_trap += 1
-        if animation_count_trap + 1 >= 2048:
-            animation_count_trap = 0
-        self.image = self.image_traps[animation_count_trap // 1024]
+        self.animation_count_trap += 1
+        if self.animation_count_trap + 1 >= 180:
+            self.animation_count_trap = 0
+        self.image = self.image_traps[self.animation_count_trap // 90]
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -766,6 +772,9 @@ class Enemy(pygame.sprite.Sprite):
         """инициализация жизней для врага."""
         self.lifes = 1
 
+        """Будем изменять переменную смены анимаций персонажа."""
+        self.animation_count_slime = 0
+
         """инициализация изображений для врага."""
         slime1 = pygame.image.load(dir_path_tileset + 'slime1.png').convert_alpha()
         slime2 = pygame.image.load(dir_path_tileset + 'slime2.png').convert_alpha()
@@ -785,8 +794,6 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
-        """Будем изменять глобальную переменную смены анимаций персонажа."""
-        global animation_count_slime
         """Инициализация скорости врага и направления движения"""
         if self.randdirect:
             self.rect.x += self.x_direction * 2
@@ -856,11 +863,11 @@ class Enemy(pygame.sprite.Sprite):
                 self.y_direction = -1
 
         """Изменение изображения врага."""
-        animation_count_slime += 1
-        if animation_count_slime + 1 >= 512:
-            animation_count_slime = 0
+        self.animation_count_slime += 1
+        if self.animation_count_slime + 1 >= 40:
+            self.animation_count_slime = 0
         # print(animation_count_slime)
-        self.image = self.image_slime[animation_count_slime // 128]
+        self.image = self.image_slime[self.animation_count_slime // 10]
 
         """Проверка коллизий с атакой персонажа."""
         if self.game.player.attacking:
