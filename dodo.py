@@ -1,3 +1,4 @@
+"""Инструмент для атвоматизации."""
 from doit.tools import create_folder
 import glob
 
@@ -39,12 +40,12 @@ def task_test():
         }
 
 
-
 def task_myclean():
     """Clean all generated files."""
     return {
             'actions': ['git clean -xdf'],
            }
+
 
 def task_sdist():
     """Create source distribution."""
@@ -52,6 +53,7 @@ def task_sdist():
             'actions': ['python -m build -s'],
             'task_dep': ['myclean'],
            }
+
 
 def task_wheel():
     """Create binary wheel distribution."""
