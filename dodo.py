@@ -61,3 +61,8 @@ def task_style():
 def task_docstyle():
     """Проверка стиля кода согласно pydocstyle."""
     return {'actions': ['pydocstyle GameProject']}
+
+
+def task_run():
+    """Запуск игры."""
+    return {'actions': ['python3 -m RoguelikeGame/GameProject']}
