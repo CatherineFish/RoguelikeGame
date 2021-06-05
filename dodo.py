@@ -28,7 +28,7 @@ def task_mo():
 
 def task_test():
     """Запустить тесты."""
-    return {'actions': ['python -m unittest -v'], }
+    return {'actions': ['python3 -m unittest -v'], }
 
 
 def task_myclean():
@@ -44,7 +44,7 @@ def task_sdist():
 
 def task_wheel():
     """Сборка wheel."""
-    return {'actions': ['python -m build -w'],
+    return {'actions': ['python3 -m build -w'],
             'task_dep': ['mo'], }
 
 
