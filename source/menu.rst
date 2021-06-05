@@ -1,6 +1,6 @@
 Menu
 ~~~~
 
-.. automodule:: menu
+.. automodule:: __init__
    :members:
    :private-members:

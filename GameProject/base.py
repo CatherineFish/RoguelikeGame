@@ -8,7 +8,7 @@
 """
 
 import pygame
-import menu
+import __init__ as menu
 import gettext
 import random
 import os

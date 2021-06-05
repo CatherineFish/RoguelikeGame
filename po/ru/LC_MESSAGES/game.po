@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-06-04 23:09+0300\n"
+"POT-Creation-Date: 2021-06-05 12:56+0300\n"
 "PO-Revision-Date: 2021-06-04 13:54+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -18,6 +18,130 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
+
+#: GameProject/menu.py:67
+msgid "WELCOME!"
+msgstr ""
+
+#: GameProject/menu.py:68 GameProject/menu.py:164 GameProject/menu.py:196
+msgid "My friend"
+msgstr ""
+
+#: GameProject/menu.py:69
+msgid "Your name: "
+msgstr ""
+
+#: GameProject/menu.py:70
+msgid "Difficulty: "
+msgstr ""
+
+#: GameProject/menu.py:70
+msgid "Low"
+msgstr ""
+
+#: GameProject/menu.py:70
+msgid "Medium"
+msgstr ""
+
+#: GameProject/menu.py:70
+msgid "High"
+msgstr ""
+
+#: GameProject/menu.py:71
+msgid "Play"
+msgstr ""
+
+#: GameProject/menu.py:72 GameProject/menu.py:125
+msgid "Instruction"
+msgstr ""
+
+#: GameProject/menu.py:73 GameProject/menu.py:173 GameProject/menu.py:205
+msgid "Exit"
+msgstr ""
+
+#: GameProject/menu.py:126
+msgid "Your goal is to find your way out of the dungeon!"
+msgstr ""
+
+#: GameProject/menu.py:127
+msgid "Control:"
+msgstr ""
+
+#: GameProject/menu.py:128
+msgid "W - up"
+msgstr ""
+
+#: GameProject/menu.py:129
+msgid "S - down"
+msgstr ""
+
+#: GameProject/menu.py:130
+msgid "D - right"
+msgstr ""
+
+#: GameProject/menu.py:131
+msgid "A - left"
+msgstr ""
+
+#: GameProject/menu.py:132
+msgid "SPACE - hit the enemy"
+msgstr ""
+
+#: GameProject/menu.py:133
+msgid "Collect coins to get more points"
+msgstr ""
+
+#: GameProject/menu.py:134
+msgid "Darkness is deadly to you"
+msgstr ""
+
+#: GameProject/menu.py:135
+msgid "Traps can hurt you"
+msgstr ""
+
+#: GameProject/menu.py:136
+msgid "Enemies can hurt you too, but you can kill them"
+msgstr ""
+
+#: GameProject/menu.py:137
+msgid "GOOD LUCK!"
+msgstr ""
+
+#: GameProject/menu.py:142
+msgid "Back"
+msgstr ""
+
+#: GameProject/menu.py:167
+msgid "GAME OVER!"
+msgstr ""
+
+#: GameProject/menu.py:171
+#, python-format
+msgid ""
+"%s, you died!\n"
+"You collected %d coin"
+msgid_plural ""
+"%s, you died!\n"
+"You collected %d coins"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: GameProject/menu.py:199
+msgid "CONGRATULATION!"
+msgstr ""
+
+#: GameProject/menu.py:203
+#, python-format
+msgid ""
+"%s, you win!\n"
+"You collected %d coin"
+msgid_plural ""
+"%s, you win!\n"
+"You collected %d coins"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #~ msgid "WELCOME!"
 #~ msgstr "ДОБРО ПОЖАЛОВАТЬ!"
