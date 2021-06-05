@@ -1,5 +1,5 @@
 .. RoguelikeGame documentation master file, created by
-   sphinx-quickstart on Fri Jun  4 20:54:01 2021.
+   sphinx-quickstart on Fri Jun  4 23:59:02 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -16,6 +16,7 @@
    :maxdepth: 2
    :caption: Содержание:
 
+   QuickStart
    menu
    base
 

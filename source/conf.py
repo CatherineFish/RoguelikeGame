@@ -18,8 +18,8 @@ sys.path.insert(0, os.path.abspath('../GameProject'))
 # -- Project information -----------------------------------------------------
 
 project = 'RoguelikeGame'
-copyright = '2021, Андрей Ларин и Чехонина Екатерина'
-author = 'Андрей Ларин и Чехонина Екатерина'
+copyright = '2021, Ларин Андрей и Чехонина Екатерина'
+author = 'Ларин Андрей и Чехонина Екатерина'
 
 # The full version, including alpha/beta/rc tags
 release = '0.1'

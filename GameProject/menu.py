@@ -5,7 +5,6 @@
 
 :copyright: (c) 2021 by Larin Andrey and Chekhonina Ekaterina
 :license: MIT, see COPYING for more details.
-
 """
 import pygame_menu
 import gettext
@@ -151,7 +150,7 @@ class Instruction(MyMenu):
 
 class DieScreen(MyMenu):
     """
-    Создание меню при смерти персонажа
+    Создание меню при смерти персонажа.
 
     :param bgColor: цвет фона
     :param font: шрифт текста
@@ -161,7 +160,7 @@ class DieScreen(MyMenu):
     :param height: высота окна приложения
     :param die_image: картинка в случае смерти
     :param coins: количество собранных монет
-    :param playerName: имя игрока
+    :param playerName:имя игрока
     """
 
     def __init__(self, bgColor, font, intro_image, textColor, width, height, die_image, coins, playerName=_("My friend")):
@@ -183,7 +182,7 @@ class DieScreen(MyMenu):
 
 class WinScreen(MyMenu):
     """
-    Создание меню при смерти персонажа
+    Создание меню при победе персонажа.
 
     :param bgColor: цвет фона
     :param font: шрифт текста
@@ -193,7 +192,7 @@ class WinScreen(MyMenu):
     :param height: высота окна приложения
     :param win_image: картинка в случае победы
     :param coins: количество собранных монет
-    :param playerName: имя игрока
+    :param playerName:имя игрока
     """
 
     def __init__(self, bgColor, font, intro_image, textColor, width, height, win_image, coins, playerName=_("My friend")):
