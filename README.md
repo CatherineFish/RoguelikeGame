@@ -8,6 +8,7 @@
 3. [Финальная версия приложения](#paragraph2)
 	1. [Игровая инструкция](#subparagraph21)
 	2. [Разработанный интерфейс игры](#subparagraph22)
+4. [RoguelikeGame Wiki](https://github.com/CatherineFish/RoguelikeGame/wiki)
 
 ## Постановка задачи <a name="introduction"></a>
 Написать Roguelike 2D-игру с лабиринтом из комнат с помощью PyGame.
