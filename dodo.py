@@ -47,6 +47,7 @@ def task_wheel():
     return {'actions': ['python -m build -w'],
             'task_dep': ['mo'], }
 
+
 def task_html():
     """Создание HTML документации."""
     return {'actions': ['sphinx-build -M html source build'], }
@@ -55,6 +56,7 @@ def task_html():
 def task_style():
     """Проверка стиля кода согласно flake8."""
     return {'actions': ['flake8 GameProject']}
+
 
 def task_docstyle():
     """Проверка стиля кода согласно pydocstyle."""

@@ -9,14 +9,12 @@
 import pygame_menu
 import gettext
 import os
-"""
-Количество жизней в зависимости от сложности
-(по умолчанию 3)
-"""
+
+# Количество жизней в зависимости от сложности
+# (по умолчанию 3)
 MAX_LIFE = 3
-"""
-Текущее количество жизней
-"""
+
+# Текущее количество жизней
 lifes = MAX_LIFE
 gettext.install("game", os.path.dirname(__file__), names=("ngettext",))
 
