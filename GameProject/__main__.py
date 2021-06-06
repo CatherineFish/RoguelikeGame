@@ -25,7 +25,7 @@ CURRENT_ROOM = []
 # Объявление глобальной переменной для подсчета монет
 all_collected_coins = 0
 myPath = os.path.abspath(os.path.dirname(sys.argv[0]))
-if myPath[-11:] != "/GameProject":
+if myPath[-12:] != "/GameProject":
     myPath += "/GameProject"
 # Считывание из общей директории карты комнат
 with open(myPath + '/RoomsInDungeon/map.in', 'r') as f:
