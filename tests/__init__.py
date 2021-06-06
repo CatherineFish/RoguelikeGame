@@ -12,12 +12,13 @@ testdir = os.path.dirname(__file__)
 srcdir = '../GameProject'
 sys.path.insert(0, os.path.abspath(os.path.join(testdir, srcdir)))
 from base import Game, PLAYER_LAYER, TILESIZE, FLOOR_LAYER, SCREEN_WIDTH, SCREEN_HEIGHT, Player, Wall, Door, Exit, Floor, Dark, Coin, Trap, Enemy
+sys.path.remove(os.path.abspath(os.path.join(testdir, srcdir)))
 
 
 class TestBase(unittest.TestCase):
     """Инициализация класса для тестирования."""
 
-    mypath = 'GameProject/RoomsInDungeon/'
+    mypath = os.path.abspath(os.path.dirname(sys.argv[0])) + '/GameProject/RoomsInDungeon/'
 
     def setUp(self):
         """Инициализция нужных классов из base.py для последующей проверки."""
@@ -38,7 +39,7 @@ class TestBase(unittest.TestCase):
         rooms_list = [f for f in os.listdir(
             self.mypath) if os.path.isfile(os.path.join(self.mypath, f))]
         for room in rooms_list:
-            if (self.mypath + str(room)) == 'GameProject/RoomsInDungeon/map.in':
+            if (self.mypath + str(room)) == self.mypath + "map.in":
                 continue
             self.game.new(self.mypath + str(room))
             try:
@@ -54,7 +55,7 @@ class TestBase(unittest.TestCase):
         """Проверка на то, корректно ли заданы параметры menu."""
         self.assertEqual(vars(self.game.menu.menu)["_window_size"], (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.assertEqual(vars(vars(vars(self.game.menu.menu)["_theme"])[
-                         "background_color"])["_filepath"], "GameProject/Screens/intro.png")
+                         "background_color"])["_filepath"], self.mypath[:-16] + "/Screens/intro.png")
         self.assertEqual(vars(vars(self.game.menu.menu)["_theme"])[
                          "title_background_color"], (76, 36, 25, 255))
         self.assertEqual(vars(vars(self.game.menu.menu)["_theme"])["widget_padding"], 25)
