@@ -1,0 +1,8 @@
+recursive-include po *.po
+recursive-include tests *
+recursive-include source *
+recursive-include GameProject/RoomsInDungeon *
+recursive-include GameProject/Screens *
+recursive-include GameProject/Tileset *
+include *.png
+include *.md

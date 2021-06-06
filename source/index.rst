@@ -1,20 +1,27 @@
-.. Roguelike Game documentation master file, created by
-   sphinx-quickstart on Wed Apr 14 22:57:24 2021.
+.. RoguelikeGame documentation master file, created by
+   sphinx-quickstart on Fri Jun  4 23:59:02 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Roguelike Game's documentation!
-==========================================
+Добро пожаловать на страницу документации RoguelikeGame!
+========================================================
+
+
+В этой простой игре необходимо найти выход из лабиринта, состоящего из соединенных между собой квадратных/прямоугольных комнат нескольких разных типов.
+Из очередной комнаты игроку доступно от 1 до 4 выходов. В комнате могут встречаться опасные ловушки и враги, смертельная темнота и драгоценные монеты.
+
+.. image:: _static/result.png
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Содержание:
 
+   QuickStart
+   menu
    base
 
-[TODO] Описание
 
-Indices and tables
+Индексы и таблицы
 ==================
 
 * :ref:`genindex`

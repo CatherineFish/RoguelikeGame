@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-06-04 14:06+0300\n"
+"POT-Creation-Date: 2021-06-06 20:09+0300\n"
 "PO-Revision-Date: 2021-06-04 13:54+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,105 +19,105 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: GameProject/menu.py:69
+#: GameProject/__init__.py:67
 msgid "WELCOME!"
 msgstr "ДОБРО ПОЖАЛОВАТЬ!"
 
-#: GameProject/menu.py:70 GameProject/menu.py:166 GameProject/menu.py:198
+#: GameProject/__init__.py:68 GameProject/__init__.py:164
+#: GameProject/__init__.py:196
 msgid "My friend"
 msgstr "Мой друг"
 
-#: GameProject/menu.py:71
-#, fuzzy
+#: GameProject/__init__.py:69
 msgid "Your name: "
 msgstr "Твоё имя: "
 
-#: GameProject/menu.py:72
-#, fuzzy
+#: GameProject/__init__.py:70
 msgid "Difficulty: "
 msgstr "Сложность: "
 
-#: GameProject/menu.py:72
+#: GameProject/__init__.py:70
 msgid "Low"
 msgstr "Низкая"
 
-#: GameProject/menu.py:72
+#: GameProject/__init__.py:70
 msgid "Medium"
 msgstr "Средняя"
 
-#: GameProject/menu.py:72
+#: GameProject/__init__.py:70
 msgid "High"
 msgstr "Высокая"
 
-#: GameProject/menu.py:73
+#: GameProject/__init__.py:71
 msgid "Play"
 msgstr "Играть"
 
-#: GameProject/menu.py:74 GameProject/menu.py:127
+#: GameProject/__init__.py:72 GameProject/__init__.py:125
 msgid "Instruction"
 msgstr "Инструкция"
 
-#: GameProject/menu.py:75 GameProject/menu.py:175 GameProject/menu.py:207
+#: GameProject/__init__.py:73 GameProject/__init__.py:173
+#: GameProject/__init__.py:205
 msgid "Exit"
 msgstr "Выход"
 
-#: GameProject/menu.py:128
+#: GameProject/__init__.py:126
 msgid "Your goal is to find your way out of the dungeon!"
 msgstr "Твоя цель - найти выход из подземелья"
 
-#: GameProject/menu.py:129
+#: GameProject/__init__.py:127
 msgid "Control:"
 msgstr "Управление"
 
-#: GameProject/menu.py:130
+#: GameProject/__init__.py:128
 msgid "W - up"
 msgstr "W - вверх"
 
-#: GameProject/menu.py:131
+#: GameProject/__init__.py:129
 msgid "S - down"
 msgstr "S - вниз"
 
-#: GameProject/menu.py:132
+#: GameProject/__init__.py:130
 msgid "D - right"
 msgstr "D - вправо"
 
-#: GameProject/menu.py:133
+#: GameProject/__init__.py:131
 msgid "A - left"
 msgstr "A - влево"
 
-#: GameProject/menu.py:134
+#: GameProject/__init__.py:132
 msgid "SPACE - hit the enemy"
 msgstr "SPACE - атаковать врага"
 
-#: GameProject/menu.py:135
+#: GameProject/__init__.py:133
 msgid "Collect coins to get more points"
 msgstr "Собирай монеты, чтобы получить больше очков"
 
-#: GameProject/menu.py:136
+#: GameProject/__init__.py:134
 msgid "Darkness is deadly to you"
 msgstr "Темнота смертельна для тебя"
 
-#: GameProject/menu.py:137
+#: GameProject/__init__.py:135
 msgid "Traps can hurt you"
 msgstr "Ловушки могут ранить тебя"
 
-#: GameProject/menu.py:138
+#: GameProject/__init__.py:136
 msgid "Enemies can hurt you too, but you can kill them"
 msgstr "Враги тоже могут ранить тебя, но ты можешь убить их"
 
-#: GameProject/menu.py:139
+#: GameProject/__init__.py:137
 msgid "GOOD LUCK!"
 msgstr "УДАЧИ!"
 
-#: GameProject/menu.py:144
+#: GameProject/__init__.py:142
 msgid "Back"
 msgstr "Назад"
 
-#: GameProject/menu.py:169
+#: GameProject/__init__.py:167
 msgid "GAME OVER!"
 msgstr "ИГРА ОКОНЧЕНА!"
 
-#: GameProject/menu.py:173
+#: GameProject/__init__.py:171
 #, python-format
 msgid ""
 "%s, you died!\n"
@@ -135,12 +135,11 @@ msgstr[2] ""
 "%s, ты умер!\n"
 "Ты собрал %d монет"
 
-
-#: GameProject/menu.py:201
+#: GameProject/__init__.py:199
 msgid "CONGRATULATION!"
 msgstr "ПОЗДРАВЛЯЕМ!"
 
-#: GameProject/menu.py:205
+#: GameProject/__init__.py:203
 #, python-format
 msgid ""
 "%s, you win!\n"
@@ -157,3 +156,4 @@ msgstr[1] ""
 msgstr[2] ""
 "%s, ты выиграл!\n"
 "Ты собрал %d монет"
+

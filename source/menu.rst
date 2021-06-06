@@ -1,6 +1,6 @@
-Base
+Menu
 ~~~~
 
-.. automodule:: base
+.. automodule:: __init__
    :members:
    :private-members:

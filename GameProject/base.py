@@ -8,25 +8,32 @@
 """
 
 import pygame
-import menu
 import gettext
 import random
 import os
+import sys
+import locale
+testdir = os.path.dirname(__file__)
+srcdir = '../GameProject'
+sys.path.insert(0, os.path.abspath(os.path.join(testdir, srcdir)))
+import __init__ as menu
+sys.path.remove(os.path.abspath(os.path.join(testdir, srcdir)))
+
+myPath = os.path.abspath(os.path.dirname(sys.argv[0]))
 
 gettext.install("game", os.path.dirname(__file__), names=("ngettext",))
-dir_path_tileset = "GameProject/Tileset/"
+dir_path_tileset = myPath + "/Tileset/"
 
-"""Объявление глобальных переменны."""
-"""
-Объявление уровня дебага, для отладки ошибок,
-по умолчанию установлен в 0
-(без вывода сообщений об ошибках)
-"""
+# Объявление глобальных переменны.
+
+# Объявление уровня дебага, для отладки ошибок,
+# по умолчанию установлен в 0
+# (без вывода сообщений об ошибках)
+
 ERROR_TIME = 0
 ERROR_LEVEL = 0
-"""
-Объявление глобальных цветов
-"""
+
+# Объявление глобальных цветов
 PINK = (221, 160, 221)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -35,38 +42,32 @@ GREY = (127, 127, 127)
 GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
 RED = (255, 0, 0)
-"""
-Объявление глобального размера игрового окна
-"""
+
+# Объявление глобального размера игрового окна
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 608
-"""
-Объявление глобального размера игровой ячейки (игрового "пикселя")
-"""
+
+# Объявление глобального размера игровой ячейки (игрового "пикселя")
 TILESIZE = 32
-"""
-Объявление глобального размера персонажа игры
-"""
+
+# Объявление глобального размера персонажа игры
 PLAYER_TILESIZE = 30
-"""
-Объявление глобальной кадровой частоты
-"""
+
+# Объявление глобальной кадровой частоты
 FPS = 60
-"""
-Объявление глобальных уровней прорисовки спрайтов
-спрайт игрока выше спрайта пола
-"""
+
+# Объявление глобальных уровней прорисовки спрайтов
+# спрайт игрока выше спрайта пола
 PLAYER_LAYER = 2
 FLOOR_LAYER = 1
-"""
-Объявление глобальных уровней прорисовки спрайтов
-"""
+
+# Объявление глобальных уровней прорисовки спрайтов
 PLAYER_SPEED = 3
-"""
-Объявление глобальных переменных
-для отслеживания спрайтов с анимациями
-"""
+
+# Объявление глобальных переменных
+# для отслеживания спрайтов с анимациями
 animation_count = 0
+
 
 
 class Player(pygame.sprite.Sprite):
@@ -84,21 +85,21 @@ class Player(pygame.sprite.Sprite):
         self._layer = PLAYER_LAYER
         super().__init__()
 
-        """Инициализация координат персонажа."""
+        # Инициализация координат персонажа.
         self.x = x * TILESIZE
         self.y = y * TILESIZE
 
-        """Инициализация размера персонажа."""
+        # Инициализация размера персонажа.
         self.width = TILESIZE
         self.height = TILESIZE
 
-        """Инициализация скорости персонажа."""
+        # Инициализация скорости персонажа.
         self.x_change = 0
         self.y_change = 0
-        """Куда смотрит персонаж в данных момент."""
+        # Куда смотрит персонаж в данных момент.
         self.facing = 'down'
 
-        """Инициализация списков со спрайтами других классов."""
+        # Инициализация списков со спрайтами других классов.
         self.walls = None
         self.coins = None
         self.traps = None
@@ -107,27 +108,27 @@ class Player(pygame.sprite.Sprite):
         self.exits = None
         self.enemies = None
 
-        """Инициализация флагов пермещений между комнатами."""
+        # Инициализация флагов пермещений между комнатами.
         self.go_up = False
         self.go_down = False
         self.go_right = False
         self.go_left = False
 
-        """Жив ли персонаж?"""
+        # Жив ли персонаж?
         self.alive = True
 
-        """Выиграл ли персонаж?"""
+        # Выиграл ли персонаж?
         self.win = False
 
-        """Флаг и отслеживания времени для неуязвимости."""
+        # Флаг и отслеживания времени для неуязвимости.
         self.collision_immune = False
         self.collision_time = 0
 
-        """Флаг для атак."""
+        # Флаг для атак.
         self.attacking = False
         self.attacking_time = 0
 
-        """Инициализация изображений для персонажа."""
+        # Инициализация изображений для персонажа.
         down1 = pygame.transform.scale(pygame.image.load(
             dir_path_tileset + 'down1.png'), (PLAYER_TILESIZE, PLAYER_TILESIZE)).convert_alpha()
         down2 = pygame.transform.scale(pygame.image.load(
@@ -204,16 +205,16 @@ class Player(pygame.sprite.Sprite):
 
         self.image = down1
 
-        """Инциализация rect для заданной картинки."""
+        # Инциализация rect для заданной картинки.
         self.rect = self.image.get_rect()
         self.rect = pygame.rect.Rect((0, 0), (self.width - 12, self.height - 2))
 
-        """Инциализация colliderect для описания коллизий."""
+        # Инциализация colliderect для описания коллизий.
         self.collideRect = pygame.rect.Rect((0, 0), (self.width - 28, 8))
         self.rect.x = self.x
         self.rect.y = self.y
 
-        """Инциализация attackrect для описания атак."""
+        # Инциализация attackrect для описания атак.
         self.attackimage = pygame.image.load(dir_path_tileset + "slash.png").convert_alpha()
         self.game.png_names.add(dir_path_tileset + 'slash.png')
         sprite0, sprite1, sprite2, sprite3 = pygame.Surface([TILESIZE, TILESIZE]), pygame.Surface(
@@ -229,19 +230,19 @@ class Player(pygame.sprite.Sprite):
         self.attackloop = [sprite0, sprite1, sprite2, sprite3]
         self.attackrect = self.attackloop[0].get_rect()
 
-        """Сolliderect будет совпадать с нашей rect картинкой по середине нижней грани (ногам)."""
+        # Сolliderect будет совпадать с нашей rect картинкой по середине нижней грани (ногам).
         self.collideRect.midbottom = self.rect.midbottom
 
-        """attackrect верхней гранью будет совпадать с нашей rect картинкой по середине нижней грани."""
+        # attackrect верхней гранью будет совпадать с нашей rect картинкой по середине нижней грани.
         self.attackrect.midtop = self.rect.midbottom
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
-        """Будем изменять глобальную переменную смены анимаций персонажа."""
+        # Будем изменять глобальную переменную смены анимаций персонажа.
         global animation_count
-        """Считывание движений с клавиатуры."""
+        # Считывание движений с клавиатуры.
         self.movement()
-        """Изменение переменной анимицации персонажа, а вместе с ней и изображения"""
+        # Изменение переменной анимицации персонажа, а вместе с ней и изображения.
         animation_count += 1
         if animation_count + 1 >= 24:
             animation_count = 0
@@ -259,7 +260,7 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.image_down[animation_count // 8]
                 self.attackrect.midtop = self.rect.midbottom
 
-        """Движение по оси x и проверка коллизий со стенами."""
+        # Движение по оси x и проверка коллизий со стенами.
         self.rect.x += self.x_change
         self.collideRect.midbottom = self.rect.midbottom
         rect_list = []
@@ -282,7 +283,7 @@ class Player(pygame.sprite.Sprite):
             self.collideRect.x = 0
             self.rect.midbottom = self.collideRect.midbottom
 
-        """Движение по оси y и проверка коллизий со стенами."""
+        # Движение по оси y и проверка коллизий со стенами.
         self.rect.y += self.y_change
         self.collideRect.midbottom = self.rect.midbottom
         rect_list = []
@@ -303,7 +304,7 @@ class Player(pygame.sprite.Sprite):
             self.collideRect.y = 0
             self.rect.midbottom = self.collideRect.midbottom
 
-        """Сдвиг attackrect во время движения персонажа."""
+        # Сдвиг attackrect во время движения персонажа.
         if self.facing == "right":
             self.attackrect.midleft = self.rect.midright
         elif self.facing == "left":
@@ -313,19 +314,18 @@ class Player(pygame.sprite.Sprite):
         else:
             self.attackrect.midtop = self.rect.midbottom
 
-        """Проверка коллизий с дверьми."""
+        # Проверка коллизий с дверьми.
         rect_list = []
         for sprite in self.doors:
             rect_list.append(sprite.rect)
         doors_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
         for door_find in doors_hit_list:
-            """
-            Определение перехода в следующую комнату:
-            go_down – переход в комнату ниже текущей
-            go_left – переход в комнату левее текущей
-            go_right – переход в комнату правее текущей
-            go_up – переход в комнату выше текущей
-            """
+
+            # Определение перехода в следующую комнату:
+            # go_down – переход в комнату ниже текущей
+            # go_left – переход в комнату левее текущей
+            # go_right – переход в комнату правее текущей
+            # go_up – переход в комнату выше текущей
             if self.facing == 'down':
                 self.go_down = True
                 self.go_left = False
@@ -347,7 +347,7 @@ class Player(pygame.sprite.Sprite):
                 self.go_right = False
                 self.go_up = True
 
-        """Проверка коллизий с монетами."""
+        # Проверка коллизий с монетами.
         rect_list = []
         sprite_list = []
         for sprite in self.coins:
@@ -360,7 +360,7 @@ class Player(pygame.sprite.Sprite):
                 [sprite_list[coin_find].x // TILESIZE, sprite_list[coin_find].y // TILESIZE])
             sprite_list[coin_find].kill()
 
-        """Проверка коллизий с ловушками."""
+        # Проверка коллизий с ловушками.
         rect_list = []
         sprite_list = []
         for sprite in self.traps:
@@ -379,27 +379,27 @@ class Player(pygame.sprite.Sprite):
         for sprite in self.enemies:
             rect_list.append(sprite.rect)
         enemies_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
-        # if ERROR_LEVEL == 1:
-        #    print("here was:", type(enemies_hit_list), ' ;', len(enemies_hit_list))
+        #  if ERROR_LEVEL == 1:
+        #     print("here was:", type(enemies_hit_list), ' ;', len(enemies_hit_list))
         if not self.collision_immune:
             if len(enemies_hit_list) > 0:
                 menu.lifes -= 1
                 self.collision_immune = True
                 self.collision_time = pygame.time.get_ticks()
 
-        """Проверка на конец жизней."""
+        # Проверка на конец жизней.
         if menu.lifes <= 0:
             self.alive = False
 
-        """Проверка на конец времени неуязвимости."""
+        # Проверка на конец времени неуязвимости.
         if pygame.time.get_ticks() - self.collision_time > 3000:    # время в ms.
             self.collision_immune = False
 
-        """Проверка на конец времени атаки."""
+        # Проверка на конец времени атаки.
         if pygame.time.get_ticks() - self.attacking_time > 500:    # время в ms.
             self.attacking = False
 
-        """Проверка коллизий с темнотой."""
+        # Проверка коллизий с темнотой.
         rect_list = []
         for sprite in self.darks:
             rect_list.append(sprite.rect)
@@ -407,12 +407,12 @@ class Player(pygame.sprite.Sprite):
         if len(dark_hit_list) > 0:
             menu.lifes = 0
 
-        """Проверка коллизий с выходом."""
+        # Проверка коллизий с выходом.
         rect_list = []
         for sprite in self.exits:
             rect_list.append(sprite.rect)
         exit_hit_list = pygame.Rect.collidelistall(self.collideRect, rect_list)
-        """Выставление флага победы на True"""
+        # Выставление флага победы на True
         if len(exit_hit_list) > 0:
             self.win = True
 
@@ -468,20 +468,20 @@ class Wall(pygame.sprite.Sprite):
         self._layer = PLAYER_LAYER
         super().__init__()
 
-        """инициализация координат стены."""
+        # инициализация координат стены.
         self.x = x * TILESIZE
         self.y = y * TILESIZE
 
-        """инициализация размера стены."""
+        # инициализация размера стены.
         self.width = TILESIZE
         self.height = TILESIZE
 
-        """инициализация картинки для стены."""
+        # инициализация картинки для стены.
         self.image = pygame.transform.scale2x(pygame.image.load(
             dir_path_tileset + 'white_wall.png').convert())
         self.game.png_names.add(dir_path_tileset + 'white_wall.png')
 
-        """Инциализация rect для заданной картинки."""
+        # Инциализация rect для заданной картинки.
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -505,20 +505,20 @@ class Door(pygame.sprite.Sprite):
         self._layer = PLAYER_LAYER
         super().__init__()
 
-        """инициализация координат двери."""
+        # инициализация координат двери.
         self.x = x * TILESIZE
         self.y = y * TILESIZE
 
-        """инициализация размера двери."""
+        # инициализация размера двери.
         self.width = TILESIZE
         self.height = TILESIZE
 
-        """инициализация картинки для двери."""
+        # инициализация картинки для двери.
         self.image = pygame.transform.scale2x(pygame.image.load(
             dir_path_tileset + 'white_door.png').convert())
         self.game.png_names.add(dir_path_tileset + 'white_door.png')
 
-        """Инциализация rect для заданной картинки."""
+        # Инциализация rect для заданной картинки.
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -542,20 +542,20 @@ class Exit(pygame.sprite.Sprite):
         self._layer = PLAYER_LAYER
         super().__init__()
 
-        """инициализация координат выхода."""
+        # инициализация координат выхода.
         self.x = x * TILESIZE
         self.y = y * TILESIZE
 
-        """инициализация размера выхода."""
+        # инициализация размера выхода.
         self.width = TILESIZE
         self.height = TILESIZE
 
-        """инициализация картинки для выхода."""
+        # инициализация картинки для выхода.
         self.image = pygame.transform.scale2x(pygame.image.load(
             dir_path_tileset + 'white_exit.png').convert())
         self.game.png_names.add(dir_path_tileset + 'white_exit.png')
 
-        """Инциализация rect для заданной картинки."""
+        # Инциализация rect для заданной картинки.
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -579,20 +579,20 @@ class Floor(pygame.sprite.Sprite):
         self._layer = FLOOR_LAYER
         super().__init__()
 
-        """инициализация координат пола."""
+        # инициализация координат пола.
         self.x = x * TILESIZE
         self.y = y * TILESIZE
 
-        """инициализация размера пола."""
+        # инициализация размера пола.
         self.width = TILESIZE
         self.height = TILESIZE
 
-        """инициализация картинки для пола."""
+        # инициализация картинки для пола.
         self.image = pygame.transform.scale2x(pygame.image.load(
             dir_path_tileset + 'white_floor.png').convert())
         self.game.png_names.add(dir_path_tileset + 'white_floor.png')
 
-        """Инциализация rect для заданной картинки."""
+        # Инциализация rect для заданной картинки.
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -616,20 +616,20 @@ class Dark(pygame.sprite.Sprite):
         self._layer = PLAYER_LAYER
         super().__init__()
 
-        """инициализация координат темноты."""
+        # инициализация координат темноты.
         self.x = x * TILESIZE
         self.y = y * TILESIZE
 
-        """инициализация размера темноты."""
+        # инициализация размера темноты.
         self.width = TILESIZE
         self.height = TILESIZE
 
-        """инициализация картинки для темноты."""
+        # инициализация картинки для темноты.
         self.image = pygame.transform.scale2x(
             pygame.image.load(dir_path_tileset + 'dark.png').convert())
         self.game.png_names.add(dir_path_tileset + 'dark.png')
 
-        """Инциализация rect для заданной картинки."""
+        # Инциализация rect для заданной картинки.
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -653,19 +653,19 @@ class Coin(pygame.sprite.Sprite):
         self._layer = PLAYER_LAYER
         super().__init__()
 
-        """инициализация координат монеты."""
+        # инициализация координат монеты.
         self.x = x * TILESIZE
         self.y = y * TILESIZE
 
-        """инициализация размера монеты."""
+        # инициализация размера монеты.
         self.width = TILESIZE
         self.height = TILESIZE
 
-        """инициализация картинки для монеты."""
+        # инициализация картинки для монеты.
         self.image = pygame.image.load(dir_path_tileset + 'loot_gold.png').convert_alpha()
         self.game.png_names.add(dir_path_tileset + 'loot_gold.png')
 
-        """Инциализация rect для заданной картинки."""
+        # Инциализация rect для заданной картинки.
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -689,18 +689,18 @@ class Trap(pygame.sprite.Sprite):
         self._layer = PLAYER_LAYER
         super().__init__()
 
-        """инициализация координат ловушки."""
+        # инициализация координат ловушки.
         self.x = x * TILESIZE
         self.y = y * TILESIZE
 
-        """инициализация размера ловушки."""
+        # инициализация размера ловушки.
         self.width = TILESIZE
         self.height = TILESIZE
 
-        """Будем изменять переменную смены анимаций ловушки."""
+        # Будем изменять переменную смены анимаций ловушки.
         self.animation_count_trap = 0
 
-        """инициализация изображений для ловушки."""
+        # инициализация изображений для ловушки.
         trap1 = pygame.transform.scale2x(pygame.image.load(
             dir_path_tileset + 'trap1.png')).convert_alpha()
         trap2 = pygame.transform.scale2x(pygame.image.load(
@@ -708,11 +708,11 @@ class Trap(pygame.sprite.Sprite):
         self.game.png_names.add(dir_path_tileset + 'trap1.png')
         self.game.png_names.add(dir_path_tileset + 'trap2.png')
 
-        """Инциализация rect для заданного изображения."""
+        # Инциализация rect для заданного изображения.
         self.image = trap1
         self.image_traps = [trap1, trap2]
 
-        """Инциализация rect для заданной картинки."""
+        # Инциализация rect для заданной картинки.
         self.rect = self.image.get_rect()
 
         self.rect.x = self.x
@@ -720,7 +720,7 @@ class Trap(pygame.sprite.Sprite):
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
-        """Изменение переменной анимицации ловушки, а вместе с ней и изображения"""
+        # Изменение переменной анимицации ловушки, а вместе с ней и изображения
         self.animation_count_trap += 1
         if self.animation_count_trap + 1 >= 180:
             self.animation_count_trap = 0
@@ -744,15 +744,15 @@ class Enemy(pygame.sprite.Sprite):
         self._layer = PLAYER_LAYER
         super().__init__()
 
-        """инициализация координат врага."""
+        # инициализация координат врага.
         self.x = x * TILESIZE
         self.y = y * TILESIZE
 
-        """инициализация размера врага."""
+        # инициализация размера врага.
         self.width = TILESIZE
         self.height = TILESIZE
 
-        """инициализация хаотичного движения врага."""
+        # инициализация хаотичного движения врага.
         self.randdirect = random.randint(0, 1)
         if self.randdirect:
             self.start = self.x - TILESIZE * random.randint(1, 3)
@@ -765,17 +765,17 @@ class Enemy(pygame.sprite.Sprite):
             self.y_direction = 1
             self.x_direction = 0
 
-        """инициализация классов стен для врага."""
+        # инициализация классов стен для врага.
         self.walls = None
         self.facing = 'down'
 
-        """инициализация жизней для врага."""
+        # инициализация жизней для врага.
         self.lifes = 1
 
-        """Будем изменять переменную смены анимаций персонажа."""
+        # Будем изменять переменную смены анимаций персонажа.
         self.animation_count_slime = 0
 
-        """инициализация изображений для врага."""
+        # инициализация изображений для врага.
         slime1 = pygame.image.load(dir_path_tileset + 'slime1.png').convert_alpha()
         slime2 = pygame.image.load(dir_path_tileset + 'slime2.png').convert_alpha()
         slime3 = pygame.image.load(dir_path_tileset + 'slime3.png').convert_alpha()
@@ -786,7 +786,7 @@ class Enemy(pygame.sprite.Sprite):
         self.game.png_names.add(dir_path_tileset + 'slime4.png')
         self.image_slime = [slime1, slime2, slime3, slime4]
 
-        """Инциализация rect для заданной картинки."""
+        # Инциализация rect для заданной картинки.
         self.image = slime1
         self.rect = self.image.get_rect()
         self.rect.x = self.x
@@ -794,7 +794,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self):
         """Объявления основных механик и их изменение во времени."""
-        """Инициализация скорости врага и направления движения"""
+        # Инициализация скорости врага и направления движения
         if self.randdirect:
             self.rect.x += self.x_direction * 2
             block_hit_list = pygame.sprite.spritecollide(self, self.game.player.walls, False)
@@ -862,14 +862,14 @@ class Enemy(pygame.sprite.Sprite):
                 self.rect.y = self.stop
                 self.y_direction = -1
 
-        """Изменение изображения врага."""
+        # Изменение изображения врага.
         self.animation_count_slime += 1
         if self.animation_count_slime + 1 >= 40:
             self.animation_count_slime = 0
-        # print(animation_count_slime)
+        #  print(animation_count_slime)
         self.image = self.image_slime[self.animation_count_slime // 10]
 
-        """Проверка коллизий с атакой персонажа."""
+        # Проверка коллизий с атакой персонажа.
         if self.game.player.attacking:
             if pygame.Rect.colliderect(self.rect, self.game.player.attackrect):
                 self.lifes -= 1
@@ -897,66 +897,66 @@ class Game:
         self.killed_enemies_list = []
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
-        # self.font = pygame.font.Font('Arial', 32)
+        #  self.font = pygame.font.Font('Arial', 32)
         self.running = True
         self.playerName = ''
         self.menu = menu.Intro(self,
                                BLUE,
                                "Arial",
-                               "GameProject/Screens/intro.png",
+                               myPath + "/Screens/intro.png",
                                WHITE,
                                SCREEN_WIDTH,
                                SCREEN_HEIGHT)
-        self.png_names.add("GameProject/Screens/intro.png")
+        self.png_names.add(myPath + "/Screens/intro.png")
 
     def read_room_file(self, room):
         """Функция, считывающая все объекты, хранящиеся в файле комнаты."""
-        """открываем файл комнаты с координатам."""
+        # открываем файл комнаты с координатам.
         with open(room, 'r') as f:
             data = f.read()
             lines = data.splitlines()
-            """для каждой считанной координаты ставим в соответсвие объект игры."""
+            # для каждой считанной координаты ставим в соответсвие объект игры.
             for j in range(0, 19):
                 for i in range(0, 25):
                     if lines[j][i] == "#":
-                        """если встретилась стена."""
+                        # если встретилась стена.
                         self.wall_coords.append([i, j])
                     elif lines[j][i] == "m":
-                        """если встретилась монета."""
+                        # если встретилась монета.
                         self.coins_coord.append([i, j])
                     elif lines[j][i] == "x":
-                        """если встретилась дверь."""
+                        # если встретилась дверь.
                         self.doors_coord.append([i, j])
                     elif lines[j][i] == "T":
-                        """если встретилась ловушка."""
+                        # если встретилась ловушка.
                         self.traps_coord.append([i, j])
                     elif lines[j][i] == " ":
-                        """если встретилась темнота."""
+                        # если встретилась темнота.
                         self.darks_coord.append([i, j])
                     elif lines[j][i] == "e":
-                        """если встретился враг."""
+                        # если встретился враг.
                         self.enemies_coord.append([i, j])
                     elif lines[j][i] == "Q":
-                        """если встретился выход."""
+                        # если встретился выход.
                         self.exits_coord.append([i, j])
                     elif lines[j][i] == ".":
-                        """если встретился пол."""
+                        # если встретился пол.
                         self.floors_coord.append([i, j])
                     elif lines[j][i] == "@":
-                        """если встретился персонаж."""
+                        # если встретился персонаж.
                         self.player_coord = [i, j]
                     else:
-                        raise ValueError(f'Такого объекта в комнате {room} не существует.')
+                        raise ValueError(f'Такого объекта в комнате {room} не существует {i}, {j}, {lines[j][i]}.')
             f.close()
 
     def delete_coins_and_enemies_in_room_file(self, room):
         """Функция, удаляющая уже собранные монеты, хранящиеся в файле комнаты."""
-        """открываем файл комнаты с координатами."""
+        # открываем файл комнаты с координатами.
         data = None
         with open(room, 'r') as f:
             data = f.read()
             lines = data.splitlines()
-            """для каждой собранной монеты и убитого врага заменяем её значение в файле на пол."""
+            # для каждой собранной монеты и убитого врага заменяем её значение в файле на пол.
             for coin in self.collected_coins_list:
                 lines[coin[1]] = lines[coin[1]][:coin[0]] + "." + lines[coin[1]][coin[0] + 1:]
             for enemy in self.killed_enemies_list:
@@ -970,7 +970,7 @@ class Game:
     def new(self, room, spawn_door="default"):
         """Начало новой игры с созданием всех спрайтов."""
         self.playing = True
-        """обьявление массивов для запоминания координат каждого из объектов."""
+        # обьявление массивов для запоминания координат каждого из объектов.
         self.wall_coords = []
         self.doors_coord = []
         self.coins_coord = []
@@ -980,49 +980,42 @@ class Game:
         self.exits_coord = []
         self.floors_coord = []
 
-        """вызываем функцию, считывающую все объекты, хранящиеся в файле комнаты"""
+        # вызываем функцию, считывающую все объекты, хранящиеся в файле комнаты
         self.read_room_file(room)
 
-        """
-            для каждого массива зададим группу спрайтов,
-            в которой будут хранится объекты определенного класса
-        """
+        # для каждого массива зададим группу спрайтов,
+        # в которой будут хранится объекты определенного класса
         self.all_sprite_list = pygame.sprite.Group()
-        """
-            Группа спрайтов класса Стена
-        """
+
+        # Группа спрайтов класса Стена
         self.wall_list = pygame.sprite.Group()
         for coord in self.wall_coords:
             wall = Wall(self, coord[0], coord[1])
             self.wall_list.add(wall)
             self.all_sprite_list.add(wall)
-        """
-            Группа спрайтов класса Дверь
-        """
+
+        # Группа спрайтов класса Дверь
         self.doors_list = pygame.sprite.Group()
         for coord in self.doors_coord:
             door = Door(self, coord[0], coord[1])
             self.doors_list.add(door)
             self.all_sprite_list.add(door)
-        """
-            Группа спрайтов класса Пол
-        """
+
+        # Группа спрайтов класса Пол
         self.floors_list = pygame.sprite.Group()
         for coord in self.floors_coord:
             floor = Floor(self, coord[0], coord[1])
             self.floors_list.add(floor)
             self.all_sprite_list.add(floor)
-        """
-            Группа спрайтов класса Выход
-        """
+
+        # Группа спрайтов класса Выход
         self.exits_list = pygame.sprite.Group()
         for coord in self.exits_coord:
             exit = Exit(self, coord[0], coord[1])
             self.exits_list.add(exit)
             self.all_sprite_list.add(exit)
-        """
-            Группа спрайтов класса Монета
-        """
+
+        # Группа спрайтов класса Монета
         self.coins_list = pygame.sprite.Group()
         for coord in self.coins_coord:
             coin = Coin(self, coord[0], coord[1])
@@ -1030,9 +1023,8 @@ class Game:
             floor = Floor(self, coord[0], coord[1])
             self.all_sprite_list.add(floor)
             self.all_sprite_list.add(coin)
-        """
-            Группа спрайтов класса Ловушка
-        """
+
+        # Группа спрайтов класса Ловушка
         self.traps_list = pygame.sprite.Group()
         for coord in self.traps_coord:
             trap = Trap(self, coord[0], coord[1])
@@ -1040,9 +1032,8 @@ class Game:
             self.all_sprite_list.add(floor)
             self.traps_list.add(trap)
             self.all_sprite_list.add(trap)
-        """
-            Группа спрайтов класса Враг
-        """
+
+        # Группа спрайтов класса Враг
         self.enemies_list = pygame.sprite.Group()
         for coord in self.enemies_coord:
             floor = Floor(self, coord[0], coord[1])
@@ -1050,17 +1041,15 @@ class Game:
             self.enemies_list.add(enemy)
             self.all_sprite_list.add(floor)
             self.all_sprite_list.add(enemy)
-        """
-            Группа спрайтов класса Темнота
-        """
+
+        # Группа спрайтов класса Темнота
         self.darks_list = pygame.sprite.Group()
         for coord in self.darks_coord:
             dark = Dark(self, coord[0], coord[1])
             self.darks_list.add(dark)
             self.all_sprite_list.add(dark)
-        """
-            Спрайт класса Персонаж
-        """
+
+        # Спрайт класса Персонаж
         if spawn_door == "left_door":
             left_door_x = self.doors_coord[0][0]
             left_door_y = self.doors_coord[0][1]
@@ -1099,7 +1088,7 @@ class Game:
         self.all_sprite_list.add(floor)
         self.all_sprite_list.add(self.player)
 
-        """Передача всех спрайтов разных классов в класс Персонаж."""
+        # Передача всех спрайтов разных классов в класс Персонаж.
         self.player.walls = self.wall_list
         self.player.exits = self.exits_list
         self.player.doors = self.doors_list
@@ -1111,22 +1100,19 @@ class Game:
     def events(self):
         """Отлавливание событий в Игровом цикле."""
         for event in pygame.event.get():
-            """
-                Проверка на завершение (выключение) игры.
-            """
+
+            # Проверка на завершение (выключение) игры.
             if event.type is pygame.QUIT:
                 self.playing = False
                 self.running = False
-            """
-                Проверка на погиб ли игрок.
-            """
+
+            # Проверка на погиб ли игрок.
             if not self.player.alive:
                 self.playing = False
                 if ERROR_LEVEL == 1:
                     print("changed playing on False because alive is False")
-            """
-                Проверка на переход в новую комнату.
-            """
+
+            # Проверка на переход в новую комнату.
             if self.player.go_down:
                 self.playing = False
             if self.player.go_left:
@@ -1156,7 +1142,7 @@ class Game:
         """Прорисовка спрайтов и фона окна в Игровом цикле."""
         self.screen.fill(BLACK)
         self.all_sprite_list.draw(self.screen)
-        """Проверка на конец времени атаки."""
+        # Проверка на конец времени атаки.
         if self.player.attacking:
             if pygame.time.get_ticks() - self.player.attacking_time <= 125:    # время в ms.
                 if self.player.facing == "left":
@@ -1206,7 +1192,7 @@ class Game:
         pygame.draw.rect(self.screen, self.player_life_color,
                          (7, 7, round(menu.lifes * 100 / menu.MAX_LIFE), 20))
         self.clock.tick(FPS)
-        """После того как всё нарисовали, отобразим на экране всё сразу."""
+        # После того как всё нарисовали, отобразим на экране всё сразу.
         pygame.display.flip()
 
     def main(self):
@@ -1221,11 +1207,11 @@ class Game:
         """Финальный экран в случае поражения."""
         self.DieScreen = menu.DieScreen(BLUE,
                                         "Arial",
-                                        "GameProject/Screens/intro.png",
+                                        myPath + "/Screens/intro.png",
                                         WHITE,
                                         SCREEN_WIDTH,
                                         SCREEN_HEIGHT,
-                                        "GameProject/Screens/game_over.png",
+                                        myPath + "/Screens/game_over.png",
                                         coins,
                                         playerName)
         self.DieScreen.DieMenu.mainloop(self.screen)
@@ -1238,11 +1224,11 @@ class Game:
         """Финальный экран в случае победы."""
         self.WinScreen = menu.WinScreen(BLUE,
                                         "Arial",
-                                        "GameProject/Screens/intro.png",
+                                        myPath + "/Screens/intro.png",
                                         WHITE,
                                         SCREEN_WIDTH,
                                         SCREEN_HEIGHT,
-                                        "GameProject/Screens/win_screen.png",
+                                        myPath + "/Screens/win_screen.png",
                                         coins,
                                         playerName)
         self.WinScreen.WinMenu.mainloop(self.screen)

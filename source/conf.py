@@ -12,17 +12,17 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../GameProject'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'Roguelike Game'
-copyright = '2021, Larin Andrey and Chekhonina Ekaterina'
-author = 'Larin Andrey and Chekhonina Ekaterina'
+project = 'RoguelikeGame'
+copyright = '2021, Ларин Андрей и Чехонина Екатерина'
+author = 'Ларин Андрей и Чехонина Екатерина'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0'
+release = '0.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -54,7 +54,7 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'classic'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
