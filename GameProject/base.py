@@ -20,10 +20,10 @@ import __init__ as menu
 sys.path.remove(os.path.abspath(os.path.join(testdir, srcdir)))
 
 myPath = os.path.abspath(os.path.dirname(sys.argv[0]))
-
+if myPath[-12:] != "/GameProject":
+    myPath += "/GameProject"
 gettext.install("game", os.path.dirname(__file__), names=("ngettext",))
 dir_path_tileset = myPath + "/Tileset/"
-
 # Объявление глобальных переменны.
 
 # Объявление уровня дебага, для отладки ошибок,
