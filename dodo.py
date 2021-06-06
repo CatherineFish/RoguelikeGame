@@ -63,6 +63,6 @@ def task_docstyle():
     return {'actions': ['pydocstyle GameProject']}
 
 
-def task_run():
+def task_app():
     """Запуск игры."""
     return {'actions': ['python3 -m RoguelikeGame/GameProject']}

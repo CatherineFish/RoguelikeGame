@@ -8,13 +8,19 @@
 """
 
 import pygame
-import __init__ as menu
 import gettext
 import random
 import os
+import sys
+testdir = os.path.dirname(__file__)
+srcdir = '../GameProject'
+sys.path.insert(0, os.path.abspath(os.path.join(testdir, srcdir)))
+import __init__ as menu
+sys.path.remove(os.path.abspath(os.path.join(testdir, srcdir)))
+
 
 gettext.install("game", os.path.dirname(__file__), names=("ngettext",))
-dir_path_tileset = "GameProject/Tileset/"
+dir_path_tileset = os.path.abspath(os.path.dirname(sys.argv[0])) + "/Tileset/"
 
 # Объявление глобальных переменны.
 
@@ -894,11 +900,11 @@ class Game:
         self.menu = menu.Intro(self,
                                BLUE,
                                "Arial",
-                               "GameProject/Screens/intro.png",
+                               os.path.abspath(os.path.dirname(sys.argv[0])) + "/Screens/intro.png",
                                WHITE,
                                SCREEN_WIDTH,
                                SCREEN_HEIGHT)
-        self.png_names.add("GameProject/Screens/intro.png")
+        self.png_names.add(os.path.abspath(os.path.dirname(sys.argv[0])) + "/Screens/intro.png")
 
     def read_room_file(self, room):
         """Функция, считывающая все объекты, хранящиеся в файле комнаты."""
@@ -909,7 +915,7 @@ class Game:
             # для каждой считанной координаты ставим в соответсвие объект игры.
             for j in range(0, 19):
                 for i in range(0, 25):
-                    if lines[j][i] == "# ":
+                    if lines[j][i] == "#":
                         # если встретилась стена.
                         self.wall_coords.append([i, j])
                     elif lines[j][i] == "m":
@@ -937,7 +943,7 @@ class Game:
                         # если встретился персонаж.
                         self.player_coord = [i, j]
                     else:
-                        raise ValueError(f'Такого объекта в комнате {room} не существует.')
+                        raise ValueError(f'Такого объекта в комнате {room} не существует {i}, {j}, {lines[j][i]}.')
             f.close()
 
     def delete_coins_and_enemies_in_room_file(self, room):
@@ -1198,11 +1204,11 @@ class Game:
         """Финальный экран в случае поражения."""
         self.DieScreen = menu.DieScreen(BLUE,
                                         "Arial",
-                                        "GameProject/Screens/intro.png",
+                                        os.path.abspath(os.path.dirname(sys.argv[0])) + "/Screens/intro.png",
                                         WHITE,
                                         SCREEN_WIDTH,
                                         SCREEN_HEIGHT,
-                                        "GameProject/Screens/game_over.png",
+                                        os.path.abspath(os.path.dirname(sys.argv[0])) + "/Screens/game_over.png",
                                         coins,
                                         playerName)
         self.DieScreen.DieMenu.mainloop(self.screen)
@@ -1215,11 +1221,11 @@ class Game:
         """Финальный экран в случае победы."""
         self.WinScreen = menu.WinScreen(BLUE,
                                         "Arial",
-                                        "GameProject/Screens/intro.png",
+                                        os.path.abspath(os.path.dirname(sys.argv[0])) + "/Screens/intro.png",
                                         WHITE,
                                         SCREEN_WIDTH,
                                         SCREEN_HEIGHT,
-                                        "GameProject/Screens/win_screen.png",
+                                        os.path.abspath(os.path.dirname(sys.argv[0])) + "/Screens/win_screen.png",
                                         coins,
                                         playerName)
         self.WinScreen.WinMenu.mainloop(self.screen)

@@ -3,15 +3,16 @@
 
 Roguelike 2D-игра
 """
+import os
 import pygame
 import sys
 import traceback
-from base import Game
-import os
 import shutil
-
-#  import time
-
+testdir = os.path.dirname(__file__)
+srcdir = '../GameProject'
+sys.path.insert(0, os.path.abspath(os.path.join(testdir, srcdir)))
+from base import Game
+sys.path.remove(os.path.abspath(os.path.join(testdir, srcdir)))
 
 # Объявление карты игры
 map_list = []
@@ -24,7 +25,7 @@ CURRENT_ROOM = []
 all_collected_coins = 0
 
 # Считывание из общей директории карты комнат
-with open('GameProject/RoomsInDungeon/map.in', 'r') as f:
+with open(os.path.abspath(os.path.dirname(sys.argv[0])) + '/RoomsInDungeon/map.in', 'r') as f:
     map = f.read()
     map_list = map.splitlines()
 
@@ -36,9 +37,9 @@ if __name__ == "__main__":
         g.menu.menu.mainloop(g.screen)
         playerName = g.playerName
         path = os.getcwd()
-        cached_dir = shutil.copytree(str(path + "/GameProject/RoomsInDungeon"),
-                                     str(path + "/GameProject/CachedRoomsInDungeon"))
-        PATH_TO_ROOMS = "GameProject/CachedRoomsInDungeon/"
+        cached_dir = shutil.copytree(str(os.path.abspath(os.path.dirname(sys.argv[0])) + "/RoomsInDungeon"),
+                                     str(os.path.abspath(os.path.dirname(sys.argv[0])) + "/CachedRoomsInDungeon"))
+        PATH_TO_ROOMS = os.path.abspath(os.path.dirname(sys.argv[0])) + "/CachedRoomsInDungeon/"
         CURRENT_ROOM = PATH_TO_ROOMS + \
             map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
         g.new(CURRENT_ROOM)
