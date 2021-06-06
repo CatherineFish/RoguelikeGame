@@ -8,6 +8,7 @@ import pygame
 import sys
 import traceback
 import shutil
+import locale
 testdir = os.path.dirname(__file__)
 srcdir = '../GameProject'
 sys.path.insert(0, os.path.abspath(os.path.join(testdir, srcdir)))
@@ -23,9 +24,10 @@ CURRENT_ROOM = []
 
 # Объявление глобальной переменной для подсчета монет
 all_collected_coins = 0
+myPath = os.path.abspath(os.path.dirname(sys.argv[0]))
 
 # Считывание из общей директории карты комнат
-with open(os.path.abspath(os.path.dirname(sys.argv[0])) + '/RoomsInDungeon/map.in', 'r') as f:
+with open(myPath + '/RoomsInDungeon/map.in', 'r') as f:
     map = f.read()
     map_list = map.splitlines()
 
@@ -37,9 +39,9 @@ if __name__ == "__main__":
         g.menu.menu.mainloop(g.screen)
         playerName = g.playerName
         path = os.getcwd()
-        cached_dir = shutil.copytree(str(os.path.abspath(os.path.dirname(sys.argv[0])) + "/RoomsInDungeon"),
-                                     str(os.path.abspath(os.path.dirname(sys.argv[0])) + "/CachedRoomsInDungeon"))
-        PATH_TO_ROOMS = os.path.abspath(os.path.dirname(sys.argv[0])) + "/CachedRoomsInDungeon/"
+        cached_dir = shutil.copytree(str(myPath + "/RoomsInDungeon"),
+                                     str(myPath + "/CachedRoomsInDungeon"))
+        PATH_TO_ROOMS = myPath + "/CachedRoomsInDungeon/"
         CURRENT_ROOM = PATH_TO_ROOMS + \
             map_list[CURRENT_MAP_POSITION[1]][CURRENT_MAP_POSITION[0]] + '.in'
         g.new(CURRENT_ROOM)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-06-06 19:29+0300\n"
+"POT-Creation-Date: 2021-06-06 20:09+0300\n"
 "PO-Revision-Date: 2021-06-04 13:54+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -21,101 +21,101 @@ msgstr ""
 
 #: GameProject/__init__.py:67
 msgid "WELCOME!"
-msgstr ""
+msgstr "ДОБРО ПОЖАЛОВАТЬ!"
 
 #: GameProject/__init__.py:68 GameProject/__init__.py:164
 #: GameProject/__init__.py:196
 msgid "My friend"
-msgstr ""
+msgstr "Мой друг"
 
 #: GameProject/__init__.py:69
 msgid "Your name: "
-msgstr ""
+msgstr "Твоё имя: "
 
 #: GameProject/__init__.py:70
 msgid "Difficulty: "
-msgstr ""
+msgstr "Сложность: "
 
 #: GameProject/__init__.py:70
 msgid "Low"
-msgstr ""
+msgstr "Низкая"
 
 #: GameProject/__init__.py:70
 msgid "Medium"
-msgstr ""
+msgstr "Средняя"
 
 #: GameProject/__init__.py:70
 msgid "High"
-msgstr ""
+msgstr "Высокая"
 
 #: GameProject/__init__.py:71
 msgid "Play"
-msgstr ""
+msgstr "Играть"
 
 #: GameProject/__init__.py:72 GameProject/__init__.py:125
 msgid "Instruction"
-msgstr ""
+msgstr "Инструкция"
 
 #: GameProject/__init__.py:73 GameProject/__init__.py:173
 #: GameProject/__init__.py:205
 msgid "Exit"
-msgstr ""
+msgstr "Выход"
 
 #: GameProject/__init__.py:126
 msgid "Your goal is to find your way out of the dungeon!"
-msgstr ""
+msgstr "Твоя цель - найти выход из подземелья"
 
 #: GameProject/__init__.py:127
 msgid "Control:"
-msgstr ""
+msgstr "Управление"
 
 #: GameProject/__init__.py:128
 msgid "W - up"
-msgstr ""
+msgstr "W - вверх"
 
 #: GameProject/__init__.py:129
 msgid "S - down"
-msgstr ""
+msgstr "S - вниз"
 
 #: GameProject/__init__.py:130
 msgid "D - right"
-msgstr ""
+msgstr "D - вправо"
 
 #: GameProject/__init__.py:131
 msgid "A - left"
-msgstr ""
+msgstr "A - влево"
 
 #: GameProject/__init__.py:132
 msgid "SPACE - hit the enemy"
-msgstr ""
+msgstr "SPACE - атаковать врага"
 
 #: GameProject/__init__.py:133
 msgid "Collect coins to get more points"
-msgstr ""
+msgstr "Собирай монеты, чтобы получить больше очков"
 
 #: GameProject/__init__.py:134
 msgid "Darkness is deadly to you"
-msgstr ""
+msgstr "Темнота смертельна для тебя"
 
 #: GameProject/__init__.py:135
 msgid "Traps can hurt you"
-msgstr ""
+msgstr "Ловушки могут ранить тебя"
 
 #: GameProject/__init__.py:136
 msgid "Enemies can hurt you too, but you can kill them"
-msgstr ""
+msgstr "Враги тоже могут ранить тебя, но ты можешь убить их"
 
 #: GameProject/__init__.py:137
 msgid "GOOD LUCK!"
-msgstr ""
+msgstr "УДАЧИ!"
 
 #: GameProject/__init__.py:142
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: GameProject/__init__.py:167
 msgid "GAME OVER!"
-msgstr ""
+msgstr "ИГРА ОКОНЧЕНА!"
 
 #: GameProject/__init__.py:171
 #, python-format
@@ -126,12 +126,18 @@ msgid_plural ""
 "%s, you died!\n"
 "You collected %d coins"
 msgstr[0] ""
+"%s, ты умер!\n"
+"Ты собрал %d монету"
 msgstr[1] ""
+"%s, ты умер!\n"
+"Ты собрал %d монеты"
 msgstr[2] ""
+"%s, ты умер!\n"
+"Ты собрал %d монет"
 
 #: GameProject/__init__.py:199
 msgid "CONGRATULATION!"
-msgstr ""
+msgstr "ПОЗДРАВЛЯЕМ!"
 
 #: GameProject/__init__.py:203
 #, python-format
@@ -142,113 +148,12 @@ msgid_plural ""
 "%s, you win!\n"
 "You collected %d coins"
 msgstr[0] ""
+"%s, ты выиграл!\n"
+"Ты собрал %d монету"
 msgstr[1] ""
+"%s, ты выиграл!\n"
+"Ты собрал %d монеты"
 msgstr[2] ""
-
-#~ msgid "WELCOME!"
-#~ msgstr "ДОБРО ПОЖАЛОВАТЬ!"
-
-#~ msgid "My friend"
-#~ msgstr "Мой друг"
-
-#~ msgid "Your name: "
-#~ msgstr "Твоё имя: "
-
-#~ msgid "Difficulty: "
-#~ msgstr "Сложность: "
-
-#~ msgid "Low"
-#~ msgstr "Низкая"
-
-#~ msgid "Medium"
-#~ msgstr "Средняя"
-
-#~ msgid "High"
-#~ msgstr "Высокая"
-
-#~ msgid "Play"
-#~ msgstr "Играть"
-
-#~ msgid "Instruction"
-#~ msgstr "Инструкция"
-
-#~ msgid "Exit"
-#~ msgstr "Выход"
-
-#~ msgid "Your goal is to find your way out of the dungeon!"
-#~ msgstr "Твоя цель - найти выход из подземелья"
-
-#~ msgid "Control:"
-#~ msgstr "Управление"
-
-#~ msgid "W - up"
-#~ msgstr "W - вверх"
-
-#~ msgid "S - down"
-#~ msgstr "S - вниз"
-
-#~ msgid "D - right"
-#~ msgstr "D - вправо"
-
-#~ msgid "A - left"
-#~ msgstr "A - влево"
-
-#~ msgid "SPACE - hit the enemy"
-#~ msgstr "SPACE - атаковать врага"
-
-#~ msgid "Collect coins to get more points"
-#~ msgstr "Собирай монеты, чтобы получить больше очков"
-
-#~ msgid "Darkness is deadly to you"
-#~ msgstr "Темнота смертельна для тебя"
-
-#~ msgid "Traps can hurt you"
-#~ msgstr "Ловушки могут ранить тебя"
-
-#~ msgid "Enemies can hurt you too, but you can kill them"
-#~ msgstr "Враги тоже могут ранить тебя, но ты можешь убить их"
-
-#~ msgid "GOOD LUCK!"
-#~ msgstr "УДАЧИ!"
-
-#~ msgid "Back"
-#~ msgstr "Назад"
-
-#~ msgid "GAME OVER!"
-#~ msgstr "ИГРА ОКОНЧЕНА!"
-
-#~ msgid ""
-#~ "%s, you died!\n"
-#~ "You collected %d coin"
-#~ msgid_plural ""
-#~ "%s, you died!\n"
-#~ "You collected %d coins"
-#~ msgstr[0] ""
-#~ "%s, ты умер!\n"
-#~ "Ты собрал %d монету"
-#~ msgstr[1] ""
-#~ "%s, ты умер!\n"
-#~ "Ты собрал %d монеты"
-#~ msgstr[2] ""
-#~ "%s, ты умер!\n"
-#~ "Ты собрал %d монет"
-
-#~ msgid "CONGRATULATION!"
-#~ msgstr "ПОЗДРАВЛЯЕМ!"
-
-#~ msgid ""
-#~ "%s, you win!\n"
-#~ "You collected %d coin"
-#~ msgid_plural ""
-#~ "%s, you win!\n"
-#~ "You collected %d coins"
-#~ msgstr[0] ""
-#~ "%s, ты выиграл!\n"
-#~ "Ты собрал %d монету"
-#~ msgstr[1] ""
-#~ "%s, ты выиграл!\n"
-#~ "Ты собрал %d монеты"
-#~ msgstr[2] ""
-#~ "%s, ты выиграл!\n"
-#~ "Ты собрал %d монет"
+"%s, ты выиграл!\n"
+"Ты собрал %d монет"
 

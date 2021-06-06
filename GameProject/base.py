@@ -12,15 +12,17 @@ import gettext
 import random
 import os
 import sys
+import locale
 testdir = os.path.dirname(__file__)
 srcdir = '../GameProject'
 sys.path.insert(0, os.path.abspath(os.path.join(testdir, srcdir)))
 import __init__ as menu
 sys.path.remove(os.path.abspath(os.path.join(testdir, srcdir)))
 
+myPath = os.path.abspath(os.path.dirname(sys.argv[0]))
 
 gettext.install("game", os.path.dirname(__file__), names=("ngettext",))
-dir_path_tileset = os.path.abspath(os.path.dirname(sys.argv[0])) + "/Tileset/"
+dir_path_tileset = myPath + "/Tileset/"
 
 # Объявление глобальных переменны.
 
@@ -65,6 +67,7 @@ PLAYER_SPEED = 3
 # Объявление глобальных переменных
 # для отслеживания спрайтов с анимациями
 animation_count = 0
+
 
 
 class Player(pygame.sprite.Sprite):
@@ -900,11 +903,11 @@ class Game:
         self.menu = menu.Intro(self,
                                BLUE,
                                "Arial",
-                               os.path.abspath(os.path.dirname(sys.argv[0])) + "/Screens/intro.png",
+                               myPath + "/Screens/intro.png",
                                WHITE,
                                SCREEN_WIDTH,
                                SCREEN_HEIGHT)
-        self.png_names.add(os.path.abspath(os.path.dirname(sys.argv[0])) + "/Screens/intro.png")
+        self.png_names.add(myPath + "/Screens/intro.png")
 
     def read_room_file(self, room):
         """Функция, считывающая все объекты, хранящиеся в файле комнаты."""
@@ -1204,11 +1207,11 @@ class Game:
         """Финальный экран в случае поражения."""
         self.DieScreen = menu.DieScreen(BLUE,
                                         "Arial",
-                                        os.path.abspath(os.path.dirname(sys.argv[0])) + "/Screens/intro.png",
+                                        myPath + "/Screens/intro.png",
                                         WHITE,
                                         SCREEN_WIDTH,
                                         SCREEN_HEIGHT,
-                                        os.path.abspath(os.path.dirname(sys.argv[0])) + "/Screens/game_over.png",
+                                        myPath + "/Screens/game_over.png",
                                         coins,
                                         playerName)
         self.DieScreen.DieMenu.mainloop(self.screen)
@@ -1221,11 +1224,11 @@ class Game:
         """Финальный экран в случае победы."""
         self.WinScreen = menu.WinScreen(BLUE,
                                         "Arial",
-                                        os.path.abspath(os.path.dirname(sys.argv[0])) + "/Screens/intro.png",
+                                        myPath + "/Screens/intro.png",
                                         WHITE,
                                         SCREEN_WIDTH,
                                         SCREEN_HEIGHT,
-                                        os.path.abspath(os.path.dirname(sys.argv[0])) + "/Screens/win_screen.png",
+                                        myPath + "/Screens/win_screen.png",
                                         coins,
                                         playerName)
         self.WinScreen.WinMenu.mainloop(self.screen)
