@@ -1,6 +1,6 @@
 pip3 install doit
 pip3 install babel
-pip install virtualenv
+pip3 install virtualenv
 pip3 install build
 export PYTHONDONTWRITEBYTECODE=1
 doit wheel
