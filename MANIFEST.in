@@ -4,3 +4,4 @@ recursive-include source *
 recursive-include GameProject *
 include *.png
 include *.md
+include *.sh

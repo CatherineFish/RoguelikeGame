@@ -38,7 +38,7 @@ def task_myclean():
 
 def task_sdist():
     """Сборка архива с исходниками."""
-    return {'actions': ['python -m build -s'],
+    return {'actions': ['python3 -m build -s'],
             'task_dep': ['myclean'], }
 
 
@@ -61,8 +61,3 @@ def task_style():
 def task_docstyle():
     """Проверка стиля кода согласно pydocstyle."""
     return {'actions': ['pydocstyle GameProject']}
-
-
-def task_app():
-    """Запуск игры."""
-    return {'actions': ['python3 -m RoguelikeGame/GameProject']}

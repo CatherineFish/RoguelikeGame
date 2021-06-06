@@ -9,4 +9,4 @@ mkdir test_wheel
 cd test_wheel
 python3 -m virtualenv .
 . bin/activate
-pip3 install ../RoguelikeGame/dist/RoguelikeGame-0.0.1-py3-none-any.whl
+pip3 install ../RoguelikeGame/dist/GameProject-0.0.1-py3-none-any.whl
