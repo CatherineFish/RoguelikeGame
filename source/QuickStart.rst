@@ -3,44 +3,27 @@ QuickStart
 
 Чтобы начать играть
 -------------------
-Склонируйте данный репозиторий и перейдите в создавшуюся директорию:
+Выполните следующие команды:
 
 ::
 
    mkdir Game
    cd Game
+   mkdir Game
+   cd Game
+   pip3 install pipenv
+   pipenv shell
    git clone git@github.com:CatherineFish/RoguelikeGame.git
    cd RoguelikeGame
-
-**Вариант pipenv shell**
-::
-
-    pip3 install doit
-    pip3 install babel
-    pip3 install build
-    pip3 install pipenv
-    export PYTHONDONTWRITEBYTECODE=1
-    doit wheel
-    cd ..
-    mkdir test_wheel
-    cd test_wheel
-    pipenv shell
-    pip3 install ../RoguelikeGame/dist/GameProject-0.0.1-py3-none-any.whl
-
-**Вариант virtualenv**
-
-В полученной папке создайте wheel с помощью скрипта start.sh:
-::
-
-    ./start.sh
-
-
-В результате появится "колесо" и уже созданная директория test_wheel (../test_wheel) c установленным модулем:
-::
-
-    cd ../test_wheel
-    . bin/activate
-
+   pip3 install doit
+   pip3 install babel
+   pip3 install build
+   export PYTHONDONTWRITEBYTECODE=1
+   doit wheel
+   cd ..
+   mkdir test_wheel
+   cd test_wheel
+   pip3 install ../RoguelikeGame/dist/GameProject-0.0.1-py3-none-any.whl
 
 Начало игры
 -----------
