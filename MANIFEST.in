@@ -6,3 +6,5 @@ recursive-include GameProject/Screens *
 recursive-include GameProject/Tileset *
 include *.png
 include *.md
+include .flake8
+
