@@ -31,7 +31,7 @@ class MyMenu:
     :param height: высота окна приложения
     """
 
-    def __init__(self, bgColor: tuple[int, int, int], font: str, intro_image: str, textColor: tuple[int, int, int], width: int, height: int) -> None:
+    def __init__(self, bgColor: tuple[int, int, int], font: str, intro_image: str, textColor: tuple[int, int, int], width: int, height: int):
         """Создание темы с конфертацией изображения под формат и всеми настройками."""
         self.myImage = pygame_menu.baseimage.BaseImage(image_path=intro_image,
                                                        drawing_mode=pygame_menu.baseimage.IMAGE_MODE_FILL)
@@ -59,7 +59,7 @@ class Intro(MyMenu):
     :param height: высота окна приложения
     """
 
-    def __init__(self, game, bgColor: tuple[int, int, int], font: str, intro_image: str, textColor: tuple[int, int, int], width: int, height: int) -> None:
+    def __init__(self, game, bgColor: tuple[int, int, int], font: str, intro_image: str, textColor: tuple[int, int, int], width: int, height: int):
         """Создание приветственного меню со всеми необходимыми кнопками."""
         MyMenu.__init__(self, bgColor, font, intro_image, textColor, width, height)
         self.gameScreen = game.screen
@@ -72,7 +72,7 @@ class Intro(MyMenu):
         self.menu.add.button(_('Instruction'), self.instruction)
         self.menu.add.button(_('Exit'), pygame_menu.events.EXIT)
 
-    def get_name(self, name: str) -> None:
+    def get_name(self, name: str):
         """
         Захват имени игрока.
 
@@ -80,7 +80,7 @@ class Intro(MyMenu):
         """
         self.current_name = name
 
-    def instruction(self) -> None:
+    def instruction(self):
         """Вызов окна-инструкции с его созданием, если нужно."""
         self.MyInstruction.InstructionMenu.mainloop(self.gameScreen)
         self.MyInstruction.InstructionMenu.enable()
@@ -94,7 +94,7 @@ class Intro(MyMenu):
         global MAX_LIFE
         MAX_LIFE = 5 - difficulty
 
-    def start_the_game(self, game) -> None:
+    def start_the_game(self, game):
         """
         Запуск игры через выключение привественного окна.
 
@@ -119,7 +119,7 @@ class Instruction(MyMenu):
     :param height: высота окна приложения
     """
 
-    def __init__(self, bgColor: tuple[int, int, int], font: str, intro_image: str, textColor: tuple[int, int, int], width: int, height: int) -> None:
+    def __init__(self, bgColor: tuple[int, int, int], font: str, intro_image: str, textColor: tuple[int, int, int], width: int, height: int):
         """Создание меню инструкции с текстом инструкции."""
         MyMenu.__init__(self, bgColor, font, intro_image, textColor, width, height)
         self.InstructionMenu = pygame_menu.Menu(_('Instruction'), width, height, theme=self.myTheme)
@@ -141,7 +141,7 @@ class Instruction(MyMenu):
         self.InstructionMenu.add.vertical_margin(30)
         self.InstructionMenu.add.button(_('Back'), self.back_to_menu)
 
-    def back_to_menu(self) -> None:
+    def back_to_menu(self):
         """Обработка кнопки возвращении к привественному меню."""
         self.InstructionMenu.disable()
 
@@ -162,7 +162,7 @@ class DieScreen(MyMenu):
     """
 
     def __init__(self, bgColor: tuple[int, int, int], font: str, intro_image: str, textColor: tuple[int, int, int], width: int, height: int, die_image: str,
-                 coins: int, playerName: str = _("My friend")) -> None:
+                 coins: int, playerName: str = _("My friend")):
         """Создание экрана смерти со всеми необходимыми кнопками."""
         MyMenu.__init__(self, bgColor, font, intro_image, textColor, width, height)
         self.DieMenu = pygame_menu.Menu(_('GAME OVER!'), width, height, theme=self.myTheme)
@@ -173,7 +173,7 @@ class DieScreen(MyMenu):
         self.DieMenu.add.label(die_text, align=pygame_menu.locals.ALIGN_CENTER, font_size=30)
         self.DieMenu.add.button(_('Exit'), self.exit)
 
-    def exit(self) -> None:
+    def exit(self):
         """Завершение работы приложения при нажатии на кнопку выхода."""
         self.DieMenu.disable()
         self.DieMenu.full_reset()
@@ -195,7 +195,7 @@ class WinScreen(MyMenu):
     """
 
     def __init__(self, bgColor: tuple[int, int, int], font: str, intro_image: str, textColor: tuple[int, int, int], width: int, height: int, win_image: str,
-                 coins: int, playerName: str = _("My friend")) -> None:
+                 coins: int, playerName: str = _("My friend")):
         """Создание экрана победы со всеми необходимыми кнопками."""
         MyMenu.__init__(self, bgColor, font, intro_image, textColor, width, height)
         self.WinMenu = pygame_menu.Menu(_('CONGRATULATION!'), width, height, theme=self.myTheme)
@@ -206,7 +206,7 @@ class WinScreen(MyMenu):
         self.WinMenu.add.label(win_text, align=pygame_menu.locals.ALIGN_CENTER, font_size=30)
         self.WinMenu.add.button(_('Exit'), self.exit)
 
-    def exit(self) -> None:
+    def exit(self):
         """Завершение работы приложения при нажатии на кнопку выхода."""
         self.WinMenu.disable()
         self.WinMenu.full_reset()
