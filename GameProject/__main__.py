@@ -8,7 +8,6 @@ import pygame
 import sys
 import traceback
 import shutil
-import locale
 testdir = os.path.dirname(__file__)
 srcdir = '../GameProject'
 sys.path.insert(0, os.path.abspath(os.path.join(testdir, srcdir)))
