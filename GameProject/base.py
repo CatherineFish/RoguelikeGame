@@ -6,7 +6,8 @@
 :copyright: (c) 2021 by Larin Andrey and Chekhonina Ekaterina
 :license: MIT, see COPYING for more details.
 """
-
+from __future__ import annotations
+from typing import Tuple, Set
 import pygame
 import gettext
 import random
@@ -29,43 +30,43 @@ dir_path_tileset = myPath + "/Tileset/"
 # по умолчанию установлен в 0
 # (без вывода сообщений об ошибках)
 
-ERROR_TIME = 0
-ERROR_LEVEL = 0
+ERROR_TIME: int = 0
+ERROR_LEVEL: int = 0
 
 # Объявление глобальных цветов
-PINK = (221, 160, 221)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-BLUE = (29, 32, 76)
-GREY = (127, 127, 127)
-GREEN = (0, 255, 0)
-YELLOW = (255, 255, 0)
-RED = (255, 0, 0)
+PINK: Tuple[int, ...] = (221, 160, 221)
+WHITE: Tuple[int, ...] = (255, 255, 255)
+BLACK: Tuple[int, ...] = (0, 0, 0)
+BLUE: Tuple[int, ...] = (29, 32, 76)
+GREY: Tuple[int, ...] = (127, 127, 127)
+GREEN: Tuple[int, ...] = (0, 255, 0)
+YELLOW: Tuple[int, ...] = (255, 255, 0)
+RED: Tuple[int, ...] = (255, 0, 0)
 
 # Объявление глобального размера игрового окна
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 608
+SCREEN_WIDTH: int = 800
+SCREEN_HEIGHT: int = 608
 
 # Объявление глобального размера игровой ячейки (игрового "пикселя")
-TILESIZE = 32
+TILESIZE: int = 32
 
 # Объявление глобального размера персонажа игры
-PLAYER_TILESIZE = 30
+PLAYER_TILESIZE: int = 30
 
 # Объявление глобальной кадровой частоты
-FPS = 60
+FPS: int = 60
 
 # Объявление глобальных уровней прорисовки спрайтов
 # спрайт игрока выше спрайта пола
-PLAYER_LAYER = 2
-FLOOR_LAYER = 1
+PLAYER_LAYER: int = 2
+FLOOR_LAYER: int = 1
 
 # Объявление глобальных уровней прорисовки спрайтов
-PLAYER_SPEED = 3
+PLAYER_SPEED: int = 3
 
 # Объявление глобальных переменных
 # для отслеживания спрайтов с анимациями
-animation_count = 0
+animation_count: int = 0
 
 
 class Player(pygame.sprite.Sprite):
@@ -77,7 +78,7 @@ class Player(pygame.sprite.Sprite):
     :param y: координата персонажа по оси ординат
     """
 
-    def __init__(self, game, x, y):
+    def __init__(self, game: Game, x: int, y: int):
         """Создание класса Персонажа с начальными настройками."""
         self.game = game
         self._layer = PLAYER_LAYER
@@ -460,7 +461,7 @@ class Wall(pygame.sprite.Sprite):
     :param y: координата Стены по оси ординат
     """
 
-    def __init__(self, game, x, y):
+    def __init__(self, game: Game, x: int, y: int):
         """Создание класса Стена с начальными настройками."""
         self.game = game
         self._layer = PLAYER_LAYER
@@ -497,7 +498,7 @@ class Door(pygame.sprite.Sprite):
     :param y: координата Двери по оси ординат
     """
 
-    def __init__(self, game, x, y):
+    def __init__(self, game: Game, x: int, y: int):
         """Создание класса Дверь с начальными настройками."""
         self.game = game
         self._layer = PLAYER_LAYER
@@ -534,7 +535,7 @@ class Exit(pygame.sprite.Sprite):
     :param y: координата Выхода по оси ординат
     """
 
-    def __init__(self, game, x, y):
+    def __init__(self, game: Game, x: int, y: int):
         """Создание класса Выход."""
         self.game = game
         self._layer = PLAYER_LAYER
@@ -571,7 +572,7 @@ class Floor(pygame.sprite.Sprite):
     :param y: координата Пола по оси ординат
     """
 
-    def __init__(self, game, x, y):
+    def __init__(self, game: Game, x: int, y: int):
         """Создание класса Пол с начальными настройками."""
         self.game = game
         self._layer = FLOOR_LAYER
@@ -608,7 +609,7 @@ class Dark(pygame.sprite.Sprite):
     :param y: координата Темноты по оси ординат
     """
 
-    def __init__(self, game, x, y):
+    def __init__(self, game: Game, x: int, y: int):
         """Создание класса Темнота с начальными настройками."""
         self.game = game
         self._layer = PLAYER_LAYER
@@ -645,7 +646,7 @@ class Coin(pygame.sprite.Sprite):
     :param y: координата Монеты по оси ординат
     """
 
-    def __init__(self, game, x, y):
+    def __init__(self, game: Game, x: int, y: int):
         """Создание класса Монета с начальными настройками."""
         self.game = game
         self._layer = PLAYER_LAYER
@@ -681,7 +682,7 @@ class Trap(pygame.sprite.Sprite):
     :param y: координата Ловушки по оси ординат
     """
 
-    def __init__(self, game, x, y):
+    def __init__(self, game: Game, x: int, y: int):
         """Создание класса Ловушка."""
         self.game = game
         self._layer = PLAYER_LAYER
@@ -736,7 +737,7 @@ class Enemy(pygame.sprite.Sprite):
     :param y: координата Врага по оси ординат
     """
 
-    def __init__(self, game, x, y):
+    def __init__(self, game: Game, x: int, y: int):
         """Создание класса Враг."""
         self.game = game
         self._layer = PLAYER_LAYER
@@ -885,8 +886,8 @@ class Game:
     Реагирует на различные игровые события.
     """
 
-    png_names = set()
-    collected_coins = 0
+    png_names: Set[str] = set()
+    collected_coins: int = 0
 
     def __init__(self):
         """Создание класса Игра с настройкой размера окна игры."""
@@ -907,7 +908,7 @@ class Game:
                                SCREEN_HEIGHT)
         self.png_names.add(myPath + "/Screens/intro.png")
 
-    def read_room_file(self, room):
+    def read_room_file(self, room: str):
         """Функция, считывающая все объекты, хранящиеся в файле комнаты."""
         # открываем файл комнаты с координатам.
         with open(room, 'r') as f:
@@ -948,7 +949,7 @@ class Game:
                             f'Такого объекта в комнате {room} не существует {i}, {j}, {lines[j][i]}.')
             f.close()
 
-    def delete_coins_and_enemies_in_room_file(self, room):
+    def delete_coins_and_enemies_in_room_file(self, room: str):
         """Функция, удаляющая уже собранные монеты, хранящиеся в файле комнаты."""
         # открываем файл комнаты с координатами.
         data = None
@@ -966,7 +967,7 @@ class Game:
             f.write(data)
             f.close()
 
-    def new(self, room, spawn_door="default"):
+    def new(self, room: str, spawn_door: str = "default"):
         """Начало новой игры с созданием всех спрайтов."""
         self.playing = True
         # обьявление массивов для запоминания координат каждого из объектов.
@@ -1202,7 +1203,7 @@ class Game:
             self.draw()
         self.running = False
 
-    def game_over(self, coins, playerName):
+    def game_over(self, coins: int, playerName: str):
         """Финальный экран в случае поражения."""
         self.DieScreen = menu.DieScreen(BLUE,
                                         "Arial",
@@ -1219,7 +1220,7 @@ class Game:
         """Начальный экран с приветсвием, правилами и управлением."""
         pass
 
-    def win_screen(self, coins, playerName):
+    def win_screen(self, coins: int, playerName: str):
         """Финальный экран в случае победы."""
         self.WinScreen = menu.WinScreen(BLUE,
                                         "Arial",
