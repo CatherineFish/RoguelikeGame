@@ -13,9 +13,8 @@ QuickStart
    pipenv shell
    git clone git@github.com:CatherineFish/RoguelikeGame.git
    cd RoguelikeGame
-   pip3 install doit
-   pip3 install babel
-   pip3 install build
+   pip3 install doit build babel # основные модули
+   pip3 install sphinx flake8 pydocstyle # дополнительные модули
    export PYTHONDONTWRITEBYTECODE=1
    doit wheel
    cd ..
@@ -101,39 +100,33 @@ QuickStart
 **Создание HTML документации и её просмотр:**
 ::
 
-    pip3 install sphinx
     doit html
     google-chrome build/html/index.html
 
 В репозитории с исходниками:
 ::
 
-    pip3 install sphinx
     sphinx-build -M html source build
     google-chrome build/html/index.html
 
 **Проверка стиля кода согласно flake8:**
 ::
 
-    pip3 install flake8
     doit style
 
 В репозитории с исходниками:
 ::
 
-    pip3 install flake8
     flake8 GameProject
 
 **Проверка стиля кода согласно pydocstyle:**
 ::
 
-    pip3 install pydocstyle
     doit docstyle
 
 В репозитории с исходниками:
 ::
 
-    pip3 install pydocstyle
     pydocstyle GameProject
 
 **Очистка всех генератов**
