@@ -148,7 +148,7 @@ class Instruction(MyMenu):
 
 class DieScreen(MyMenu):
     """
-    Создание меню при смерти персонажа.
+    Создание меню инструкции, которое может возвращаться на окно привествия.
 
     :param bgColor: цвет фона
     :param font: шрифт текста
@@ -158,7 +158,7 @@ class DieScreen(MyMenu):
     :param height: высота окна приложения
     :param die_image: картинка в случае смерти
     :param coins: количество собранных монет
-    :param playerName:имя игрока
+    :param playerName: имя игрока
     """
 
     def __init__(self, bgColor, font, intro_image, textColor, width, height, die_image, coins, playerName=_("My friend")):
@@ -190,7 +190,7 @@ class WinScreen(MyMenu):
     :param height: высота окна приложения
     :param win_image: картинка в случае победы
     :param coins: количество собранных монет
-    :param playerName:имя игрока
+    :param playerName: имя игрока
     """
 
     def __init__(self, bgColor, font, intro_image, textColor, width, height, win_image, coins, playerName=_("My friend")):
