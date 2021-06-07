@@ -9,8 +9,6 @@ QuickStart
 
    mkdir Game
    cd Game
-   mkdir Game
-   cd Game
    pip3 install pipenv
    pipenv shell
    git clone git@github.com:CatherineFish/RoguelikeGame.git
