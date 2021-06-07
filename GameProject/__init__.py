@@ -12,10 +12,10 @@ import os
 
 # Количество жизней в зависимости от сложности
 # (по умолчанию 3)
-MAX_LIFE = 3
+MAX_LIFE: int = 3
 
 # Текущее количество жизней
-lifes = MAX_LIFE
+lifes: int = MAX_LIFE
 gettext.install("game", os.path.dirname(__file__), names=("ngettext",))
 
 
