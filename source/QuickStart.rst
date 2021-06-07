@@ -3,50 +3,68 @@ QuickStart
 
 Чтобы начать играть
 -------------------
-Склонируйте данный репозиторий:
+Склонируйте данный репозиторий и перейдите в создавшуюся директорию:
 
 ::
 
+   mkdir Game
+   cd Game
    git clone git@github.com:CatherineFish/RoguelikeGame.git
+   cd RoguelikeGame
 
-В полученной папке создайте wheel с помощью DoIt_:
+**Вариант pipenv shell**
 ::
 
-    cd RoguelikeGame
-    pip install build
-    doit wheel
-
-Если появляется сообщение:
-::
-
-    warning: build_py: byte-compiling is disabled, skipping.
-    warning: install_lib: byte-compiling is disabled, skipping.
-
-Выполните:
-::
-
+    pip3 install doit
+    pip3 install babel
+    pip3 install build
+    pip3 install pipenv
     export PYTHONDONTWRITEBYTECODE=1
+    doit wheel
+    cd ..
+    mkdir test_wheel
+    cd test_wheel
+    pipenv shell
+    pip3 install ../RoguelikeGame/dist/GameProject-0.0.1-py3-none-any.whl
 
-В результате появится "колесо" `/RoguelikeGame/dist/GameProject-0.0.1-py3-none-any.whl`, которое можно устанавливать стандартным образом:
+**Вариант virtualenv**
+
+В полученной папке создайте wheel с помощью скрипта start.sh:
 ::
 
-    pip3 install /RoguelikeGame/dist/GameProject-0.0.1-py3-none-any.whl
+    ./start.sh
+
+
+В результате появится "колесо" и уже созданная директория test_wheel (../test_wheel) c установленным модулем:
+::
+
+    cd ../test_wheel
+    . bin/activate
 
 
 Начало игры
 -----------
-Для запуска игры в установленном репозитории выполните:
+Для запуска игры на английском языке выполните:
 ::
 
-    python3 GameProject
+    LC_ALL="en_US.UTF-8" python3 -m  GameProject
 
+Для запуска игры на английском языке выполните:
+::
+
+    LC_ALL="ru_RU.UTF-8" python3 -m  GameProject
 
 Дополнительно
 -------------
-Запуск тестов:
+**Запуск тестов:**
 ::
 
     doit test
+
+В репозитории с исходниками:
+::
+
+    python3 -m unittest -v
 
 в __init__.py:
 
@@ -60,42 +78,89 @@ QuickStart
 
 - реализовано 15 тестов с проверкой 11 классов и 2 методов без использования интерактивных возможностей
 
-Обновление и компиляция перевода:
+**Обновление и компиляция перевода:**
 ::
 
     doit po
     #Обновите перевод в po/ru/LC_MESSAGES/game.po
     doit mo
 
-Сборка колеса(wheel):
+В репозитории с исходниками (в корневой директории):
+::
+
+    mkdir GameProject/ru
+    mkdir GameProject/ru/LC_MESSAGES
+    pybabel extract -o game.pot GameProject
+    pybabel update -D game -d po -i game.pot
+    #Обновите перевод в po/ru/LC_MESSAGES/game.po
+    pybabel compile -D game -l ru -i po/ru/LC_MESSAGES/game.po -d GameProject
+
+
+**Сборка колеса(wheel):**
 ::
 
     doit wheel
 
-Сборки архива с исходниками:
+В репозитории с исходниками:
+::
+
+    python3 -m build -w
+
+**Сборки архива с исходниками:**
 ::
 
     doit sdist
 
-Создание HTML документации и её просмотр:
+В репозитории с исходниками:
 ::
 
+    python3 -m build -s
+
+
+**Создание HTML документации и её просмотр:**
+::
+
+    pip3 install sphinx
     doit html
     google-chrome build/html/index.html
 
-Проверка стиля кода согласно flake8:
+В репозитории с исходниками:
 ::
 
+    pip3 install sphinx
+    sphinx-build -M html source build
+    google-chrome build/html/index.html
+
+**Проверка стиля кода согласно flake8:**
+::
+
+    pip3 install flake8
     doit style
 
-Проверка стиля кода согласно pydocstyle:
+В репозитории с исходниками:
 ::
 
+    pip3 install flake8
+    flake8 GameProject
+
+**Проверка стиля кода согласно pydocstyle:**
+::
+
+    pip3 install pydocstyle
     doit docstyle
 
-Очистка всех генератов
+В репозитории с исходниками:
+::
+
+    pip3 install pydocstyle
+    pydocstyle GameProject
+
+**Очистка всех генератов**
 ::
 
     doit myclean
 
-.. _DoIt: https://pydoit.org/contents.html
+В репозитории с исходниками:
+::
+
+    git clean -xdf
