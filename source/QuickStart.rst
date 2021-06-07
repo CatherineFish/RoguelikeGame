@@ -85,9 +85,11 @@ QuickStart
     #Обновите перевод в po/ru/LC_MESSAGES/game.po
     doit mo
 
-В репозитории с исходниками:
+В репозитории с исходниками (в корневой директории):
 ::
 
+    mkdir GameProject/ru
+    mkdir GameProject/ru/LC_MESSAGES
     pybabel extract -o game.pot GameProject
     pybabel update -D game -d po -i game.pot
     #Обновите перевод в po/ru/LC_MESSAGES/game.po
